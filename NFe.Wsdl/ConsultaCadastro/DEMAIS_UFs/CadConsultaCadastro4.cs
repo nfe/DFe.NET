@@ -12,6 +12,13 @@ namespace NFe.Wsdl.ConsultaCadastro.DEMAIS_UFs
         public CadConsultaCadastro4(string url, X509Certificate certificado, int timeOut) : base(url)
         {
             ClientCredentials.ClientCertificate.Certificate = (X509Certificate2)certificado;
+
+            if (proxyAddress != null)
+            {
+                var proxyAddressSplitted = proxyAddress.Split(':');
+                ClientCredentials.UserName.UserName = proxyAddressSplitted.GetValue(3).ToString();
+                ClientCredentials.UserName.Password = proxyAddressSplitted.GetValue(4).ToString();
+            }
         }
 
         public nfeCabecMsg nfeCabecMsg { get; set; }
