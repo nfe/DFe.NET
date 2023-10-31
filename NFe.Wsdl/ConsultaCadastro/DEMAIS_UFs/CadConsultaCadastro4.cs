@@ -9,7 +9,7 @@ namespace NFe.Wsdl.ConsultaCadastro.DEMAIS_UFs
 {
     public class CadConsultaCadastro4 : CadConsultaCadastro4Soap12Client, INfeServico
     {
-        public CadConsultaCadastro4(string url, X509Certificate certificado, int timeOut) : base(url)
+        public CadConsultaCadastro4(string url, X509Certificate certificado, int timeOut, string proxyAddress = null) : base(url, proxyAddress)
         {
             ClientCredentials.ClientCertificate.Certificate = (X509Certificate2)certificado;
 
@@ -77,7 +77,7 @@ namespace NFe.Wsdl.ConsultaCadastro.DEMAIS_UFs
 
     public class CadConsultaCadastro4Soap12Client : SoapBindingClient<CadConsultaCadastro4Soap12>
     {
-        public CadConsultaCadastro4Soap12Client(string endpointAddressUri) : base(endpointAddressUri) { }
+        public CadConsultaCadastro4Soap12Client(string endpointAddressUri, string proxyAddress) : base(endpointAddressUri, proxyAddress) { }
 
         public Task<consultaCadastro4Response> consultaCadastroAsync(XmlNode nfeDadosMsg)
         {
