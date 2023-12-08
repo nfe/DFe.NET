@@ -16,8 +16,8 @@ namespace NFe.Wsdl.ConsultaCadastro.DEMAIS_UFs
             if (proxyAddress != null)
             {
                 var proxyAddressSplitted = proxyAddress.Split(':');
-                ClientCredentials.UserName.UserName = proxyAddressSplitted.GetValue(3).ToString();
-                ClientCredentials.UserName.Password = proxyAddressSplitted.GetValue(4).ToString();
+                ClientCredentials.UserName.UserName = proxyAddressSplitted.GetValue(2).ToString();
+                ClientCredentials.UserName.Password = proxyAddressSplitted.GetValue(3).ToString();
             }
         }
 
