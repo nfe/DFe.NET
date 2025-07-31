@@ -89,9 +89,7 @@ namespace NFe.Classes.Informacoes.Emitente
                 {
                     value = value.Replace("-", "").Replace(".", "");
                     if (!value.All(char.IsDigit))
-                        throw new Exception(@"enderEmit\CEP deve receber somente números!");
-                    if (value.Length != 8)
-                        throw new Exception(string.Format(@"enderEmit\CEP deve ter 8 números. Tamanho informado: {0}!", value.Length));
+                        throw new Exception(@"enderEmit CEP deve receber somente numeros");
                 }
                 _cep = value;
             }
