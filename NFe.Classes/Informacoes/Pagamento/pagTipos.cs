@@ -54,6 +54,9 @@ namespace NFe.Classes.Informacoes.Pagamento
     ///     <para>17 - Pagamento Instantâneo (PIX) (versão 4.00)</para>
     ///     <para>18 - Transferência bancária, Carteira Digital (versão 4.00)</para>
     ///     <para>19 - Programa de fidelidade, Cashback, Crédito Virtual (versão 4.00)</para>
+    ///     <para>20 - Pagamento Instantâneo (PIX) estático (versão 4.00)</para>
+    ///     <para>21 - Crédito em loja (versão 4.00)</para>
+    ///     <para>22 - Pagamento eletrônico não informado (versão 4.00)</para>
     ///     <para>90 - Sem pagamento (versão 4.00)</para>
     ///     <para>99 - Outros</para>
     /// </summary>
