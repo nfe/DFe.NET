@@ -653,7 +653,7 @@ namespace NFe.Servicos
         /// </param>
         /// <returns>Retorna um objeto da classe RetornoRecepcaoEvento com o retorno do serviço RecepcaoEvento</returns>
         public async Task<RetornoRecepcaoEvento> RecepcaoEventoAsync(long idlote, List<evento> eventos,
-            ServicoNFe servicoEvento, VersaoServico versaoEvento, bool assinar = false)
+            ServicoNFe servicoEvento, bool assinar = false)
         {
             var listaEventos = new List<ServicoNFe>
             {
@@ -690,6 +690,7 @@ namespace NFe.Servicos
                     string.Join("\n • ", listaEventos.ToArray())));
             }
 
+            VersaoServico versaoEvento;
             switch (servicoEvento)
             {
                 case ServicoNFe.RecepcaoEventoCartaCorrecao:
@@ -1491,7 +1492,7 @@ namespace NFe.Servicos
             var informacoesEventoEnv = ObterInformacoesEventoEnv(sequenciaEvento, chaveNFe, cpfCnpj, versaoServicoRecepcaoString, cOrgao: Estado.SVRS, dataHoraEvento, nfeTipoEvento, detalhesEvento);
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
-            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, servicoNfe, versaoServicoRecepcao, deveAssinar: true, evento);
+            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, servicoNfe, deveAssinar: true, evento);
 
             return retornoRecepcaoEvento;
         }
@@ -1530,7 +1531,7 @@ namespace NFe.Servicos
             var informacoesEventoEnv = ObterInformacoesEventoEnv(sequenciaEvento, chaveNFe, cpfCnpj, versaoServicoRecepcaoString, cOrgao: Estado.SVRS, dataHoraEvento, nfeTipoEvento, detalhesEvento);
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
-            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, servicoNfe, versaoServicoRecepcao, deveAssinar: true, evento);
+            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, servicoNfe, deveAssinar: true, evento);
 
             return retornoRecepcaoEvento;
         }
@@ -1569,7 +1570,7 @@ namespace NFe.Servicos
             var informacoesEventoEnv = ObterInformacoesEventoEnv(sequenciaEvento, chaveNFe, cpfCnpj, versaoServicoRecepcaoString, cOrgao: Estado.SVRS, dataHoraEvento, nfeTipoEvento, detalhesEvento);
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
-            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, servicoNfe, versaoServicoRecepcao, deveAssinar: true, evento);
+            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, servicoNfe, deveAssinar: true, evento);
 
             return retornoRecepcaoEvento;
         }
@@ -1607,8 +1608,7 @@ namespace NFe.Servicos
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
             var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, 
-                                                                          servicoNfe, 
-                                                                          versaoServicoRecepcao, 
+                                                                          servicoNfe,
                                                                           deveAssinar: true,
                                                                           evento);
 
@@ -1649,7 +1649,6 @@ namespace NFe.Servicos
 
             var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, 
                                                                           servicoNfe, 
-                                                                          versaoServicoRecepcao, 
                                                                           deveAssinar: true,
                                                                           evento);
 
@@ -1690,8 +1689,7 @@ namespace NFe.Servicos
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
             var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, 
-                                                                          servicoNfe, 
-                                                                          versaoServicoRecepcao, 
+                                                                          servicoNfe,
                                                                           deveAssinar: true,
                                                                           evento);
 
@@ -1731,8 +1729,7 @@ namespace NFe.Servicos
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
             var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, 
-                                                                          servicoNfe, 
-                                                                          versaoServicoRecepcao, 
+                                                                          servicoNfe,
                                                                           deveAssinar: true,
                                                                           evento);
 
@@ -1772,8 +1769,7 @@ namespace NFe.Servicos
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
             var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, 
-                                                                          servicoNfe, 
-                                                                          versaoServicoRecepcao, 
+                                                                          servicoNfe,
                                                                           deveAssinar: true,
                                                                           evento);
 
@@ -1813,8 +1809,7 @@ namespace NFe.Servicos
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
             var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, 
-                                                                          servicoNfe, 
-                                                                          versaoServicoRecepcao, 
+                                                                          servicoNfe,
                                                                           deveAssinar: true,
                                                                           evento);
 
@@ -1860,8 +1855,7 @@ namespace NFe.Servicos
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
             var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, 
-                                                                          servicoNfe, 
-                                                                          versaoServicoRecepcao, 
+                                                                          servicoNfe,
                                                                           deveAssinar: true,
                                                                           evento);
 
@@ -1907,8 +1901,7 @@ namespace NFe.Servicos
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
             var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, 
-                                                                          servicoNfe, 
-                                                                          versaoServicoRecepcao, 
+                                                                          servicoNfe,
                                                                           deveAssinar: true,
                                                                           evento);
 
@@ -1953,8 +1946,7 @@ namespace NFe.Servicos
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
             var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, 
-                                                                          servicoNfe, 
-                                                                          versaoServicoRecepcao, 
+                                                                          servicoNfe,
                                                                           deveAssinar: true,
                                                                           evento);
 
@@ -1993,7 +1985,7 @@ namespace NFe.Servicos
             var informacoesEventoEnv = ObterInformacoesEventoEnv(sequenciaEvento, chaveNFe, cpfCnpj, versaoServicoRecepcaoString, cOrgao: Estado.SVRS, dataHoraEvento, nfeTipoEvento, detalhesEvento);
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
-            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, servicoNfe, versaoServicoRecepcao, deveAssinar: true, evento);
+            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, servicoNfe, deveAssinar: true, evento);
 
             return retornoRecepcaoEvento;
         }
@@ -2030,7 +2022,7 @@ namespace NFe.Servicos
             var informacoesEventoEnv = ObterInformacoesEventoEnv(sequenciaEvento, chaveNFe, cpfCnpj, versaoServicoRecepcaoString, cOrgao: Estado.SVRS, dataHoraEvento, nfeTipoEvento, detalhesEvento);
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
-            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, servicoNfe, versaoServicoRecepcao, deveAssinar: true, evento);
+            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, servicoNfe, deveAssinar: true, evento);
 
             return retornoRecepcaoEvento;
         }
@@ -2067,7 +2059,7 @@ namespace NFe.Servicos
             var informacoesEventoEnv = ObterInformacoesEventoEnv(sequenciaEvento, chaveNFe, cpfCnpj, versaoServicoRecepcaoString, cOrgao: Estado.SVRS, dataHoraEvento, nfeTipoEvento, detalhesEvento);
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
-            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, servicoNfe, versaoServicoRecepcao, deveAssinar: true, evento);
+            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, servicoNfe, deveAssinar: true, evento);
 
             return retornoRecepcaoEvento;
         }
@@ -2104,7 +2096,7 @@ namespace NFe.Servicos
             var informacoesEventoEnv = ObterInformacoesEventoEnv(sequenciaEvento, chaveNFe, cpfCnpj, versaoServicoRecepcaoString, cOrgao: Estado.SVRS, dataHoraEvento, nfeTipoEvento, detalhesEvento);
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
-            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, servicoNfe, versaoServicoRecepcao, deveAssinar: true, evento);
+            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, servicoNfe, deveAssinar: true, evento);
 
             return retornoRecepcaoEvento;
         }
@@ -2163,12 +2155,12 @@ namespace NFe.Servicos
             return evento;
         }
 
-        private async Task<RetornoRecepcaoEvento> EnviarEObterRetornoRecepcaoEvento(int idLote, ServicoNFe servicoNfe, VersaoServico versaoServico, bool deveAssinar, params evento[] eventos)
+        private async Task<RetornoRecepcaoEvento> EnviarEObterRetornoRecepcaoEvento(int idLote, ServicoNFe servicoNfe, bool deveAssinar, params evento[] eventos)
         {
             var retornoRecepcaoEvento = await RecepcaoEventoAsync(idLote, 
                 eventos.ToList(), 
-                servicoNfe, 
-                versaoServico, 
+                servicoNfe,
+      
                 assinar: deveAssinar);
 
             return retornoRecepcaoEvento;
