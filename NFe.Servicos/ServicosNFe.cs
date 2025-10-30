@@ -652,7 +652,7 @@ namespace NFe.Servicos
         ///     RecepcaoEventoCartaCorrecao, RecepcaoEventoEpec e RecepcaoEventoManifestacaoDestinatario
         /// </param>
         /// <returns>Retorna um objeto da classe RetornoRecepcaoEvento com o retorno do serviço RecepcaoEvento</returns>
-        public async Task<RetornoRecepcaoEvento> RecepcaoEvento(long idlote, List<evento> eventos,
+        public async Task<RetornoRecepcaoEvento> RecepcaoEventoAsync(long idlote, List<evento> eventos,
             ServicoNFe servicoEvento, VersaoServico versaoEvento, bool assinar = false)
         {
             var listaEventos = new List<ServicoNFe>
@@ -2165,7 +2165,7 @@ namespace NFe.Servicos
 
         private async Task<RetornoRecepcaoEvento> EnviarEObterRetornoRecepcaoEvento(int idLote, ServicoNFe servicoNfe, VersaoServico versaoServico, bool deveAssinar, params evento[] eventos)
         {
-            var retornoRecepcaoEvento = await RecepcaoEvento(idLote, 
+            var retornoRecepcaoEvento = await RecepcaoEventoAsync(idLote, 
                 eventos.ToList(), 
                 servicoNfe, 
                 versaoServico, 
