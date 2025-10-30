@@ -12,6 +12,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using DFe.Classes.Flags;
 using NFeClasses = global::NFe.Classes;
 
 namespace NFe.Testes
@@ -31,7 +32,7 @@ namespace NFe.Testes
             };
 
             conf.Certificado = cert;
-            conf.tpAmb = NFeClasses.Informacoes.Identificacao.Tipos.TipoAmbiente.taHomologacao;
+            conf.tpAmb = TipoAmbiente.Homologacao;
             conf.cUF = DFe.Classes.Entidades.Estado.SP;
             conf.tpEmis = NFeClasses.Informacoes.Identificacao.Tipos.TipoEmissao.teNormal;
             conf.TimeOut = 120000;
@@ -40,10 +41,10 @@ namespace NFe.Testes
             conf.ModeloDocumento = DFe.Classes.Flags.ModeloDocumento.NFe;
             conf.ProtocoloDeSeguranca = System.Net.SecurityProtocolType.Ssl3;
             conf.DiretorioSchemas = @"D:\Works\Schemas\";
-            conf.VersaoNFeAutorizacao = VersaoServico.ve310;
-            conf.VersaoNfeDownloadNF = VersaoServico.ve310;
-            conf.VersaoNfeStatusServico = VersaoServico.ve310;
-            conf.VersaoNFeRetAutorizacao = VersaoServico.ve310;
+            conf.VersaoNFeAutorizacao = VersaoServico.Versao310;
+            conf.VersaoNfeDownloadNF = VersaoServico.Versao310;
+            conf.VersaoNfeStatusServico = VersaoServico.Versao310;
+            conf.VersaoNFeRetAutorizacao = VersaoServico.Versao310;
 
             return new ServicosNFe(conf);
         }

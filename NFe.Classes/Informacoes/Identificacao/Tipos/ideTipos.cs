@@ -136,22 +136,6 @@ namespace NFe.Classes.Informacoes.Identificacao.Tipos
     }
 
     /// <summary>
-    ///     Identificação do Ambiente
-    ///     <para>1 - Produção</para>
-    ///     <para>2 - Homologação</para>
-    /// </summary>
-    public enum TipoAmbiente
-    {
-        [XmlEnum("1")]
-        [Description("Produção")]
-        taProducao = 1,
-
-        [XmlEnum("2")]
-        [Description("Homologação")]
-        taHomologacao = 2
-    }
-
-    /// <summary>
     ///     Finalidade da emissão da NF-e
     ///     <para>1 - NFe normal</para>
     ///     <para>2 - NFe complementar</para>
@@ -160,10 +144,47 @@ namespace NFe.Classes.Informacoes.Identificacao.Tipos
     /// </summary>
     public enum FinalidadeNFe
     {
-        [XmlEnum("1")] fnNormal = 1,
-        [XmlEnum("2")] fnComplementar = 2,
-        [XmlEnum("3")] fnAjuste = 3,
-        [XmlEnum("4")] fnDevolucao = 4
+        /// <summary>
+        /// 1 - NFe normal
+        /// </summary>
+        [Description("NFe normal")]
+        [XmlEnum("1")]
+        fnNormal = 1,
+
+        /// <summary>
+        /// 2 - NFe complementar
+        /// </summary>
+        [Description("NFe complementar")]
+        [XmlEnum("2")]
+        fnComplementar = 2,
+
+        /// <summary>
+        /// 3 - NFe de ajuste
+        /// </summary>
+        [Description("NFe de ajuste")]
+        [XmlEnum("3")]
+        fnAjuste = 3,
+
+        /// <summary>
+        /// 4 - Devolução de mercadoria
+        /// </summary>
+        [Description("Devolução de mercadoria")]
+        [XmlEnum("4")]
+        fnDevolucao = 4,
+        
+        /// <summary>
+        /// 5 - Nota de crédito
+        /// </summary>
+        [Description("Nota de crédito")]
+        [XmlEnum("5")]
+        fnCredito = 5,
+        
+        /// <summary>
+        /// 6 - Nota de débito
+        /// </summary>
+        [Description("Nota de débito")]
+        [XmlEnum("6")]
+        fnDebito = 6
     }
 
     /// <summary>
@@ -241,7 +262,7 @@ namespace NFe.Classes.Informacoes.Identificacao.Tipos
         [XmlEnum("02")]
         modelo2 = 2 // Versão 4.00
     }
-
+    
     /// <summary>
     ///     Indicador de intermediador/marketplace
     ///     <para>0 - Operação sem intermediador (em site ou plataforma própria)</para>
@@ -262,5 +283,137 @@ namespace NFe.Classes.Informacoes.Identificacao.Tipos
         [Description("Operação em site ou plataforma de terceiros (intermediadores / marketplace)")]
         [XmlEnum("1")]
         iiSitePlataformaTerceiros = 1
+    }
+
+    /// <summary>
+    ///     Tipo de Nota de Débito
+    ///     <para>1 - Transferência de créditos para Cooperativas</para>
+    ///     <para>2 - Anulação de Crédito por Saídas Imunes/Isentas</para>
+    ///     <para>3 - Débitos de notas fiscais não processadas na apuração</para>
+    ///     <para>4 - Multa e juros</para>
+    ///     <para>5 - Transferência de crédito na sucessão</para>
+    ///     <para>6 - Pagamento antecipado</para>
+    ///     <para>7 - Perda em estoque</para>
+    ///     <para>8 - Desenquadramento do SN</para>
+    /// </summary>
+    public enum TpNotaDebito
+    {
+        /// <summary>
+        /// 01 - Transferência de créditos para Cooperativas
+        /// </summary>
+        [Description("Transferência de créditos para Cooperativas")]
+        [XmlEnum("01")]
+        TfCreditoCooperativa,
+        
+        /// <summary>
+        /// 02 - Anulação de Crédito por Saídas Imunes/Isentas
+        /// </summary>
+        [Description("Anulação de Crédito por Saídas Imunes/Isentas")]
+        [XmlEnum("02")]
+        AnulaCreditoSaidasImunesIsentas,
+        
+        /// <summary>
+        /// 03 - Débitos de notas fiscais não processadas na apuração
+        /// </summary>
+        [Description("Débitos de notas fiscais não processadas na apuração")]
+        [XmlEnum("03")]
+        DebitosNfNaoProcessadas,
+        
+        /// <summary>
+        /// 04 - Multa e juros
+        /// </summary>
+        [Description("Multa e juros")]
+        [XmlEnum("04")]
+        MultaJuros,
+        
+        /// <summary>
+        /// 05 - Transferência de crédito na sucessão
+        /// </summary>
+        [Description("Transferência de crédito na sucessão")]
+        [XmlEnum("05")]
+        TfCreditoSucessao,
+        
+        /// <summary>
+        /// 06 - Pagamento antecipado
+        /// </summary>
+        [Description("Pagamento antecipado")]
+        [XmlEnum("06")]
+        PagamentoAntecipado,
+        
+        /// <summary>
+        /// 07 - Perda em estoque
+        /// </summary>
+        [Description("Perda em estoque")]
+        [XmlEnum("07")]
+        PerdaEstoque,
+        
+        /// <summary>
+        /// 08 - Desenquadramento do SN
+        /// </summary>
+        [Description("Desenquadramento do SN")]
+        [XmlEnum("08")]
+        DesenquadramentoSn
+    }
+
+    /// <summary>
+    ///     Tipo de Nota de Crédito
+    ///     <para>01 - Multa e juros</para>
+    ///     <para>02 - Apropriação de crédito presumido de IBS sobre o saldo devedor na ZFM (art. 450, § 1º, LC 214/25)</para>
+    ///     <para>03 - Retorno por recusa na entrega ou por não localização do destinatário na tentativa de entrega</para>
+    ///     <para>04 - Redução de valores</para>
+    ///     <para>05 - Transferência de crédito na sucessão;</para>
+    /// </summary>
+    public enum TpNotaCredito
+    {
+        [Description("Multa e juros")]
+        [XmlEnum("01")]
+        MultaJuros,
+        
+        [Description("Apropriação de crédito presumido de IBS sobre o saldo devedor na ZFM (art. 450, § 1º, LC 214/25)")]
+        [XmlEnum("02")]
+        ApropriacaoDeCredito,
+        
+        [Description("Retorno por recusa na entrega ou por não localização do destinatário na tentativa de entrega")]
+        [XmlEnum("03")]
+        RetornoPorRecusaOuNaoLocalizacaoDoDestinatario,
+        
+        [Description("Redução de valores")]
+        [XmlEnum("04")]
+        ReducaoDeValores,
+                
+        [Description("Transferência de crédito na sucessão;")]
+        [XmlEnum("05")]
+        TfCreditoSucessao
+    }
+
+    /// <summary>
+    ///     Tipo de ente governamental
+    ///     <para>1 - União</para>
+    ///     <para>2 - Estado</para>
+    ///     <para>3 - Distrito Federal</para>
+    ///     <para>4 - Município</para>
+    /// </summary>
+    public enum TpEnteGov
+    {
+        [Description("União")]
+        [XmlEnum("1")]
+        iiSitePlataformaTerceiros = 1
+    }
+    
+        
+    /// <summary>
+    ///     Tipo de operação com o ente governamental
+    ///     <para>1 - Fornecimento</para>
+    ///     <para>2 - Recebimento do pagamento, conforme fato gerador do IBS/CBS definido no Art. 10 § 2º</para>
+    /// </summary>
+    public enum TpOperGov
+    {
+        [Description("Fornecimento")]
+        [XmlEnum("1")]
+        Fornecimento,
+        
+        [Description("Recebimento do pagamento, conforme fato gerador do IBS/CBS definido no Art. 10 § 2º")]
+        [XmlEnum("2")]
+        RecebimentoPagamento
     }
 }

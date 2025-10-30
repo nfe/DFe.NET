@@ -8,4 +8,22 @@
 	<s:Boolean x:Key="/Default/Housekeeping/Bookmarks/NumberedBookmarks/=Bookmark9/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/Housekeeping/Bookmarks/NumberedBookmarks/=Bookmark9/Coords/@EntryValue">(Doc Ln 46 Col 101)</s:String>
 	<s:String x:Key="/Default/Housekeeping/Bookmarks/NumberedBookmarks/=Bookmark9/FileId/@EntryValue">B7F6A2FF-FD0E-4B44-82B3-371605CD0510/d:NFCe/f:DanfeFrNfce.cs</s:String>
-	<s:String x:Key="/Default/Housekeeping/Bookmarks/NumberedBookmarks/=Bookmark9/Owner/@EntryValue">NumberedBookmarkManager</s:String></wpf:ResourceDictionary>
+	<s:String x:Key="/Default/Housekeeping/Bookmarks/NumberedBookmarks/=Bookmark9/Owner/@EntryValue">NumberedBookmarkManager</s:String>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=1d58cbbd_002D56a5_002D4a10_002D8dab_002Df795d35150ee_0023CTe_002EDacte_002EFast/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=21a894ec_002Db79e_002D4936_002Dbff3_002Dabead2e5c44f_0023CTe_002EUtils/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=2419900b_002D1e90_002D4181_002D9338_002D3e84237c3b00_0023MDFe_002EDamdfe_002EBase/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=3e44ea28_002D96ae_002D4fac_002D9e38_002Dadc2e12930f1_0023NFe_002ETestes/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=47a90e97_002Dad65_002D4673_002D91cb_002Db42065e9c575_0023CTe_002EAppTeste/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=59fa409b_002Dcfce_002D4e49_002Dac4a_002D811b49d4e3e4_0023NFCe_002ETests/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=63227402_002D2b1e_002D4bc7_002Da6df_002D362129923cf6_0023CTe_002EServicos/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=730d4787_002Dc8cf_002D4fa1_002Db9f5_002Ddc814dbeab7a_0023MDFe_002EDamdfe_002EFast/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=81b3bc65_002Da499_002D4e19_002D8ab4_002D09c6d874c540_0023MDFe_002EWsdl/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=827fa496_002D0f49_002D4e93_002D8ce9_002D2246ccd353b8_0023CTe_002EDacte_002EAppTeste/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=8994dda1_002De36b_002D40e5_002D9f98_002Dc0c75cc61971_0023MDFe_002EAppTeste/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=9587937a_002Da826_002D4785_002D9d1e_002D3a9f4a622b7c_0023MDFe_002EServicos/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=9794cb98_002D4691_002D4218_002Da127_002Dc573c2e7ff83_0023MDFe_002EClasses/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=9c0678eb_002D78f2_002D49c6_002D91bf_002D38148fc37fbb_0023MDFe_002EUtils/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=9cc914f9_002D4c3e_002D43bb_002Da34b_002Da12ae4923548_0023CTe_002EWsdl/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=c86e3921_002Df0b8_002D4bfe_002D9ef1_002D0e9084326b13_0023CTe_002EClasses/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=e34320d9_002Dc822_002D41cf_002Db11d_002Dc4b64001748b_0023MDFe_002EDamdfe_002EAppTeste/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=e46eca77_002D8732_002D4d99_002D9460_002Dfa5e2cd90266_0023CTe_002EDacte_002EBase/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

@@ -34,8 +34,9 @@ using System;
 using System.Xml.Serialization;
 using DFe.Classes.Assinatura;
 using DFe.Classes.Entidades;
+using DFe.Classes.Flags;
 using DFe.Utils;
-using NFe.Classes.Informacoes.Identificacao.Tipos;
+using NFe.Classes.Servicos.Tipos;
 
 namespace NFe.Classes.Servicos.Evento
 {
@@ -84,7 +85,7 @@ namespace NFe.Classes.Servicos.Evento
         /// <summary>
         ///     HR19 - Código do Tipo do Evento.
         /// </summary>
-        public int? tpEvento { get; set; }
+        public NFeTipoEvento? tpEvento { get; set; }
 
         /// <summary>
         ///     HR20 - Descrição do Evento – “Cancelamento homologado”

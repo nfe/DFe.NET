@@ -31,11 +31,7 @@
 /* Rua Comendador Francisco josé da Cunha, 111 - Itabaiana - SE - 49500-000     */
 /********************************************************************************/
 
-using System.Drawing;
-using System.Drawing.Text;
-using NFe.Classes;
-using NFe.Danfe.Base.Fontes;
-using NFe.Danfe.Base.Properties;
+using NFe.Utils;
 
 namespace NFe.Danfe.Base.NFCe
 {
@@ -45,7 +41,7 @@ namespace NFe.Danfe.Base.NFCe
             NfceDetalheVendaContigencia detalheVendaContigencia, byte[] logomarca = null,
             bool imprimeDescontoItem = false, float margemEsquerda = 4.5F, float margemDireita = 4.5F, 
             NfceModoImpressao modoImpressao = NfceModoImpressao.MultiplasPaginas,
-            bool documentoCancelado = false, NfceLayoutQrCode nfceLayoutQrCode = NfceLayoutQrCode.Abaixo)
+            bool documentoCancelado = false, NfceLayoutQrCode nfceLayoutQrCode = NfceLayoutQrCode.Abaixo, VersaoQrCode versaoQrCode = VersaoQrCode.QrCodeVersao1)
         {
             DocumentoCancelado = documentoCancelado;
             DetalheVendaNormal = detalheVendaNormal;
@@ -56,13 +52,14 @@ namespace NFe.Danfe.Base.NFCe
             MargemDireita = margemDireita;
             ModoImpressao = modoImpressao;
             NfceLayoutQrCode = nfceLayoutQrCode;
-            CarregarFontePadraoNfceNativa();
+            VersaoQrCode = versaoQrCode;
+            SegundaViaContingencia = true;
         }
 
         /// <summary>
         /// Construtor sem parâmetros para serialização
         /// </summary>
-        private ConfiguracaoDanfeNfce()
+        public ConfiguracaoDanfeNfce()
         {
             DocumentoCancelado = false;
         }
@@ -82,6 +79,11 @@ namespace NFe.Danfe.Base.NFCe
         /// Determina se o desconto do item será impresso no DANTE, quando houver
         /// </summary>
         public bool ImprimeDescontoItem { get; set; }
+
+        /// <summary>
+        /// Determina se o número de telefone do emitente será impresso no danfe
+        /// </summary>
+        public bool ImprimeFoneEmitente { get; set; }
 
         /// <summary>
         /// Margem esquerda de impressão em milímetros
@@ -109,21 +111,9 @@ namespace NFe.Danfe.Base.NFCe
         /// </summary>
         public VersaoQrCode VersaoQrCode { get; set; }
 
-        public string FontPadraoNfceNativa { get; set; }
-
-        public FontFamily CarregarFontePadraoNfceNativa(string font = null)
-        {
-            if (font != null)
-            {
-                FontPadraoNfceNativa = font;
-                return new FontFamily(font);
-            }
-
-
-            PrivateFontCollection colecaoDeFontes; //todo dispose na coleção
-            var openSans = Fonte.CarregarDeByteArray(Resources.OpenSans_CondBold, out colecaoDeFontes);
-
-            return openSans;
-        }
+        /// <summary>
+        /// Envia segunda via de contingencia para a impressora (apenas suportado no fastreport clássico)
+        /// </summary>
+        public bool SegundaViaContingencia { get; set; }
     }
 }

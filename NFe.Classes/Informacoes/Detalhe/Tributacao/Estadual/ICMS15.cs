@@ -37,12 +37,12 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
 {
     public class ICMS15 : ICMSBasico
     {
+        private decimal? _qBCMono;
         private decimal _adRemICMS;
         private decimal _vICMSMono;
+        private decimal? _qBCMonoReten;
         private decimal _adRemICMSReten;
         private decimal _vICMSMonoReten;
-        private decimal _qBCMono;
-        private decimal _qBCMonoReten;
         private decimal? _pRedAdRem;
 
         /// <summary>
@@ -58,27 +58,32 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
         public Csticms CST { get; set; }
 
         /// <summary>
-        ///     N37a - Quantidade tributada 
+        ///     N37a - Quantidade tributada
         /// </summary>
         [XmlElement(Order = 3)]
-        public decimal qBCMono
+        public decimal? qBCMono
         {
-            get { return _qBCMono; }
+            get { return _qBCMono.Arredondar(4); }
             set { _qBCMono = value.Arredondar(4); }
         }
 
+        public bool ShouldSerializeqBCMono()
+        {
+            return qBCMono.HasValue;
+        }
+
         /// <summary>
-        ///     N38 - Valor da BC do ICMS
+        ///     N38 - Alíquota ad rem do imposto
         /// </summary>
         [XmlElement(Order = 4)]
         public decimal adRemICMS
         {
-            get { return _adRemICMS; }
+            get { return _adRemICMS.Arredondar(4); }
             set { _adRemICMS = value.Arredondar(4); }
         }
 
         /// <summary>
-        ///     N39 - Alíquota do imposto
+        ///     N39 - Valor do ICMS diferido
         /// </summary>
         [XmlElement(Order = 5)]
         public decimal vICMSMono
@@ -88,13 +93,18 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
         }
 
         /// <summary>
-        ///     N39a - Quantidade tributada sujeita a retenção 
+        ///     N39a - Quantidade tributada sujeita a retenção
         /// </summary>
         [XmlElement(Order = 6)]
-        public decimal qBCMonoReten
+        public decimal? qBCMonoReten
         {
-            get { return _qBCMonoReten; }
+            get { return _qBCMonoReten.Arredondar(4); }
             set { _qBCMonoReten = value.Arredondar(4); }
+        }
+
+        public bool ShouldSerializeqBCMonoReten()
+        {
+            return qBCMonoReten.HasValue;
         }
 
         /// <summary>
@@ -103,12 +113,12 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
         [XmlElement(Order = 7)]
         public decimal adRemICMSReten
         {
-            get { return _adRemICMSReten; }
+            get { return _adRemICMSReten.Arredondar(4); }
             set { _adRemICMSReten = value.Arredondar(4); }
         }
 
         /// <summary>
-        ///     N41 - Valor do ICMS com retenção 
+        ///     N41 - Alíquota ad rem do imposto com retenção
         /// </summary>
         [XmlElement(Order = 8)]
         public decimal vICMSMonoReten
@@ -118,7 +128,7 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
         }
 
         /// <summary>
-        ///     N47 - Percentual de redução do valor da alíquota adrem do ICMS
+        ///     N47 - Percentual de redução do valor da alíquota adrem do ICMS Alíquota ad rem do imposto com retenção
         /// </summary>
         [XmlElement(Order = 9)]
         public decimal? pRedAdRem
@@ -127,16 +137,16 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
             set { _pRedAdRem = value.Arredondar(2); }
         }
 
-        /// <summary>
-        ///     N48 - Motivo da redução do adrem
-        /// </summary>
-        [XmlElement(Order = 10)]
-        public MotivoReducaoAdRem? motRedAdRem { get; set; }
-
         public bool ShouldSerializepRedAdRem()
         {
             return pRedAdRem.HasValue;
         }
+
+        /// <summary>
+        ///     N48 - Motivo da redução do adrem
+        /// </summary>
+        [XmlElement(Order = 10)]
+        public int? motRedAdRem { get; set; }
 
         public bool ShouldSerializemotRedAdRem()
         {
