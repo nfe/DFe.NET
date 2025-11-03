@@ -40,6 +40,7 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using DFe.Utils;
 using DFe.Utils.Assinatura;
+using Shared.DFe.Utils;
 using Signature = DFe.Classes.Assinatura.Signature;
 
 namespace NFe.Utils.Assinatura
@@ -81,7 +82,9 @@ namespace NFe.Utils.Assinatura
         /// <param name="certificadoDigital">Informe o certificado digital</param>
         /// <param name="manterDadosEmCache">Validador para manter o certificado em cache</param>
         /// <returns>Retorna um objeto do tipo Classes.Assinatura.Signature, contendo a assinatura do objeto passado como parâmetro</returns>
-        public static Signature ObterAssinatura<T>(T objeto, string id, X509Certificate2 certificadoDigital, bool manterDadosEmCache = false, string signatureMethod = "http://www.w3.org/2000/09/xmldsig#rsa-sha1", string digestMethod = "http://www.w3.org/2000/09/xmldsig#sha1") where T : class
+        public static Signature ObterAssinatura<T>(T objeto, string id, X509Certificate2 certificadoDigital, 
+            bool manterDadosEmCache = false, string signatureMethod = "http://www.w3.org/2000/09/xmldsig#rsa-sha1", 
+            string digestMethod = "http://www.w3.org/2000/09/xmldsig#sha1" , bool cfgServicoRemoverAcentos = false) where T : class
         {
             var objetoLocal = objeto;
             if (id == null)
@@ -90,7 +93,12 @@ namespace NFe.Utils.Assinatura
             try
             {
                 var documento = new XmlDocument { PreserveWhitespace = true };
-                documento.LoadXml(FuncoesXml.ClasseParaXmlString(objetoLocal));
+                
+                var xml = cfgServicoRemoverAcentos
+                    ? FuncoesXml.ClasseParaXmlString(objetoLocal).RemoverAcentos()
+                    : FuncoesXml.ClasseParaXmlString(objetoLocal);
+                
+                documento.LoadXml(xml);
                 var docXml = new SignedXml(documento) { SigningKey = certificadoDigital.PrivateKey };
 
                 docXml.SignedInfo.SignatureMethod = signatureMethod;

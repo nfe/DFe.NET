@@ -31,6 +31,7 @@
 /* Rua Comendador Francisco josé da Cunha, 111 - Itabaiana - SE - 49500-000     */
 /********************************************************************************/
 
+
 using System;
 
 namespace NFe.Danfe.Base.NFe
@@ -49,7 +50,7 @@ namespace NFe.Danfe.Base.NFe
             Logomarca = logomarca;
             DuasLinhas = duasLinhas;
             DocumentoCancelado = documentoCancelado;
-            QuebrarLinhasObservacao = quebrarLinhasObservacao;
+            QuebrarLinhasObservacao = quebrarLinhasObservacao;            
         }
 
         /// <summary>
@@ -65,10 +66,15 @@ namespace NFe.Danfe.Base.NFe
             ResumoCanhoto = string.Empty;
             ChaveContingencia = string.Empty;
             ExibeCampoFatura = false;
+            ExibeRetencoes = false;
             ImprimirISSQN = true;
             ImprimirDescPorc = false;
             ImprimirTotalLiquido = false;
             ImprimirUnidQtdeValor = ImprimirUnidQtdeValor.Comercial;
+            ExibirTotalTributos = false;
+            DecimaisValorUnitario = 2;
+            DecimaisQuantidadeItem = 2;
+            DataHoraImpressao = null;
         }
 
         public bool DuasLinhas { get; set; }
@@ -78,6 +84,8 @@ namespace NFe.Danfe.Base.NFe
         public bool ExibeCampoFatura { get; set; }
 
         public bool ExibirResumoCanhoto { get; set; }
+
+        public bool ExibeRetencoes { get; set; }
 
         public string ResumoCanhoto { get; set; }
 
@@ -90,5 +98,13 @@ namespace NFe.Danfe.Base.NFe
         public bool ImprimirTotalLiquido { get; set; }
 
         public ImprimirUnidQtdeValor ImprimirUnidQtdeValor { get; set; }
+
+        public bool ExibirTotalTributos { get; set; }
+
+        public int DecimaisValorUnitario { get; set; }
+
+        public int DecimaisQuantidadeItem { get; set; }
+
+        public DateTime? DataHoraImpressao { get; set; }
     }
 }

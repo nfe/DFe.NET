@@ -32,7 +32,8 @@
 /********************************************************************************/
 using System;
 using System.Xml.Serialization;
-using NFe.Classes.Servicos.Tipos;
+using DFe.Classes.Flags;
+
 
 namespace NFe.Classes.Informacoes.Destinatario
 {
@@ -156,7 +157,7 @@ namespace NFe.Classes.Informacoes.Destinatario
 
         public bool ShouldSerializeIE()
         {
-            var teste = _versao == VersaoServico.ve200 | !string.IsNullOrEmpty(IE);
+            var teste = _versao == VersaoServico.Versao200 | !string.IsNullOrEmpty(IE);
             return teste;
         }
     }

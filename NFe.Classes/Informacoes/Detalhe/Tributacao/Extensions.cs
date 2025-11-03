@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual.Tipos;
 using NFe.Classes.Informacoes.Detalhe.Tributacao.Federal.Tipos;
 
@@ -67,12 +66,7 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao
         {
             return GetPropDecimalValue(cofins, "vCOFINS");
         }
-
-        public static MotivoReducaoAdRem GetIcmsMotRedAdRem(this ICMSBasico icms)
-        {
-            return GetPropMotivoReducaoAdremValue(icms, "motRedAdRem");
-        }
-
+        
         private static OrigemMercadoria GetPropOrigemMercadoriaValue(object instance, string propName)
         {
             try
@@ -128,19 +122,6 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao
             catch (Exception)
             {
                 return 0M;
-            }
-        }
-
-        private static MotivoReducaoAdRem GetPropMotivoReducaoAdremValue(object instance, string propName)
-        {
-            try
-            {
-                var property = instance.GetType().GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
-                return (MotivoReducaoAdRem)(property != null ? (MotivoReducaoAdRem?)property.GetValue(instance, null) : MotivoReducaoAdRem.MraOutros);
-            }
-            catch (Exception)
-            {
-                return MotivoReducaoAdRem.MraOutros;
             }
         }
     }

@@ -12,6 +12,7 @@ using NFeClasses = global::NFe.Classes;
 using System.IO;
 using System.IdentityModel.Tokens;
 using System.Xml.Serialization;
+using DFe.Classes.Flags;
 
 
 namespace NFe.Testes
@@ -30,7 +31,7 @@ namespace NFe.Testes
             };
 
             conf.Certificado = cert;
-            conf.tpAmb = NFeClasses.Informacoes.Identificacao.Tipos.TipoAmbiente.taHomologacao;
+            conf.tpAmb = TipoAmbiente.Homologacao;
             conf.cUF = DFe.Classes.Entidades.Estado.SP;
             conf.tpEmis = NFeClasses.Informacoes.Identificacao.Tipos.TipoEmissao.teNormal;
             conf.TimeOut = 120000;
@@ -39,10 +40,10 @@ namespace NFe.Testes
             conf.ModeloDocumento = DFe.Classes.Flags.ModeloDocumento.NFe;
             conf.ProtocoloDeSeguranca = System.Net.SecurityProtocolType.Ssl3;
             conf.DiretorioSchemas = @"D:\Works\Schemas\";
-            conf.VersaoNFeAutorizacao = VersaoServico.ve310;
-            conf.VersaoNfeDownloadNF = VersaoServico.ve310;
-            conf.VersaoNfeStatusServico = VersaoServico.ve310;
-            conf.VersaoNFeRetAutorizacao = VersaoServico.ve310;
+            conf.VersaoNFeAutorizacao = VersaoServico.Versao310;
+            conf.VersaoNfeDownloadNF = VersaoServico.Versao310;
+            conf.VersaoNfeStatusServico = VersaoServico.Versao310;
+            conf.VersaoNFeRetAutorizacao = VersaoServico.Versao310;
 
             return new ServicosNFe(conf);
         }
@@ -58,7 +59,7 @@ namespace NFe.Testes
             };
 
             conf.Certificado = cert;
-            conf.tpAmb = NFeClasses.Informacoes.Identificacao.Tipos.TipoAmbiente.taHomologacao;
+            conf.tpAmb = TipoAmbiente.Homologacao;
             conf.cUF = DFe.Classes.Entidades.Estado.SP;
             conf.tpEmis = NFeClasses.Informacoes.Identificacao.Tipos.TipoEmissao.teNormal;
             conf.TimeOut = 120000;
@@ -67,10 +68,10 @@ namespace NFe.Testes
             conf.ModeloDocumento = DFe.Classes.Flags.ModeloDocumento.NFe;
             conf.ProtocoloDeSeguranca = System.Net.SecurityProtocolType.Ssl3;
             conf.DiretorioSchemas = @"D:\Works\Schemas\";
-            conf.VersaoNFeAutorizacao = VersaoServico.ve400;
-            conf.VersaoNfeDownloadNF = VersaoServico.ve400;
-            conf.VersaoNfeStatusServico = VersaoServico.ve400;
-            conf.VersaoNFeRetAutorizacao = VersaoServico.ve400;
+            conf.VersaoNFeAutorizacao = VersaoServico.Versao400;
+            conf.VersaoNfeDownloadNF = VersaoServico.Versao400;
+            conf.VersaoNfeStatusServico = VersaoServico.Versao400;
+            conf.VersaoNFeRetAutorizacao = VersaoServico.Versao400;
 
             return new ServicosNFe(conf);
         }
@@ -86,7 +87,7 @@ namespace NFe.Testes
         }
 
         [TestMethod]
-        public void ServicosNFe_WhenNfeNFeAutorizacao_ReturnsxMotivoSuccess()
+        public async Task ServicosNFe_WhenNfeNFeAutorizacao_ReturnsxMotivoSuccess()
         {
             var servico = CreateInstance();
             var nfe = CreateObject();
@@ -94,14 +95,14 @@ namespace NFe.Testes
             var list = new List<Classes.NFe>();
             list.Add(nfe.NFe);
 
-            var result = servico.NFeAutorizacao(1, IndicadorSincronizacao.Sincrono, list);
+            var result = await servico.NFeAutorizacaoAsync(1, IndicadorSincronizacao.Sincrono, list);
 
             Assert.IsTrue("Lote recebido com sucesso" == result.Retorno.xMotivo.ToString());
 
         }
 
         [TestMethod]
-        public void ServicosNFe_WhenNfeNFeAutorizacao4_ReturnsxMotivoSuccess()
+        public async Task ServicosNFe_WhenNfeNFeAutorizacao4_ReturnsxMotivoSuccess()
         {
             var servico = CreateInstance4();
             var nfe = CreateObject();
@@ -109,24 +110,24 @@ namespace NFe.Testes
             var list = new List<Classes.NFe>();
             list.Add(nfe.NFe);
 
-            var result = servico.NFeAutorizacao(1, IndicadorSincronizacao.Sincrono, list);
+            var result = await servico.NFeAutorizacaoAsync(1, IndicadorSincronizacao.Sincrono, list);
 
             Assert.IsTrue("Lote recebido com sucesso" == result.Retorno.xMotivo.ToString());
         }
 
         [TestMethod]
-        public void ServicosNFe_WhenNFeRetAutorizacao_ReturnsLoteOk()
+        public async Task ServicosNFe_WhenNFeRetAutorizacao_ReturnsLoteOk()
         {
             var servico = CreateInstance();
 
-            var result = servico.NFeRetAutorizacao("351000117302663");
+            var result = await servico.NFeRetAutorizacaoAsync("351000117302663");
 
             Assert.IsTrue("Lote processado" == result.Retorno.xMotivo.ToString());
         }
 
         //consulta NfeConsultaCadastro 1.0 hom não disponivel binding ok
         [TestMethod]
-        public void ServicosNFe_WhenNfeConsultaCadastroBindingOK_ReturnExceptionService()
+        public async Task ServicosNFe_WhenNfeConsultaCadastroBindingOK_ReturnExceptionService()
         {
             var servico = CreateInstance();
             var message = default(string);
@@ -134,7 +135,7 @@ namespace NFe.Testes
 
             try
             {
-                var result = servico.NfeConsultaCadastro("SP", NFeClasses.Servicos.ConsultaCadastro.ConsultaCadastroTipoDocumento.Cnpj, null);
+                var result = await servico.NfeConsultaCadastroAsync("SP", NFeClasses.Servicos.ConsultaCadastro.ConsultaCadastroTipoDocumento.Cnpj, null);
             }
             catch (Exception ex)
             {
@@ -146,7 +147,7 @@ namespace NFe.Testes
 
         //consulta NfeConsultaProtocolo 1.0 hom não disponivel
         [TestMethod]
-        public void ServicosNFe_WhenNfeConsultaProtocoloBindingOK_ReturnExceptionService()
+        public async Task ServicosNFe_WhenNfeConsultaProtocoloBindingOK_ReturnExceptionService()
         {
             var servico = CreateInstance();
             var message = default(string);
@@ -154,7 +155,7 @@ namespace NFe.Testes
 
             try
             {
-                var result = servico.NfeConsultaProtocolo("35171203744425000101550020000530201111012127");
+                var result = await servico.NfeConsultaProtocoloAsync("35171203744425000101550020000530201111012127");
             }
             catch (Exception ex)
             {
@@ -165,14 +166,14 @@ namespace NFe.Testes
         }
 
         [TestMethod]
-        public void ServicosNFe_WhenNfeDistDFeInteresseBindingOK_ReturnExceptionService()
+        public async Task ServicosNFe_WhenNfeDistDFeInteresseBindingOK_ReturnExceptionService()
         {
             var servico = CreateInstance();
             var message = default(string);
 
             try
             {
-                var result = servico.NfeDistDFeInteresse("87554774", "67390111000122");
+                var result = await servico.NfeDistDFeInteresseAsync("87554774", "67390111000122");
             }
             catch (Exception ex)
             {
@@ -184,7 +185,7 @@ namespace NFe.Testes
         }
 
         [TestMethod]
-        public void ServicosNFe_WhenRecepcaoEventoEPECBindingOK_ReturnExceptionService()
+        public async Task ServicosNFe_WhenRecepcaoEventoEPECBindingOK_ReturnExceptionService()
         {
             var servico = CreateInstance();
             var message = default(string);
@@ -192,7 +193,7 @@ namespace NFe.Testes
 
             try
             {
-                var result = servico.RecepcaoEvento(1, new List<NFeClasses.Servicos.Evento.evento>(), ServicoNFe.RecepcaoEventoEpec);
+                var result = await servico.RecepcaoEvento(1, new List<NFeClasses.Servicos.Evento.evento>(), ServicoNFe.RecepcaoEventoEpec, VersaoServico.Versao100);
             }
             catch (Exception ex)
             {
@@ -202,11 +203,11 @@ namespace NFe.Testes
         }
 
         [TestMethod]
-        public void ServicosNFe_WhenNfeStatusServico_ReturnsLoteOk()
+        public async Task ServicosNFe_WhenNfeStatusServico_ReturnsLoteOk()
         {
             var servico = CreateInstance();
 
-            var result = servico.NfeStatusServico();
+            var result = await servico.NfeStatusServicoAsync();
 
             Assert.IsTrue("Serviço em Operação" == result.Retorno.xMotivo.ToString());
         }

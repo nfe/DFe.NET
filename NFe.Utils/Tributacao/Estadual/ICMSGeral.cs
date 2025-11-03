@@ -66,38 +66,50 @@ namespace NFe.Utils.Tributacao.Estadual
         /// <returns></returns>
         public ICMSBasico ObterICMSBasico(CRT crt)
         {
-            ICMSBasico icmsBasico;
+            ICMSBasico icmsBasico = null;
 
             switch (crt)
             {
+                case CRT.SimplesNacionalMei:
                 case CRT.SimplesNacional:
-                case CRT.MicroempreendedorIndividual:
-                    switch (CSOSN)
+                    switch (CST)
                     {
-                        case Csosnicms.Csosn101:
-                            icmsBasico = new ICMSSN101();
+                        case Csticms.Cst61:
+                            icmsBasico = new ICMS61();
                             break;
-                        case Csosnicms.Csosn102:
-                        case Csosnicms.Csosn103:
-                        case Csosnicms.Csosn300:
-                        case Csosnicms.Csosn400:
-                            icmsBasico = new ICMSSN102();
-                            break;
-                        case Csosnicms.Csosn201:
-                            icmsBasico = new ICMSSN201();
-                            break;
-                        case Csosnicms.Csosn202:
-                        case Csosnicms.Csosn203:
-                            icmsBasico = new ICMSSN202();
-                            break;
-                        case Csosnicms.Csosn500:
-                            icmsBasico = new ICMSSN500();
-                            break;
-                        case Csosnicms.Csosn900:
-                            icmsBasico = new ICMSSN900();
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
+                    }
+
+                    var ehCst61 = icmsBasico != null;
+
+                    if (!ehCst61)
+                    {
+                        switch (CSOSN)
+                        {
+                            case Csosnicms.Csosn101:
+                                icmsBasico = new ICMSSN101();
+                                break;
+                            case Csosnicms.Csosn102:
+                            case Csosnicms.Csosn103:
+                            case Csosnicms.Csosn300:
+                            case Csosnicms.Csosn400:
+                                icmsBasico = new ICMSSN102();
+                                break;
+                            case Csosnicms.Csosn201:
+                                icmsBasico = new ICMSSN201();
+                                break;
+                            case Csosnicms.Csosn202:
+                            case Csosnicms.Csosn203:
+                                icmsBasico = new ICMSSN202();
+                                break;
+                            case Csosnicms.Csosn500:
+                                icmsBasico = new ICMSSN500();
+                                break;
+                            case Csosnicms.Csosn900:
+                                icmsBasico = new ICMSSN900();
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
                     }
                     break;
                 case CRT.SimplesNacionalExcessoSublimite:
@@ -113,12 +125,12 @@ namespace NFe.Utils.Tributacao.Estadual
                         case Csticms.Cst10:
                             icmsBasico = new ICMS10();
                             break;
+                        case Csticms.Cst15:
+                            icmsBasico = new ICMS15();
+                            break;
                         case Csticms.CstPart10:
                         case Csticms.CstPart90:
                             icmsBasico = new ICMSPart();
-                            break;
-                        case Csticms.Cst15:
-                            icmsBasico = new ICMS15();
                             break;
                         case Csticms.Cst20:
                             icmsBasico = new ICMS20();
@@ -132,6 +144,7 @@ namespace NFe.Utils.Tributacao.Estadual
                             icmsBasico = new ICMS40();
                             break;
                         case Csticms.CstRep41:
+                        case Csticms.CstRep60:
                             icmsBasico = new ICMSST();
                             break;
                         case Csticms.Cst51:
@@ -235,6 +248,24 @@ namespace NFe.Utils.Tributacao.Estadual
         public decimal? vICMSDeson { get; set; }
 
         /// <summary>
+        /// N28b - Indica se o valor do ICMS desonerado (vICMSDeson) deduz 
+        /// do valor do item (vProd). (NT 2023.004) 
+        /// </summary>
+        public DeduzDesoneracaoNoProduto? indDeduzDeson { get; set; }
+
+        // <summary>
+        /// N33a - Valor do ICMS- ST desonerado
+        /// Versão 4.00
+        /// </summary>
+        public decimal? vICMSSTDeson { get; set; }
+
+        /// <summary>
+        /// N33b - Motivo da desoneração do ICMS- ST 
+        /// Versão 4.00
+        /// </summary>
+        public MotivoDesoneracaoIcmsSt? motDesICMSST { get; set; }
+
+        /// <summary>
         ///     Motivo da desoneração do ICMS
         /// </summary>
         public MotivoDesoneracaoIcms? motDesICMS { get; set; }
@@ -322,21 +353,6 @@ namespace NFe.Utils.Tributacao.Estadual
         public decimal? vFCP { get; set; }
 
         /// <summary>
-        ///     Percentual do diferimento do ICMS relativo ao Fundo de Combate à Pobreza (FCP)
-        /// </summary>
-        public decimal? pFCPDif { get; set; }
-
-        /// <summary>
-        ///    Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP) diferido
-        /// </summary>
-        public decimal? vFCPDif { get; set; }
-
-        /// <summary>
-        ///     Valor efetivo do ICMS relativo ao Fundo de Combate à Pobreza (FCP)
-        /// </summary>
-        public decimal? vFCPEfet { get; set; }
-
-        /// <summary>
         ///     Valor da Base de Cálculo do FCP retido por Substituição Tributária
         /// </summary>
         public decimal? vBCFCPST { get; set; }
@@ -374,64 +390,31 @@ namespace NFe.Utils.Tributacao.Estadual
         public decimal? vFCPSTRet { get; set; }
 
         /// <summary>
-        ///     Valor total do ICMS monofásico próprio
+        ///     Valor do ICMS próprio do Substituto (tag: vICMSSubstituto)
         /// </summary>
-        public decimal? vICMSMono { get; set; }
+        public decimal? vICMSSubstituto { get; set; }
+
+        #region Icms Efetivo
+        /// <summary>
+        ///     Percentual de redução da base de cálculo efetiva 
+        /// </summary>
+        public decimal? pRedBCEfet { get; set; }
 
         /// <summary>
-        ///     Valor total do ICMS monofásico sujeito a retenção
+        ///     Valor da base de cálculo efetiva 
         /// </summary>
-        public decimal? vICMSMonoReten { get; set; }
+        public decimal? vBCEfet { get; set; }
 
         /// <summary>
-        ///     Valor total do ICMS monofásico retido anteriormente 
+        ///     Alíquota do ICMS efetiva 
         /// </summary>
-        public decimal? vICMSMonoRet { get; set; }
+        public decimal? pICMSEfet { get; set; }
 
         /// <summary>
-        ///     Quantidade tributada  
+        ///     Valor do ICMS efetivo 
         /// </summary>
-        public decimal? qBCMono { get; set; }
-
-        /// <summary>
-        ///     Alíquota ad rem do imposto 
-        /// </summary>
-        public decimal? adRemICMS { get; set; }
-
-        /// <summary>
-        ///     Quantidade tributada sujeita a retenção 
-        /// </summary>
-        public decimal? qBCMonoReten { get; set; }
-
-        /// <summary>
-        ///     Alíquota ad rem do imposto com retenção
-        /// </summary>
-        public decimal? adRemICMSReten { get; set; }
-
-        /// <summary>
-        ///     Percentual de redução do valor da alíquota adrem do ICMS
-        /// </summary>
-        public decimal? pRedAdRem { get; set; }
-
-        /// <summary>
-        ///     Motivo da redução do adrem
-        /// </summary>
-        public decimal? motRedAdRem { get; set; }
-
-        /// <summary>
-        ///     Quantidade tributada diferida
-        /// </summary>
-        public decimal? qBCMonoDif { get; set; }
-
-        /// <summary>
-        ///     Alíquota ad rem do imposto diferido
-        /// </summary>
-        public decimal? adRemICMSDif { get; set; }
-
-        /// <summary>
-        ///     Valor do ICMS diferido
-        /// </summary>
-        public decimal? vICMSMonoDif { get; set; }
+        public decimal? vICMSEfet { get; set; }
+        #endregion
 
         /// <summary>
         ///     Quantidade tributada retida anteriormente
@@ -442,5 +425,11 @@ namespace NFe.Utils.Tributacao.Estadual
         ///     Alíquota ad rem do imposto retido anteriormente
         /// </summary>
         public decimal? adRemICMSRet { get; set; }
+
+        /// <summary>
+        ///     Valor do ICMS retido anteriormente
+        /// </summary>
+        public decimal? vICMSMonoRet { get; set; }
+
     }
 }

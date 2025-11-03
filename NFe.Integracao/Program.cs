@@ -39,6 +39,7 @@
 
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using NFe.Classes.Servicos.ConsultaCadastro;
 using NFe.Classes.Servicos.Status;
 using NFe.Integracao.Enums;
@@ -200,7 +201,7 @@ namespace NFe.Integracao
         ///     Cancelar uma NFe
         /// </summary>
         /// <param name="dadosDoCancelamento">Dados para o cancelamento no formato: cnpj#justificativa#chave_de_acesso#protocolo#numero_lote#sequencia_evento</param>
-        private static void CancelarNFe(string dadosDoCancelamento)
+        private static async Task CancelarNFe(string dadosDoCancelamento)
         {
             var nfeFacade = GetFacade();
             if (nfeFacade == null) return;
@@ -235,7 +236,7 @@ namespace NFe.Integracao
 
             try
             {
-                var booStatusOk = ConsultarStatusServico();
+                var booStatusOk = await ConsultarStatusServico();
 
                 if (!booStatusOk)
                 {
@@ -243,7 +244,7 @@ namespace NFe.Integracao
                 }
 
                 Console.WriteLine("Executando o cancelamento...");
-                var retornoCancelamento = nfeFacade.CancelarNFe(strCnpj, intNumeroLote, intSequenciaEvento, strChaveAcesso, strProtocolo, strJustificativa);
+                var retornoCancelamento = await nfeFacade.CancelarNFe(strCnpj, intNumeroLote, intSequenciaEvento, strChaveAcesso, strProtocolo, strJustificativa);
                 Console.WriteLine("#InutilizacaoEfetuada#{0}", retornoCancelamento.Retorno.retEvento[0].infEvento.xMotivo);
             }
             catch (Exception ex)
@@ -365,7 +366,7 @@ namespace NFe.Integracao
         ///     Inutiliza uma faixa de numeração de NFe.
         /// </summary>
         /// <param name="dadosDaInutilizacao">String composta no seguinte formato: ano#cnpj#justificativa#numero_inicial#numero_final#serie</param>
-        private static void InutilizarNumeracao(string dadosDaInutilizacao)
+        private static async Task InutilizarNumeracao(string dadosDaInutilizacao)
         {
             var nfeFacade = GetFacade();
             if (nfeFacade == null) return;
@@ -400,7 +401,7 @@ namespace NFe.Integracao
 
             try
             {
-                var booStatusOk = ConsultarStatusServico();
+                var booStatusOk = await ConsultarStatusServico();
 
                 if (!booStatusOk)
                 {
@@ -408,7 +409,7 @@ namespace NFe.Integracao
                 }
 
                 Console.WriteLine("Executando a inutilização...");
-                var retornoInutilizacao = nfeFacade.InutilizarNumeracao(intAno, strCnpj, strJustificativa, intNumeroInicial, intNumeroFinal, intSerie);
+                var retornoInutilizacao = await nfeFacade.InutilizarNumeracao(intAno, strCnpj, strJustificativa, intNumeroInicial, intNumeroFinal, intSerie);
 
                 if (retornoInutilizacao.Retorno.infInut.cStat == 102)
                 {
@@ -431,7 +432,7 @@ namespace NFe.Integracao
         ///     Consulta o status dos webservices relacionados as informações presentes no arquivo de configuração.
         /// </summary>
         /// <returns>True - Online, False - Offline</returns>
-        private static bool ConsultarStatusServico()
+        private static async Task<bool> ConsultarStatusServico()
         {
 
             try
@@ -440,7 +441,7 @@ namespace NFe.Integracao
                 if (nfeFacade == null) return false;
                 Console.WriteLine("Acessando o serviço de status da receita...");
 
-                var retorno = nfeFacade.ConsultarStatusServico();
+                var retorno = await nfeFacade.ConsultarStatusServico();
 
                 if (retorno.cStat == 107)
                 {
@@ -473,7 +474,7 @@ namespace NFe.Integracao
         ///      Envia uma NFe para o servidor da sefaz.
         ///  </summary>
         /// <param name="dadosDoEnvio">Informações do envio no formato: path_do_arquivo_xml_da_nfe_nao_assinada#numero_do_lote.</param>
-        private static void EnviarNFe(string dadosDoEnvio)
+        private static async Task EnviarNFe(string dadosDoEnvio)
         {
             var nfeFacade = GetFacade();
             if (nfeFacade == null) return;
@@ -522,7 +523,7 @@ namespace NFe.Integracao
 
             try
             {
-                var booStatusOk = ConsultarStatusServico();
+                var booStatusOk = await ConsultarStatusServico();
 
                 if (!booStatusOk)
                 {
@@ -531,7 +532,7 @@ namespace NFe.Integracao
 
                 var nfeBuilder = new NFeBuilder(strPathArquivoXml, tipoXml);
                 Console.WriteLine("Preparando a NFe...");
-                var retorno = nfeFacade.EnviarNFe(numeroLote, nfeBuilder.Build());
+                var retorno = await nfeFacade.EnviarNFe(numeroLote, nfeBuilder.Build());
                 if (retorno.Retorno.cStat == 103)
                 {
                     Console.WriteLine("#NFe#" + retorno.Retorno.infRec.nRec);
@@ -553,21 +554,21 @@ namespace NFe.Integracao
         /// </summary>
         /// <param name="nfeFacade"></param>
         /// <param name="numeroRecibo"></param>
-        private static void ConsultarReciboDeEnvio(string numeroRecibo)
+        private static async Task ConsultarReciboDeEnvio(string numeroRecibo)
         {
             try
             {
                 var nfeFacade = GetFacade();
                 if (nfeFacade == null) return;
 
-                var booStatusOk = ConsultarStatusServico();
+                var booStatusOk = await ConsultarStatusServico();
 
                 if (!booStatusOk)
                 {
                     return;
                 }
 
-                var retornoConsultaProtocolo = nfeFacade.ConsultarReciboDeEnvio(numeroRecibo);
+                var retornoConsultaProtocolo = await nfeFacade.ConsultarReciboDeEnvio(numeroRecibo);
                 if (retornoConsultaProtocolo.Retorno.protNFe[0].infProt.nProt != null)
                 {
                     Console.WriteLine("#NFe#" + retornoConsultaProtocolo.Retorno.protNFe[0].infProt.nProt);

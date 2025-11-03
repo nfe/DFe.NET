@@ -30,6 +30,8 @@
 /* http://www.zeusautomacao.com.br/                                             */
 /* Rua Comendador Francisco josé da Cunha, 111 - Itabaiana - SE - 49500-000     */
 /********************************************************************************/
+
+using System.ComponentModel;
 using System.Xml.Serialization;
 
 namespace NFe.Classes.Informacoes.Detalhe
@@ -140,7 +142,7 @@ namespace NFe.Classes.Informacoes.Detalhe
         [XmlEnum("0")] UsoPermitido = 0,
         [XmlEnum("1")] UsoRestrito = 1
     }
-
+    
     /// <summary>
     /// Indicador de Escala Relevante:
     /// S -  Produzido em Escala Relevante; N – Produzido em Escala NÃO Relevante.
@@ -150,5 +152,16 @@ namespace NFe.Classes.Informacoes.Detalhe
     {
         [XmlEnum("S")] S,
         [XmlEnum("N")] N
+    }
+    
+    /// <summary>
+    ///     Indicador de fornecimento de bem móvel usado
+    ///     <para>1 - Bem Móvel Usado</para>
+    /// </summary>
+    public enum IndBemMovelUsado
+    {
+        [Description("Bem Móvel Usado")]
+        [XmlEnum("1")]
+        BemMovelUsado
     }
 }

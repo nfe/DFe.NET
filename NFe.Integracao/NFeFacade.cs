@@ -33,6 +33,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DFe.Classes.Entidades;
 using DFe.Classes.Flags;
 using DFe.Utils;
@@ -44,7 +45,6 @@ using NFe.Servicos;
 using NFe.Servicos.Retorno;
 using NFe.Utils;
 using NFe.Utils.NFe;
-using TipoAmbiente = NFe.Classes.Informacoes.Identificacao.Tipos.TipoAmbiente;
 
 namespace NFe.Integracao
 {
@@ -59,10 +59,10 @@ namespace NFe.Integracao
         /// 
         /// </summary>
         /// <returns></returns>
-        public retConsStatServ ConsultarStatusServico()
+        public async Task<retConsStatServ> ConsultarStatusServico()
         {
             var servicoNFe = new ServicosNFe(ConfiguracaoServico.Instancia);
-            return servicoNFe.NfeStatusServico().Retorno;
+            return (await servicoNFe.NfeStatusServicoAsync()).Retorno;
         }
         /// <summary>
         /// 
@@ -70,11 +70,11 @@ namespace NFe.Integracao
         /// <param name="numLote"></param>
         /// <param name="nfe"></param>
         /// <returns></returns>
-        public RetornoNFeAutorizacao EnviarNFe(Int32 numLote, Classes.NFe nfe)
+        public async Task<RetornoNFeAutorizacao> EnviarNFe(Int32 numLote, Classes.NFe nfe)
         {
             nfe.Assina(); //não precisa validar aqui, pois o lote será validado em ServicosNFe.NFeAutorizacao
             var servicoNFe = new ServicosNFe(ConfiguracaoServico.Instancia);
-            return servicoNFe.NFeAutorizacao(numLote, IndicadorSincronizacao.Assincrono, new List<Classes.NFe> { nfe });
+            return await servicoNFe.NFeAutorizacaoAsync(numLote, IndicadorSincronizacao.Assincrono, new List<Classes.NFe> { nfe });
         }
 
         /// <summary>
@@ -85,21 +85,21 @@ namespace NFe.Integracao
         /// <param name="tipoDocumento">Tipo do documento</param>
         /// <param name="documento">CPF ou CNPJ</param>
         /// <returns>Retorna um objeto da classe RetornoNfeConsultaCadastro com o retorno do serviço NfeConsultaCadastro</returns>
-        public RetornoNfeConsultaCadastro ConsultaCadastro(string uf,ConsultaCadastroTipoDocumento tipoDocumento,
+        public async Task<RetornoNfeConsultaCadastro> ConsultaCadastro(string uf,ConsultaCadastroTipoDocumento tipoDocumento,
             string documento)
         {
             var servicoNFe = new ServicosNFe(ConfiguracaoServico.Instancia);
-            return servicoNFe.NfeConsultaCadastro(uf,tipoDocumento, documento);
+            return await servicoNFe.NfeConsultaCadastroAsync(uf,tipoDocumento, documento);
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="recibo"></param>
         /// <returns></returns>
-        public RetornoNFeRetAutorizacao ConsultarReciboDeEnvio(string recibo)
+        public async Task<RetornoNFeRetAutorizacao> ConsultarReciboDeEnvio(string recibo)
         {
             var servicoNFe = new ServicosNFe(ConfiguracaoServico.Instancia);
-            return servicoNFe.NFeRetAutorizacao(recibo);
+            return await servicoNFe.NFeRetAutorizacaoAsync(recibo);
         }
         /// <summary>
         /// 
@@ -111,11 +111,11 @@ namespace NFe.Integracao
         /// <param name="protocolo"></param>
         /// <param name="justificativa"></param>
         /// <returns></returns>
-        public RetornoRecepcaoEvento CancelarNFe(string cnpjEmitente, int numeroLote, short sequenciaEvento, string chaveAcesso,
+        public async Task<RetornoRecepcaoEvento> CancelarNFe(string cnpjEmitente, int numeroLote, short sequenciaEvento, string chaveAcesso,
             string protocolo, string justificativa)
         {
             var servicoNFe = new ServicosNFe(ConfiguracaoServico.Instancia);
-            return servicoNFe.RecepcaoEventoCancelamento(numeroLote, sequenciaEvento, protocolo, chaveAcesso, justificativa, cnpjEmitente);
+            return await servicoNFe.RecepcaoEventoCancelamentoAsync(numeroLote, sequenciaEvento, protocolo, chaveAcesso, justificativa, cnpjEmitente);
         }
         /// <summary>
         /// 
@@ -127,11 +127,11 @@ namespace NFe.Integracao
         /// <param name="numeroFinal"></param>
         /// <param name="serie"></param>
         /// <returns></returns>
-        public RetornoNfeInutilizacao InutilizarNumeracao(int ano, string cnpj, string justificativa,
+        public async Task<RetornoNfeInutilizacao> InutilizarNumeracao(int ano, string cnpj, string justificativa,
             int numeroInicial, int numeroFinal, int serie)
         {
             var servicoNFe = new ServicosNFe(ConfiguracaoServico.Instancia);
-            return servicoNFe.NfeInutilizacao(cnpj, Convert.ToInt16(ano.ToString().Substring(2, 2)), ConfiguracaoServico.Instancia.ModeloDocumento, Convert.ToInt16(serie), Convert.ToInt32(numeroInicial), Convert.ToInt32(numeroFinal), justificativa);
+            return await servicoNFe.NfeInutilizacaoAsync(cnpj, Convert.ToInt16(ano.ToString().Substring(2, 2)), ConfiguracaoServico.Instancia.ModeloDocumento, Convert.ToInt16(serie), Convert.ToInt32(numeroInicial), Convert.ToInt32(numeroFinal), justificativa);
         }
         /// <summary>
         /// 
@@ -167,19 +167,19 @@ namespace NFe.Integracao
             ConfiguracaoServico.Instancia.tpEmis = temiss;
             //-------------------------------------------------------------------------------
             //Versão atual da NFe/NFCe: 3.10
-            ConfiguracaoServico.Instancia.VersaoNfceAministracaoCSC = VersaoServico.ve310;
-            ConfiguracaoServico.Instancia.VersaoNFeAutorizacao = VersaoServico.ve310;
-            ConfiguracaoServico.Instancia.VersaoNfeConsultaCadastro = VersaoServico.ve310;
-            ConfiguracaoServico.Instancia.VersaoNfeConsultaDest = VersaoServico.ve310;
-            ConfiguracaoServico.Instancia.VersaoNfeConsultaProtocolo = VersaoServico.ve310;
-            ConfiguracaoServico.Instancia.VersaoNFeDistribuicaoDFe = VersaoServico.ve310;
-            ConfiguracaoServico.Instancia.VersaoNfeDownloadNF = VersaoServico.ve310;
-            ConfiguracaoServico.Instancia.VersaoNfeInutilizacao = VersaoServico.ve310;
-            ConfiguracaoServico.Instancia.VersaoNfeRecepcao = VersaoServico.ve310;
-            ConfiguracaoServico.Instancia.VersaoNFeRetAutorizacao = VersaoServico.ve310;
-            ConfiguracaoServico.Instancia.VersaoNfeRetRecepcao = VersaoServico.ve310;
-            ConfiguracaoServico.Instancia.VersaoNfeStatusServico = VersaoServico.ve310;
-            ConfiguracaoServico.Instancia.VersaoRecepcaoEventoCceCancelamento = VersaoServico.ve310;
+            ConfiguracaoServico.Instancia.VersaoNfceAministracaoCSC = VersaoServico.Versao310;
+            ConfiguracaoServico.Instancia.VersaoNFeAutorizacao = VersaoServico.Versao310;
+            ConfiguracaoServico.Instancia.VersaoNfeConsultaCadastro = VersaoServico.Versao310;
+            ConfiguracaoServico.Instancia.VersaoNfeConsultaDest = VersaoServico.Versao310;
+            ConfiguracaoServico.Instancia.VersaoNfeConsultaProtocolo = VersaoServico.Versao310;
+            ConfiguracaoServico.Instancia.VersaoNFeDistribuicaoDFe = VersaoServico.Versao310;
+            ConfiguracaoServico.Instancia.VersaoNfeDownloadNF = VersaoServico.Versao310;
+            ConfiguracaoServico.Instancia.VersaoNfeInutilizacao = VersaoServico.Versao310;
+            ConfiguracaoServico.Instancia.VersaoNfeRecepcao = VersaoServico.Versao310;
+            ConfiguracaoServico.Instancia.VersaoNFeRetAutorizacao = VersaoServico.Versao310;
+            ConfiguracaoServico.Instancia.VersaoNfeRetRecepcao = VersaoServico.Versao310;
+            ConfiguracaoServico.Instancia.VersaoNfeStatusServico = VersaoServico.Versao310;
+            ConfiguracaoServico.Instancia.VersaoRecepcaoEventoCceCancelamento = VersaoServico.Versao310;
             #endregion
 
         }

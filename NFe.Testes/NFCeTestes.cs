@@ -7,7 +7,9 @@ using NFe.Utils.Assinatura;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
+using DFe.Classes.Flags;
 using NFeClasses = global::NFe.Classes;
 
 namespace NFe.Testes
@@ -30,7 +32,7 @@ namespace NFe.Testes
             _conf.Certificado = cert;
             _conf.ModeloDocumento = DFe.Classes.Flags.ModeloDocumento.NFCe; //  Condition
 
-            _conf.tpAmb = NFeClasses.Informacoes.Identificacao.Tipos.TipoAmbiente.taHomologacao;
+            _conf.tpAmb = TipoAmbiente.Homologacao;
             _conf.cUF = DFe.Classes.Entidades.Estado.SP;
             _conf.tpEmis = NFeClasses.Informacoes.Identificacao.Tipos.TipoEmissao.teNormal;
             _conf.TimeOut = 120000;
@@ -38,10 +40,10 @@ namespace NFe.Testes
             _conf.SalvarXmlServicos = true;
             _conf.ProtocoloDeSeguranca = System.Net.SecurityProtocolType.Tls12;
             _conf.DiretorioSchemas = @"D:\Works\nfe\nfe-products-api\schemas";
-            _conf.VersaoNFeAutorizacao = VersaoServico.ve400;
-            _conf.VersaoNfeDownloadNF = VersaoServico.ve400;
-            _conf.VersaoNfeStatusServico = VersaoServico.ve400;
-            _conf.VersaoNFeRetAutorizacao = VersaoServico.ve400;
+            _conf.VersaoNFeAutorizacao = VersaoServico.Versao400;
+            _conf.VersaoNfeDownloadNF = VersaoServico.Versao400;
+            _conf.VersaoNfeStatusServico = VersaoServico.Versao400;
+            _conf.VersaoNFeRetAutorizacao = VersaoServico.Versao400;
 
             return new ServicosNFe(_conf);
         }
@@ -56,7 +58,7 @@ namespace NFe.Testes
         }
 
         [TestMethod]
-        public void ServicosNFe_WhenNfeNFeAutorizacao4_ReturnsxMotivoSuccess()
+        public async Task ServicosNFe_WhenNfeNFeAutorizacao4_ReturnsxMotivoSuccess()
         {
             var servico = CreateInstance4();
             var nfe = CreateObject();
@@ -70,7 +72,7 @@ namespace NFe.Testes
 
             Assinador.ObterAssinatura<NFeClasses.NFe>(nfe.NFe, "teste", a);
 
-            var result = servico.NFeAutorizacao(1, IndicadorSincronizacao.Sincrono, list);
+            var result = await servico.NFeAutorizacaoAsync(1, IndicadorSincronizacao.Sincrono, list);
 
             Assert.IsTrue("Lote recebido com sucesso" == result.Retorno.xMotivo.ToString());
         }

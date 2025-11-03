@@ -31,15 +31,13 @@
 /* Rua Comendador Francisco josé da Cunha, 111 - Itabaiana - SE - 49500-000     */
 /********************************************************************************/
 using System;
-using System.Security.Cryptography;
 using System.Text;
-using DFe.Classes.Entidades;
 using DFe.Classes.Flags;
+using DFe.Utils.Assinatura;
 using NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual.Tipos;
 using NFe.Classes.Informacoes.Emitente;
 using NFe.Classes.Informacoes.Identificacao.Tipos;
 using NFe.Classes.Servicos.Tipos;
-using TipoAmbiente = NFe.Classes.Informacoes.Identificacao.Tipos.TipoAmbiente;
 
 namespace NFe.Utils
 {
@@ -47,50 +45,68 @@ namespace NFe.Utils
     {
         public static string VersaoServicoParaString(this ServicoNFe servicoNFe, VersaoServico? versaoServico)
         {
-            if (versaoServico == VersaoServico.ve100 && servicoNFe == ServicoNFe.NFeDistribuicaoDFe)
-                return "1.01";
-            else if (versaoServico == VersaoServico.ve100 || servicoNFe == ServicoNFe.RecepcaoEventoManifestacaoDestinatario)
-                return "1.00";
-            else if (versaoServico == VersaoServico.ve200 && servicoNFe == ServicoNFe.NfeConsultaProtocolo)
-                return "2.01";
-            else if (versaoServico == VersaoServico.ve200)
-                return "2.00";
-            else if (versaoServico == VersaoServico.ve310)
-                return "3.10";
-            else if (versaoServico == VersaoServico.ve400 && servicoNFe == ServicoNFe.RecepcaoEventoCancelmento)
-                return "1.00";
-            else if (versaoServico == VersaoServico.ve400)
-                return "4.00";
 
-            return "";
-        }
-
-        // criado pois tem estado que o evento de cancelamento sempre será versão 1.00 e a webservice podera ser 2.00 ou 3.00 ou seja 
-        // na montagem do xml vai ser 1.00 e a versão do webservice vai ser diferente da montagem exemplo: MT
-        public static string VersaoServicoParaString(this ServicoNFe servicoNFe, VersaoServico? versaoServico, Estado? estado)
-        {
-            switch (servicoNFe)
+            if (servicoNFe == ServicoNFe.NfeConsultaCadastro && versaoServico != VersaoServico.Versao100)
             {
-                case ServicoNFe.NfeConsultaCadastro:
-                    return "2.00";
-                
-                case ServicoNFe.RecepcaoEventoEpec:
-                case ServicoNFe.RecepcaoEventoCartaCorrecao:
-                case ServicoNFe.RecepcaoEventoCancelmento:
-                    return "1.00";
-                
-                default:
-                    return VersaoServicoParaString(servicoNFe, versaoServico);
+                return "2.00";
             }
+
+            if (servicoNFe == ServicoNFe.RecepcaoEventoCancelmento
+                || servicoNFe == ServicoNFe.RecepcaoEventoCartaCorrecao
+                || servicoNFe == ServicoNFe.RecepcaoEventoManifestacaoDestinatario
+                || servicoNFe == ServicoNFe.RecepcaoEventoEpec
+                || servicoNFe == ServicoNFe.RecepcaoEventoInformacaoDeEfetivoPagamentoIntegralParaLiberarCreditoPresumidoDoAdquirente
+                || servicoNFe == ServicoNFe.RecepcaoEventoSolicitacaoDeApropriacaoDeCreditoPresumido
+                || servicoNFe == ServicoNFe.RecepcaoEventoDestinacaoDeItemParaConsumoPessoal
+                || servicoNFe == ServicoNFe.RecepcaoEventoAceiteDeDebitoNaApuracaoPorEmissaoDeNotaDeCredito
+                || servicoNFe == ServicoNFe.RecepcaoEventoImobilizacaoDeItem
+                || servicoNFe == ServicoNFe.RecepcaoEventoSolicitacaoDeApropriacaoDeCreditoDeCombustivel
+                || servicoNFe == ServicoNFe.RecepcaoEventoSolicitacaoDeApropriacaoDeCreditoParaBensEServicosQueDependemDeAtividadeDoAdquirente
+                || servicoNFe == ServicoNFe.RecepcaoEventoManifestacaoSobrePedidoDeTransferenciaDeCreditoDeIbsEmOperacoesDeSucessao
+                || servicoNFe == ServicoNFe.RecepcaoEventoManifestacaoSobrePedidoDeTransferenciaDeCreditoDeCbsEmOperacoesDeSucessao
+                || servicoNFe == ServicoNFe.RecepcaoEventoManifestacaoDoFiscoSobrePedidoDeTransferenciaDeCreditoDeIbsEmOperacoesDeSucessao
+                || servicoNFe == ServicoNFe.RecepcaoEventoManifestacaoDoFiscoSobrePedidoDeTransferenciaDeCreditoDeCbsEmOperacoesDeSucessao
+                || servicoNFe == ServicoNFe.RecepcaoEventoCancelamentoDeEvento
+                || servicoNFe == ServicoNFe.RecepcaoEventoImportacaoEmAlcZfmNaoConvertidaEmIsencao
+                || servicoNFe == ServicoNFe.RecepcaoEventoPerecimentoPerdaRouboOuFurtoDuranteOTransporteContratadoPeloAdquirente
+                || servicoNFe == ServicoNFe.RecepcaoEventoPerecimentoPerdaRouboOuFurtoDuranteOTransporteContratadoPeloFornecedor
+                || servicoNFe == ServicoNFe.RecepcaoEventoFornecimentoNaoRealizadoComPagamentoAntecipado
+                || servicoNFe == ServicoNFe.RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega)
+            {
+                return "1.00";
+            }
+
+            switch (versaoServico)
+            {
+                case VersaoServico.Versao100:
+                    switch (servicoNFe)
+                    {
+                        case ServicoNFe.NFeDistribuicaoDFe:
+                            return "1.01";
+                    }
+                    return "1.00";
+                case VersaoServico.Versao200:
+                    switch (servicoNFe)
+                    {
+                        case ServicoNFe.NfeConsultaProtocolo:
+                            return "2.01";
+                    }
+                    return "2.00";
+                case VersaoServico.Versao310:
+                    return "3.10";
+                case VersaoServico.Versao400:
+                    return "4.00";
+            }
+            return "";
         }
 
         public static string TpAmbParaString(this TipoAmbiente tpAmb)
         {
             switch (tpAmb)
             {
-                case TipoAmbiente.taHomologacao:
+                case TipoAmbiente.Homologacao:
                     return "Homologação";
-                case TipoAmbiente.taProducao:
+                case TipoAmbiente.Producao:
                     return "Produção";
                 default:
                     throw new ArgumentOutOfRangeException("tpAmb", tpAmb, null);
@@ -101,13 +117,13 @@ namespace NFe.Utils
         {
             switch (versao)
             {
-                case VersaoServico.ve100:
+                case VersaoServico.Versao100:
                     return "1.00";
-                case VersaoServico.ve200:
+                case VersaoServico.Versao200:
                     return "2.00";
-                case VersaoServico.ve310:
+                case VersaoServico.Versao310:
                     return "3.10";
-                case VersaoServico.ve400:
+                case VersaoServico.Versao400:
                     return "4.00";
             }
             return null;
@@ -118,13 +134,13 @@ namespace NFe.Utils
             switch (versaoServico)
             {
                 case "1.00":
-                    return VersaoServico.ve100;
+                    return VersaoServico.Versao100;
                 case "2.00":
-                    return VersaoServico.ve200;
+                    return VersaoServico.Versao200;
                 case "3.10":
-                    return VersaoServico.ve310;
+                    return VersaoServico.Versao310;
                 case "4.00":
-                    return VersaoServico.ve400;
+                    return VersaoServico.Versao400;
                 default:
                     throw new ArgumentOutOfRangeException("versaoServico", versaoServico, null);
             }
@@ -132,7 +148,7 @@ namespace NFe.Utils
 
         public static string TipoEmissaoParaString(this TipoEmissao tipoEmissao)
         {
-            var s = Enum.GetName(typeof(TipoEmissao), tipoEmissao);
+            var s = Enum.GetName(typeof (TipoEmissao), tipoEmissao);
             return s != null ? s.Substring(2) : "";
         }
 
@@ -146,8 +162,8 @@ namespace NFe.Utils
                     return "Simples Nacional - sublimite excedido";
                 case CRT.RegimeNormal:
                     return "Normal";
-                case CRT.MicroempreendedorIndividual:
-                    return "Simples Nacional - Microempreendedor Individual - MEI";
+                case CRT.SimplesNacionalMei:
+                    return "Simples Nacional MEI";
                 default:
                     throw new ArgumentOutOfRangeException("crt", crt, null);
             }
@@ -167,6 +183,11 @@ namespace NFe.Utils
             return null;
         }
 
+        public static int ModeloDocumentoParaInt(this ModeloDocumento modelo)
+        {
+            return (int) modelo;
+        }
+
         public static string CsticmsParaString(this Csticms csticms)
         {
             switch (csticms)
@@ -174,14 +195,14 @@ namespace NFe.Utils
                 case Csticms.Cst00:
                     return "00";
                 case Csticms.Cst02:
-                    return "02";
+                    return "02";                 
                 case Csticms.Cst10:
                 case Csticms.CstPart10:
                     return "10";
-                case Csticms.Cst15:
-                    return "15";
                 case Csticms.Cst20:
                     return "20";
+                case Csticms.Cst15:
+                    return "15";                    
                 case Csticms.Cst30:
                     return "30";
                 case Csticms.Cst40:
@@ -196,9 +217,10 @@ namespace NFe.Utils
                 case Csticms.Cst53:
                     return "53";
                 case Csticms.Cst60:
-                    return "61";
+                case Csticms.CstRep60:
+                    return "60";
                 case Csticms.Cst61:
-                    return "00";
+                    return "61";
                 case Csticms.Cst70:
                     return "70";
                 case Csticms.Cst90:
@@ -211,17 +233,12 @@ namespace NFe.Utils
 
         public static string CsosnicmsParaString(this Csosnicms csosnicms)
         {
-            return ((int)csosnicms).ToString();
+            return ((int) csosnicms).ToString();
         }
 
         public static string OrigemMercadoriaParaString(this OrigemMercadoria origemMercadoria)
         {
             return ((int)origemMercadoria).ToString();
-        }
-
-        public static string MotivoReducaoAdremParaString(this MotivoReducaoAdRem motivoReducaoAdrem)
-        {
-            return ((int)motivoReducaoAdrem).ToString();
         }
 
         /// <summary>
@@ -231,10 +248,10 @@ namespace NFe.Utils
         {
             var bytes = Encoding.UTF8.GetBytes(s);
 
-            var sha1 = SHA1.Create();
-            var hashBytes = sha1.ComputeHash(bytes);
+            var hashSha1Bytes = AssinaturaDigital.ObterHashSha1Bytes(bytes);
+            var hexSha1DeString = ObterHexDeByteArray(hashSha1Bytes);
 
-            return ObterHexDeByteArray(hashBytes);
+            return hexSha1DeString;
         }
 
         /// <summary>
