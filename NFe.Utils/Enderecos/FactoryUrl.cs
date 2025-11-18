@@ -1,4 +1,6 @@
-﻿namespace NFe.Utils.Enderecos
+﻿using Shared.NFe.Utils.Enderecos.NovasUrlsCeara;
+
+namespace NFe.Utils.Enderecos
 {
     public class FactoryUrl
     {
@@ -12,7 +14,7 @@
 
         public static FactoryUrl CriaFactoryUrl()
         {
-            return new FactoryUrl(new CearaUrl());
+            return new FactoryUrl(new CearaSVRS());
         }
     }
 }
