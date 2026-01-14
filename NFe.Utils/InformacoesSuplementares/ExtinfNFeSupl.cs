@@ -322,7 +322,7 @@ namespace NFe.Utils.InformacoesSuplementares
                 {Estado.PB, versao3E4, "www.receita.pb.gov.br/nfce/consulta"},
                 {Estado.SP, versao3E4, "https://www.nfce.fazenda.sp.gov.br/consulta"},
                 {Estado.SE, versao3E4, "http://www.nfce.se.gov.br/nfce/consulta"},
-                {Estado.GO, versao3E4, "https://www.sefaz.go.gov.br/nfce/consulta"}, 
+                {Estado.GO, versao3E4, "https://www.sefaz.go.gov.br/nfce/consulta"},
                 {Estado.MG, versao3E4, "https://portalsped.fazenda.mg.gov.br/portalnfce"},
                 {Estado.TO, versao3E4, "www.sefaz.to.gov.br/nfce/consulta"},
                 {Estado.SC, versao3E4, "https://sat.sef.sc.gov.br/nfce/consulta" }
