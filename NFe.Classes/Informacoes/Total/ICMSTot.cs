@@ -36,7 +36,7 @@ namespace NFe.Classes.Informacoes.Total
     {
         private decimal _vBc;
         private decimal _vIcms;
-        private decimal _vIcmsDeson;
+        private decimal? _vIcmsDeson;
         private decimal _vBcst;
         private decimal _vSt;
         private decimal _vProd;
@@ -49,7 +49,7 @@ namespace NFe.Classes.Informacoes.Total
         private decimal _vCofins;
         private decimal _vOutro;
         private decimal _vNf;
-        private decimal _vTotTrib;
+        private decimal? _vTotTrib;
         private decimal? _vFcpufDest;
         private decimal? _vIcmsufDest;
         private decimal? _vIcmsufRemet;
@@ -85,11 +85,16 @@ namespace NFe.Classes.Informacoes.Total
         /// <summary>
         ///     W04a - Valor Total do ICMS desonerado
         /// </summary>
-        public decimal vICMSDeson
+        public decimal? vICMSDeson
         {
             get { return _vIcmsDeson.Arredondar(2); }
             set { _vIcmsDeson = value.Arredondar(2); }
         } //Nulable por conta da v2.00
+
+        public bool ShouldSerializevICMSDeson()
+        {
+            return vICMSDeson.HasValue;
+        }
 
         /// <summary>
         /// W04c - Valor total do ICMS relativo Fundo de Combate à Pobreza(FCP) da UF de destino
@@ -195,7 +200,7 @@ namespace NFe.Classes.Informacoes.Total
         {
             get { return vFCPSTRet.HasValue; }
         }
-        
+
         /// <summary>
         /// W06b.1 - Valor total da quantidade tributada do ICMS monofásico próprio
         /// </summary>
@@ -388,10 +393,15 @@ namespace NFe.Classes.Informacoes.Total
         /// <summary>
         ///     W16a - Valor aproximado total de tributos federais, estaduais e municipais.
         /// </summary>
-        public decimal vTotTrib
+        public decimal? vTotTrib
         {
             get { return _vTotTrib.Arredondar(2); }
             set { _vTotTrib = value.Arredondar(2); }
+        }
+
+        public bool ShouldSerializevTotTrib()
+        {
+            return vTotTrib.HasValue;
         }
     }
 }

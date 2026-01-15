@@ -223,5 +223,6 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
         {
             return vICMSEfet.HasValue;
         }
+
     }
 }

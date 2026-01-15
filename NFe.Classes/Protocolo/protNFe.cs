@@ -30,8 +30,6 @@
 /* http://www.zeusautomacao.com.br/                                             */
 /* Rua Comendador Francisco josé da Cunha, 111 - Itabaiana - SE - 49500-000     */
 /********************************************************************************/
-
-using DFe.Classes.Assinatura;
 using System.Xml.Serialization;
 
 namespace NFe.Classes.Protocolo
@@ -53,10 +51,5 @@ namespace NFe.Classes.Protocolo
         ///     PR03 - Informações do Protocolo de resposta. TAG a ser assinada
         /// </summary>
         public infProt infProt { get; set; }
-
-        /// <summary>
-        ///     Assinatura do Protocolo
-        /// </summary>
-        public Signature Signature { get; set; }
     }
 }

@@ -112,9 +112,9 @@ namespace NFe.Classes.Informacoes.Detalhe.DeclaracaoImportacao
         ///     I23d - CNPJ do adquirente ou do encomendante
         /// </summary>
         public string CNPJ { get; set; }
-
+        
         /// <summary>
-        ///     I23d1 - CPF do adquirente ou do encomendante
+        ///     I23d - CPF do adquirente ou do encomendante (NT 2023/004)
         /// </summary>
         public string CPF { get; set; }
 

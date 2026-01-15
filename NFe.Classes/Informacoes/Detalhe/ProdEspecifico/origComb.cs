@@ -30,51 +30,32 @@
 /* http://www.zeusautomacao.com.br/                                             */
 /* Rua Comendador Francisco josé da Cunha, 111 - Itabaiana - SE - 49500-000     */
 /********************************************************************************/
-using System.Xml.Serialization;
+using DFe.Classes.Entidades;
 
-namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Compartilhado.InformacoesIbsCbs.InformacoesCbs
+namespace NFe.Classes.Informacoes.Detalhe.ProdEspecifico
 {
-    public class gCBS
+    public class origComb
     {
-        private decimal _pCbs;
-        private decimal _vCbs;
+        private decimal _pOrig;
 
         /// <summary>
-        ///     UB56 - Alíquota da CBS (em percentual)
-        /// </summary>~
-        [XmlElement(Order = 1)]
-        public decimal pCBS
-        {
-            get => _pCbs.Arredondar(4);
-            set => _pCbs = value.Arredondar(4);
+        /// LA19 - Indicador de importação
+        /// </summary>
+        public int indImport { get; set; }
+
+        /// <summary>
+        /// LA20 - Código da UF
+        /// </summary>
+        public Estado cUFOrig { get; set; }
+
+        /// <summary>
+        /// LA21 - Percentual originário para a UF
+        /// </summary>
+        public decimal pOrig 
+        { 
+            get { return _pOrig.Arredondar(4); }
+            set { _pOrig = value.Arredondar(4); }
         }
-        
-        /// <summary>
-        ///     UB59 - Grupo de Informações do Diferimento
-        /// </summary>
-        [XmlElement(Order = 2)]
-        public gDif gDif { get; set; }
-        
-        /// <summary>
-        ///     UB62 - Grupo de Informações da devolução de tributos
-        /// </summary>
-        [XmlElement(Order = 3)]
-        public gDevTrib gDevTrib { get; set; }
-        
-        /// <summary>
-        ///     UB64 - Grupo de informações da redução da alíquota
-        /// </summary>
-        [XmlElement(Order = 4)]
-        public gRed gRed { get; set; }
-        
-        /// <summary>
-        ///     UB67 - Valor da CBS
-        /// </summary>
-        [XmlElement(Order = 5)]
-        public decimal vCBS
-        {
-            get => _vCbs.Arredondar(2);
-            set => _vCbs = value.Arredondar(2);
-        }
+
     }
 }
