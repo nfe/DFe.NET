@@ -32,18 +32,19 @@
 /********************************************************************************/
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using NFe.Classes.Informacoes.Agropecuario;
 using NFe.Classes.Informacoes.Cana;
 using NFe.Classes.Informacoes.Cobranca;
 using NFe.Classes.Informacoes.Destinatario;
 using NFe.Classes.Informacoes.Detalhe;
 using NFe.Classes.Informacoes.Emitente;
 using NFe.Classes.Informacoes.Identificacao;
-using NFe.Classes.Informacoes.InfRespTec;
-using NFe.Classes.Informacoes.Intermediador;
 using NFe.Classes.Informacoes.Observacoes;
 using NFe.Classes.Informacoes.Pagamento;
 using NFe.Classes.Informacoes.Total;
 using NFe.Classes.Informacoes.Transporte;
+using Shared.NFe.Classes.Informacoes.InfRespTec;
+using Shared.NFe.Classes.Informacoes.Intermediador;
 
 namespace NFe.Classes.Informacoes
 {
@@ -157,10 +158,15 @@ namespace NFe.Classes.Informacoes
         ///     ZC01 - Grupo Cana
         /// </summary>
         public cana cana { get; set; }
-        
+
         /// <summary>
-        /// Dados do Responsável Técnico
+        ///     ZD01 - Grupo do Responsável Técnico
         /// </summary>
         public infRespTec infRespTec { get; set; }
+
+        /// <summary>
+        ///     ZF01 - Grupo de produtos da agricultura, pecuária e produção Florestal
+        /// </summary>
+        public agropecuario agropecuario { get; set; }
     }
 }

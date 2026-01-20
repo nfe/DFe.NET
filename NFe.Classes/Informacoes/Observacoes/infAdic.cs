@@ -50,27 +50,27 @@ namespace NFe.Classes.Informacoes.Observacoes
         public bool ShouldSerializeinfCpl()
         {
             return !string.IsNullOrEmpty(infCpl);
-        }     
+        }
 
         /// <summary>
         ///     Z04 - Grupo Campo de uso livre do contribuinte
         ///     <para>Ocorrência: 0-10</para>
         /// </summary>
-        [XmlElement("obsCont")]
+        [XmlElement(ElementName = nameof(obsCont))]
         public List<obsCont> obsCont { get; set; }
 
         /// <summary>
         ///     Z07 - Grupo Campo de uso livre do Fisco
         ///     <para>Ocorrência: 0-10</para>
         /// </summary>
-        [XmlElement("obsFisco")]
+        [XmlElement(ElementName = nameof(obsFisco))]
         public List<obsFisco> obsFisco { get; set; }
 
         /// <summary>
         ///     Z10 - Grupo Processo referenciado
         ///     <para>Ocorrência: 0-100</para>
         /// </summary>
-        [XmlElement("procRef")]
+        [XmlElement(nameof(procRef))]
         public List<procRef> procRef { get; set; }
     }
 }

@@ -972,7 +972,7 @@ namespace NFe.AppTeste
 
             var ide = new ide
             {
-                cUF = estado.SiglaParaEstado(_configuracoes.EnderecoEmitente.UF),
+                cUF = _configuracoes.EnderecoEmitente.UF,
                 natOp = "VENDA",
                 mod = modelo,
                 serie = 1,
@@ -1142,7 +1142,7 @@ namespace NFe.AppTeste
             if (modelo == ModeloDocumento.NFe) //NFCe não aceita grupo "IPI"
                 det.imposto.IPI = new IPI()
                 {
-                    cEnq = 999.ToString(),
+                    cEnq = 999,
                     TipoIPI = new IPITrib() {CST = CSTIPI.ipi00, pIPI = 5, vBC = 1, vIPI = 0.05m}
                 };
             //det.impostoDevol = new impostoDevol() { IPI = new IPIDevolvido() { vIPIDevol = 10 }, pDevol = 100 };

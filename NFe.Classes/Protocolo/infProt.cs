@@ -43,7 +43,6 @@ namespace NFe.Classes.Protocolo
         /// <summary>
         ///     PR04 - Identificador da TAG a ser assinada, somente precisa ser informado se a UF assinar a resposta.
         /// </summary>
-        [XmlAttribute]
         public string Id { get; set; }
 
         /// <summary>
@@ -67,9 +66,6 @@ namespace NFe.Classes.Protocolo
         [XmlIgnore]
         public DateTimeOffset dhRecbto { get; set; }
 
-        /// <summary>
-        /// Proxy para dhEmi no formato AAAA-MM-DDThh:mm:ssTZD (UTC - Universal Coordinated Time)
-        /// </summary>
         [XmlElement(ElementName = "dhRecbto")]
         public string ProxyDhRecbto
         {
@@ -96,15 +92,29 @@ namespace NFe.Classes.Protocolo
         ///     PR12 - Descrição literal do status da resposta.
         /// </summary>
         public string xMotivo { get; set; }
-        
-        /// <summary>
-        /// PR14 - Código da Mensagem.
-        /// </summary>
+
+        [XmlElement(ElementName = "cMsg")]
+        public string ProxyccMsg
+        {
+            get
+            {
+                if (cMsg == null) return null;
+                return cMsg.Value.ToString();
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    cMsg = null;
+                    return;
+                }
+                cMsg = int.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         public int? cMsg { get; set; }
 
-        /// <summary>
-        /// PR15 - Mensagem da SEFAZ para o emissor.
-        /// </summary>
         public string xMsg { get; set; }
 
         /// <summary>
@@ -112,10 +122,5 @@ namespace NFe.Classes.Protocolo
         ///     A decisão de assinar a mensagem fica a critério da UF interessada.
         /// </summary>
         public Signature Signature { get; set; }
-
-        public bool ShouldSerializecMsg()
-        {
-            return cMsg.HasValue;
-        }
     }
 }

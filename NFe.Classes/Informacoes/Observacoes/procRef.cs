@@ -45,7 +45,7 @@ namespace NFe.Classes.Informacoes.Observacoes
         public IndicadorProcesso indProc { get; set; }
 
         /// <summary>
-        ///     Z13 - Tipo do ato concessório 
+        ///     Z13 - Tipo do ato concessório
         /// </summary>
         public TipoAtoConcessorio? tpAto { get; set; }
 
@@ -53,6 +53,5 @@ namespace NFe.Classes.Informacoes.Observacoes
         {
             return tpAto.HasValue;
         }
-
     }
 }

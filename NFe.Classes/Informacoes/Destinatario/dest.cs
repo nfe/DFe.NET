@@ -33,7 +33,7 @@
 using System;
 using System.Xml.Serialization;
 using DFe.Classes.Flags;
-
+using NFe.Classes.Servicos.Tipos;
 
 namespace NFe.Classes.Informacoes.Destinatario
 {

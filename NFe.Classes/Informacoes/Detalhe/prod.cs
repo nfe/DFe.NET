@@ -30,7 +30,7 @@
 /* http://www.zeusautomacao.com.br/                                             */
 /* Rua Comendador Francisco josé da Cunha, 111 - Itabaiana - SE - 49500-000     */
 /********************************************************************************/
-using System;
+
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using NFe.Classes.Informacoes.Detalhe.DeclaracaoImportacao;
@@ -47,7 +47,7 @@ namespace NFe.Classes.Informacoes.Detalhe
         }
 
         private string _nRecopi;
-        private ProdutoEspecifico _produtoEspecifico;
+        private List<ProdutoEspecifico> _produtoEspecifico;
         private decimal _qcom;
         private decimal _qtrib;
         private decimal _vprod;
@@ -73,6 +73,11 @@ namespace NFe.Classes.Informacoes.Detalhe
             get { return _cEan ?? string.Empty; } //Sempre serializar o campo cEAN, mesmo que não tenha valor 
             set { _cEan = value ?? string.Empty; }
         }
+
+        /// <summary>
+        ///     I03a - Código de barras diferente do padrão GTIN
+        /// </summary>
+        public string cBarra { get; set; }
 
         /// <summary>
         ///     I04 - Descrição do produto ou serviço
@@ -118,10 +123,22 @@ namespace NFe.Classes.Informacoes.Detalhe
 
         /// <summary>
         /// Versão 4.00
-        /// Código de Benefício fiscal utilizado pela UF, aplicado ao item. Obs: Deve ser utilizado o mesmo código adotado na EFD e outras
+        /// I05f Código de Benefício fiscal utilizado pela UF, aplicado ao item. Obs: Deve ser utilizado o mesmo código adotado na EFD e outras
         /// declarações, nas UF que o exigem.
         /// </summary>
         public string cBenef { get; set; }
+
+        /// <summary>
+        /// I05G - Grupo de Informações sobre o Crédito Presumido
+        /// Versão 4.00 - NT 2019.001
+        /// </summary>
+        [XmlElement("gCred")]
+        public List<gCred> gCred { get; set; }
+        
+        /// <summary>
+        /// I05K - Classificação para subapuração do IBS na ZFM
+        /// </summary>
+        public  tpCredPresIBSZFM? tpCredPresIBSZFM { get; set; }
 
         /// <summary>
         ///     I06 - Código EX TIPI (3 posições)
@@ -173,6 +190,11 @@ namespace NFe.Classes.Informacoes.Detalhe
             get { return _cEanTrib ?? string.Empty; } //Sempre serializar o campo cEANTrib, mesmo que não tenha valor 
             set { _cEanTrib = value ?? string.Empty; }
         }
+
+        /// <summary>
+        ///     I12a - Código de Barras da unidade tributável que seja diferente do padrão GTIN
+        /// </summary>
+        public string cBarraTrib { get; set; }
 
         /// <summary>
         ///     I13 - Unidade Tributável
@@ -287,7 +309,7 @@ namespace NFe.Classes.Informacoes.Detalhe
         [XmlElement("med", typeof(med))]
         [XmlElement("arma", typeof(arma))]
         [XmlElement("comb", typeof(comb))]
-        public ProdutoEspecifico ProdutoEspecifico
+        public List<ProdutoEspecifico> ProdutoEspecifico
         {
             get { return _produtoEspecifico; }
             set
@@ -338,5 +360,6 @@ namespace NFe.Classes.Informacoes.Detalhe
         
         public bool ShouldSerializeindBemMovelUsado() => indBemMovelUsado.HasValue;
         
+        public bool ShouldSerializetpCredPresIBSZFM() => tpCredPresIBSZFM.HasValue;
     }
 }

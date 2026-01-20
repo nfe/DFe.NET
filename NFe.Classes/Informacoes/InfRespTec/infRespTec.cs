@@ -1,10 +1,7 @@
 ﻿using System.Xml.Serialization;
 
-namespace NFe.Classes.Informacoes.InfRespTec
+namespace Shared.NFe.Classes.Informacoes.InfRespTec
 {
-    /// <summary>
-    /// Informação do responsável técnico pela emissão de nota fiscal
-    /// </summary>
     public class infRespTec
     {
         public string CNPJ { get; set; }
@@ -16,7 +13,7 @@ namespace NFe.Classes.Informacoes.InfRespTec
         public string fone { get; set; }
 
         [XmlIgnore]
-        public string idCSRT { get; set; }
+        public int? idCSRT { get; set; }
 
         [XmlElement(ElementName = "idCSRT")]
         public string ProxyidCSRT
@@ -25,7 +22,7 @@ namespace NFe.Classes.Informacoes.InfRespTec
             {
                 if (idCSRT == null) return null;
 
-                return idCSRT.PadLeft(2, '0');//string.Format("D2", idCSRT);/* idCSRT.ToString("D2");*/
+                return idCSRT.Value.ToString("D2");
             }
             set
             {
@@ -34,7 +31,7 @@ namespace NFe.Classes.Informacoes.InfRespTec
                     idCSRT = null;
                     return;
                 }
-                idCSRT = value;
+                idCSRT = int.Parse(value);
             }
         }
 

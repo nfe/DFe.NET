@@ -193,7 +193,7 @@ namespace NFe.Testes
 
             try
             {
-                var result = await servico.RecepcaoEvento(1, new List<NFeClasses.Servicos.Evento.evento>(), ServicoNFe.RecepcaoEventoEpec, VersaoServico.Versao100);
+                var result = await servico.RecepcaoEventoAsync(1, new List<NFeClasses.Servicos.Evento.evento>(), ServicoNFe.RecepcaoEventoEpec);
             }
             catch (Exception ex)
             {
