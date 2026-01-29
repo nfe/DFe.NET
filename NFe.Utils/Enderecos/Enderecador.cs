@@ -479,7 +479,7 @@ namespace NFe.Utils.Enderecos
                     addServico(new[] { ServicoNFe.NFeAutorizacao }, versao4, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/NFeAutorizacao4?wsdl");
                     addServico(new[] { ServicoNFe.NFeRetAutorizacao }, versao4, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/NFeRetAutorizacao4?wsdl");
                     addServico(new[] { ServicoNFe.NfeConsultaProtocolo }, versao4, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/NFeConsultaProtocolo4?wsdl");
-                    addServico(eventoCceCanc, versao4, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/NFeRecepcaoEvento4?wsdl");
+                    addServico(eventoCceCanc, versao4, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/NFeRecepcaoEvento4?wsdl"); 
                 }
             }
 
