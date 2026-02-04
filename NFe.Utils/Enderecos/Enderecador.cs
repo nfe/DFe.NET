@@ -458,28 +458,28 @@ namespace NFe.Utils.Enderecos
             foreach (var emissao in emissaoComum)
             {
                 if (emissao != TipoEmissao.teEPEC)
-                    addServico(eventoCceCanc, versao1, hom, emissao, Estado.GO, nfe, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/v2/RecepcaoEvento?wsdl");
-                addServico(new[] { ServicoNFe.RecepcaoEventoCancelmento }, versao1, hom, emissao, Estado.GO, nfce, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/v2/RecepcaoEvento?wsdl");
+                    addServico(eventoCceCanc, versao1, hom, emissao, Estado.GO, nfe, "https://homolog.sefaz.go.gov.br/nfe/services/v2/RecepcaoEvento?wsdl");
+                addServico(new[] { ServicoNFe.RecepcaoEventoCancelmento }, versao1, hom, emissao, Estado.GO, nfce, "https://homolog.sefaz.go.gov.br/nfe/services/v2/RecepcaoEvento?wsdl");
 
                 foreach (var modelo in todosOsModelos)
                 {
-                    addServico(new[] { ServicoNFe.NfeRecepcao }, versao2, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/v2/NfeRecepcao2?wsdl");
-                    addServico(new[] { ServicoNFe.NfeRetRecepcao }, versao2, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/v2/NfeRetRecepcao2?wsdl");
-                    addServico(new[] { ServicoNFe.NfeInutilizacao }, versao2E3, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/v2/NfeInutilizacao2?wsdl");
-                    addServico(new[] { ServicoNFe.NfeConsultaProtocolo }, versao2E3, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/v2/NfeConsulta2?wsdl");
-                    addServico(new[] { ServicoNFe.NfeStatusServico }, versao2E3, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/v2/NfeStatusServico2?wsdl");
-                    addServico(new[] { ServicoNFe.NfeConsultaCadastro }, versao2E3, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/v2/CadConsultaCadastro2?wsdl");
-                    addServico(new[] { ServicoNFe.NFeAutorizacao }, versao3, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/v2/NfeAutorizacao?wsdl");
-                    addServico(new[] { ServicoNFe.NFeRetAutorizacao }, versao3, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/v2/NfeRetAutorizacao?wsdl");
-                    addServico(new[] { ServicoNFe.NfceAdministracaoCSC }, versao1, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/v2/CscNFCe?wsdl");
+                    addServico(new[] { ServicoNFe.NfeRecepcao }, versao2, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeRecepcao2?wsdl");
+                    addServico(new[] { ServicoNFe.NfeRetRecepcao }, versao2, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeRetRecepcao2?wsdl");
+                    addServico(new[] { ServicoNFe.NfeInutilizacao }, versao2E3, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeInutilizacao2?wsdl");
+                    addServico(new[] { ServicoNFe.NfeConsultaProtocolo }, versao2E3, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeConsulta2?wsdl");
+                    addServico(new[] { ServicoNFe.NfeStatusServico }, versao2E3, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeStatusServico2?wsdl");
+                    addServico(new[] { ServicoNFe.NfeConsultaCadastro }, versao2E3, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/v2/CadConsultaCadastro2?wsdl");
+                    addServico(new[] { ServicoNFe.NFeAutorizacao }, versao3, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeAutorizacao?wsdl");
+                    addServico(new[] { ServicoNFe.NFeRetAutorizacao }, versao3, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/v2/NfeRetAutorizacao?wsdl");
+                    addServico(new[] { ServicoNFe.NfceAdministracaoCSC }, versao1, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/v2/CscNFCe?wsdl");
 
-                    addServico(new[] { ServicoNFe.NfeStatusServico }, versao4, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/NFeStatusServico4?wsdl");
-                    addServico(new[] { ServicoNFe.NfeInutilizacao }, versao4, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/NFeInutilizacao4?wsdl");
-                    addServico(new[] { ServicoNFe.NfeConsultaCadastro }, versao4, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/CadConsultaCadastro4?wsdl");
-                    addServico(new[] { ServicoNFe.NFeAutorizacao }, versao4, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/NFeAutorizacao4?wsdl");
-                    addServico(new[] { ServicoNFe.NFeRetAutorizacao }, versao4, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/NFeRetAutorizacao4?wsdl");
-                    addServico(new[] { ServicoNFe.NfeConsultaProtocolo }, versao4, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/NFeConsultaProtocolo4?wsdl");
-                    addServico(eventoCceCanc, versao4, hom, emissao, Estado.GO, modelo, "https://nfewebhomolog.sefaz.go.gov.br/nfe/services/NFeRecepcaoEvento4?wsdl"); 
+                    addServico(new[] { ServicoNFe.NfeStatusServico }, versao4, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/NFeStatusServico4?wsdl");
+                    addServico(new[] { ServicoNFe.NfeInutilizacao }, versao4, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/NFeInutilizacao4?wsdl");
+                    addServico(new[] { ServicoNFe.NfeConsultaCadastro }, versao4, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/CadConsultaCadastro4?wsdl");
+                    addServico(new[] { ServicoNFe.NFeAutorizacao }, versao4, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/NFeAutorizacao4?wsdl");
+                    addServico(new[] { ServicoNFe.NFeRetAutorizacao }, versao4, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/NFeRetAutorizacao4?wsdl");
+                    addServico(new[] { ServicoNFe.NfeConsultaProtocolo }, versao4, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/NFeConsultaProtocolo4?wsdl");
+                    addServico(eventoCceCanc, versao4, hom, emissao, Estado.GO, modelo, "https://homolog.sefaz.go.gov.br/nfe/services/NFeRecepcaoEvento4?wsdl"); 
                 }
             }
 
