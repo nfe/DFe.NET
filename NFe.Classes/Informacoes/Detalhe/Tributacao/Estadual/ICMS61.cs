@@ -93,5 +93,9 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
             set { _vICMSMonoRet = value.Arredondar(2); }
         }
 
+        public bool ShouldSerializevICMSMonoRet()
+        {
+            return vICMSMonoRet.HasValue;
+        }
     }
 }

@@ -43,8 +43,8 @@ using NFe.Classes.Informacoes.Observacoes;
 using NFe.Classes.Informacoes.Pagamento;
 using NFe.Classes.Informacoes.Total;
 using NFe.Classes.Informacoes.Transporte;
-using Shared.NFe.Classes.Informacoes.InfRespTec;
-using Shared.NFe.Classes.Informacoes.Intermediador;
+using NFe.Classes.Informacoes.InfRespTec;
+using NFe.Classes.Informacoes.Intermediador;
 
 namespace NFe.Classes.Informacoes
 {
