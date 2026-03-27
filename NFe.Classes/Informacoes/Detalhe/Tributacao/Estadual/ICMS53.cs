@@ -123,11 +123,6 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
             set { _vICMSMonoDif = value.Arredondar(2); }
         }
 
-        public bool ShouldSerializevICMSMonoDif()
-        {
-            return vICMSMonoDif.HasValue;
-        }
-
         /// <summary>
         ///     N39 - Valor do ICMS próprio devido
         /// </summary>
