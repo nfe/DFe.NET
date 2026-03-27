@@ -68,11 +68,6 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
             set { _qBCMono = value.Arredondar(4); }
         }
 
-        public bool ShouldSerializeqBCMono()
-        {
-            return qBCMono.HasValue;
-        }
-
         /// <summary>
         ///     N38 - Alíquota adRem do imposto
         /// </summary>
