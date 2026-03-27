@@ -85,7 +85,14 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Compartilhado.Tipos
         [Description("Alíquota reduzida")]
         [XmlEnum("200")]
         Cst200,
-        
+
+        /// <summary>
+        ///     210 - Crédito Presumido Operacional
+        /// </summary>
+        [Description("Crédito Presumido Operacional")]
+        [XmlEnum("210")]
+        Cst210,
+
         /// <summary>
         ///     220 - Alíquota fixa
         /// </summary>

@@ -1,4 +1,4 @@
-﻿/********************************************************************************/
+/********************************************************************************/
 /* Projeto: Biblioteca ZeusNFe                                                  */
 /* Biblioteca C# para emissão de Nota Fiscal Eletrônica - NFe e Nota Fiscal de  */
 /* Consumidor Eletrônica - NFC-e (http://www.nfe.fazenda.gov.br)                */
@@ -67,10 +67,6 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
             get { return _qBCMono.Arredondar(4); }
             set { _qBCMono = value.Arredondar(4); }
         }
-        public bool ShouldSerializeqBCMono()
-        {
-            return qBCMono.HasValue;
-        }
 
         /// <summary>
         ///     N38 - Alíquota adRem do imposto
@@ -81,6 +77,7 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
             get { return _adRemICMS.Arredondar(4); }
             set { _adRemICMS = value.Arredondar(4); }
         }
+
         public bool ShouldSerializeadRemICMS()
         {
             return adRemICMS.HasValue;
@@ -95,6 +92,7 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
             get { return _vICMSMonoOp.Arredondar(2); }
             set { _vICMSMonoOp = value.Arredondar(2); }
         }
+
         public bool ShouldSerializevICMSMonoOp()
         {
             return vICMSMonoOp.HasValue;
@@ -109,6 +107,7 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
             get { return _pDif.Arredondar(4); }
             set { _pDif = value.Arredondar(4); }
         }
+
         public bool ShouldSerializepDif()
         {
             return pDif.HasValue;
@@ -123,10 +122,6 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
             get { return _vICMSMonoDif.Arredondar(2); }
             set { _vICMSMonoDif = value.Arredondar(2); }
         }
-        public bool ShouldSerializevICMSMonoDif()
-        {
-            return vICMSMonoDif.HasValue;
-        }
 
         /// <summary>
         ///     N39 - Valor do ICMS próprio devido
@@ -137,6 +132,7 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
             get { return _vICMSMono.Arredondar(2); }
             set { _vICMSMono = value.Arredondar(2); }
         }
+
         public bool ShouldSerializevICMSMono()
         {
             return vICMSMono.HasValue;
@@ -152,6 +148,7 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
             get { return _qBCMonoDif.Arredondar(4); }
             set { _qBCMonoDif = value.Arredondar(4); }
         }
+
         public bool ShouldSerializeqBCMonoDif()
         {
             return qBCMonoDif.HasValue;
@@ -167,10 +164,10 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
             get { return _adRemICMSDif.Arredondar(4); }
             set { _adRemICMSDif = value.Arredondar(4); }
         }
+
         public bool ShouldSerializeadRemICMSDif()
         {
             return adRemICMSDif.HasValue;
         }
-
     }
 }
