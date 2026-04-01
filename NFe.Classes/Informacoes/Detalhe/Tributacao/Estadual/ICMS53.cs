@@ -68,6 +68,11 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
             set { _qBCMono = value.Arredondar(4); }
         }
 
+        public bool ShouldSerializeqBCMono()
+        {
+            return qBCMono.HasValue;
+        }
+
         /// <summary>
         ///     N38 - Alíquota adRem do imposto
         /// </summary>
@@ -121,6 +126,11 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
         {
             get { return _vICMSMonoDif.Arredondar(2); }
             set { _vICMSMonoDif = value.Arredondar(2); }
+        }
+
+        public bool ShouldSerializevICMSMonoDif()
+        {
+            return vICMSMonoDif.HasValue;
         }
 
         /// <summary>
