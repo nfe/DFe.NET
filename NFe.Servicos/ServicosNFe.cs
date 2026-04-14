@@ -262,7 +262,8 @@ namespace NFe.Servicos
                 case ServicoNFe.RecepcaoEventoCartaCorrecao:
                 case ServicoNFe.RecepcaoEventoCancelmento:
                 case ServicoNFe.RecepcaoEventoManifestacaoDestinatario:
-                    if (IsSvanNFe4()) return new RecepcaoEvento4SVAN(url, _certificado, _cFgServico.TimeOut);
+                    if (IsSvanNFe4()) 
+                        return new RecepcaoEvento4SVAN(url, _certificado, _cFgServico.TimeOut);
 
                     if (_cFgServico.VersaoRecepcaoEventoCceCancelamento == VersaoServico.Versao400)
                         return new RecepcaoEvento4(url, _certificado, _cFgServico.TimeOut);
@@ -287,7 +288,7 @@ namespace NFe.Servicos
 
         private bool IsSvanNFe4()
         {
-            return (_cFgServico.cUF == Estado.PA || _cFgServico.cUF == Estado.MA) &&
+            return _cFgServico.cUF == Estado.PA &&
                    _cFgServico.VersaoNfeStatusServico == VersaoServico.Versao400 &&
                    _cFgServico.ModeloDocumento == ModeloDocumento.NFe;
         }
