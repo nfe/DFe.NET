@@ -678,7 +678,8 @@ namespace NFe.Servicos
                 ServicoNFe.RecepcaoEventoImportacaoEmAlcZfmNaoConvertidaEmIsencao,
                 ServicoNFe.RecepcaoEventoPerecimentoPerdaRouboOuFurtoDuranteOTransporteContratadoPeloAdquirente,
                 ServicoNFe.RecepcaoEventoPerecimentoPerdaRouboOuFurtoDuranteOTransporteContratadoPeloFornecedor,
-                ServicoNFe.RecepcaoEventoFornecimentoNaoRealizadoComPagamentoAntecipado
+                ServicoNFe.RecepcaoEventoFornecimentoNaoRealizadoComPagamentoAntecipado,
+                ServicoNFe.RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega
             };
 
             if (!listaEventos.Contains(servicoEvento))
@@ -2093,6 +2094,44 @@ namespace NFe.Servicos
 
             var detalhesEvento = ObterDetalhesEvento(versaoServicoRecepcaoString, versaoAplicativo, nfeTipoEvento, ufAutor, TipoAutor.taEmpresaEmitente);
             detalhesEvento.gItemNaoFornecido = informacoesPorItemDaNotaDePagamentoAntecipado;
+
+            var informacoesEventoEnv = ObterInformacoesEventoEnv(sequenciaEvento, chaveNFe, cpfCnpj, versaoServicoRecepcaoString, cOrgao: Estado.SVRS, dataHoraEvento, nfeTipoEvento, detalhesEvento);
+            var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
+
+            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, servicoNfe, deveAssinar: true, evento);
+
+            return retornoRecepcaoEvento;
+        }
+
+        /// <summary>
+        ///     Serviço destinado à recepção do evento RTC 112150 — Atualização da Data de Previsão de Entrega.
+        ///     Previsto na NT 2025.002-RTC, autoria do Emitente, NF-e modelo 55.
+        /// </summary>
+        /// <param name="idLote">Nº do lote</param>
+        /// <param name="sequenciaEvento">sequencia do evento</param>
+        /// <param name="cpfCnpj"></param>
+        /// <param name="chaveNFe"></param>
+        /// <param name="dataPrevistaEntrega">Data da previsão de entrega ou disponibilização do bem (formato "AAAA-MM-DD")</param>
+        /// <param name="ufAutor"></param>
+        /// <param name="versaoAplicativo"></param>
+        /// <param name="dataHoraEvento"></param>
+        /// <returns></returns>
+        public async Task<RetornoRecepcaoEvento> RecepcaoEventoAtualizacaoDaDataDePrevisaoDeEntrega(int idLote,
+                                                                                                   int sequenciaEvento,
+                                                                                                   string cpfCnpj,
+                                                                                                   string chaveNFe,
+                                                                                                   DateTime dataPrevistaEntrega,
+                                                                                                   Estado? ufAutor = null,
+                                                                                                   string versaoAplicativo = null,
+                                                                                                   DateTimeOffset? dataHoraEvento = null)
+        {
+            const ServicoNFe servicoNfe = ServicoNFe.RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega;
+            const NFeTipoEvento nfeTipoEvento = NFeTipoEvento.TeNfeAtualizacaoDaDataDePrevisaoDeEntrega;
+            var versaoServicoRecepcao = _cFgServico.VersaoRecepcaoEventosDeApuracaoDoIbsECbs;
+            var versaoServicoRecepcaoString = servicoNfe.VersaoServicoParaString(versaoServicoRecepcao);
+
+            var detalhesEvento = ObterDetalhesEvento(versaoServicoRecepcaoString, versaoAplicativo, nfeTipoEvento, ufAutor, TipoAutor.taEmpresaEmitente);
+            detalhesEvento.dPrevEntrega = dataPrevistaEntrega;
 
             var informacoesEventoEnv = ObterInformacoesEventoEnv(sequenciaEvento, chaveNFe, cpfCnpj, versaoServicoRecepcaoString, cOrgao: Estado.SVRS, dataHoraEvento, nfeTipoEvento, detalhesEvento);
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
