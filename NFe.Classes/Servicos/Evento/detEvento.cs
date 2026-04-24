@@ -421,6 +421,26 @@ namespace NFe.Classes.Servicos.Evento
 
         #endregion
 
+        #region Atualização da Data de Previsão de Entrega
+
+        /// <summary>
+        ///  P23 - Data da previsão de entrega ou disponibilização do bem. Formato: "AAAA-MM-DD".
+        /// </summary>
+        [XmlIgnore]
+        public DateTime? dPrevEntrega { get; set; }
+
+        /// <summary>
+        /// Proxy para dPrevEntrega no formato "AAAA-MM-DD" (somente data).
+        /// </summary>
+        [XmlElement("dPrevEntrega")]
+        public string ProxydPrevEntrega
+        {
+            get => dPrevEntrega.ParaDataString();
+            set => dPrevEntrega = DateTime.Parse(value);
+        }
+
+        #endregion
+
         #endregion
     }
 }
