@@ -591,29 +591,43 @@ namespace NFe.Classes.Informacoes.Identificacao.Tipos
     ///     <para>02 - Apropriação de crédito presumido de IBS sobre o saldo devedor na ZFM (art. 450, § 1º, LC 214/25)</para>
     ///     <para>03 - Retorno por recusa na entrega ou por não localização do destinatário na tentativa de entrega</para>
     ///     <para>04 - Redução de valores</para>
-    ///     <para>05 - Transferência de crédito na sucessão;</para>
+    ///     <para>05 - Transferência de crédito na sucessão</para>
+    ///     <para>06 - Retorno por Recusa Parcial na Entrega (Ajuste SINIEF 8/26, vigência 2026-05-04)</para>
     /// </summary>
     public enum TpNotaCredito
     {
         [Description("Multa e juros")]
         [XmlEnum("01")]
         MultaJuros,
-        
+
         [Description("Apropriação de crédito presumido de IBS sobre o saldo devedor na ZFM (art. 450, § 1º, LC 214/25)")]
         [XmlEnum("02")]
         ApropriacaoDeCredito,
-        
+
         [Description("Retorno por recusa na entrega ou por não localização do destinatário na tentativa de entrega")]
         [XmlEnum("03")]
         RetornoPorRecusaOuNaoLocalizacaoDoDestinatario,
-        
+
         [Description("Redução de valores")]
         [XmlEnum("04")]
         ReducaoDeValores,
-                
+
         [Description("Transferência de crédito na sucessão;")]
         [XmlEnum("05")]
-        TfCreditoSucessao
+        TfCreditoSucessao,
+
+        /// <summary>
+        ///     06 - Retorno por Recusa Parcial na Entrega.
+        ///     Introduzido pelo Ajuste SINIEF 8/26 (vigência 2026-05-04), que separa
+        ///     o antigo código 03 (recusa total + parcial + não localização) em:
+        ///     - 03 = Recusa Total ou Não Localização
+        ///     - 06 = Recusa Parcial (este novo valor)
+        ///     Quando utilizado, exige <c>DFeReferenciado</c> por item (referenciamento
+        ///     dos itens recusados na NF-e original).
+        /// </summary>
+        [Description("Retorno por Recusa Parcial na Entrega")]
+        [XmlEnum("06")]
+        RetornoPorRecusaParcial
     }
 
     /// <summary>
