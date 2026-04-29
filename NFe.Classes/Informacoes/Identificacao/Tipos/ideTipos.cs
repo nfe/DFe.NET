@@ -620,7 +620,7 @@ namespace NFe.Classes.Informacoes.Identificacao.Tipos
         [XmlEnum("04")]
         ReducaoDeValores,
 
-        [Description("Transferência de crédito na sucessão;")]
+        [Description("Transferência de crédito na sucessão")]
         [XmlEnum("05")]
         TfCreditoSucessao,
 
