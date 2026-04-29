@@ -589,31 +589,53 @@ namespace NFe.Classes.Informacoes.Identificacao.Tipos
     ///     Tipo de Nota de Crédito
     ///     <para>01 - Multa e juros</para>
     ///     <para>02 - Apropriação de crédito presumido de IBS sobre o saldo devedor na ZFM (art. 450, § 1º, LC 214/25)</para>
-    ///     <para>03 - Retorno por recusa na entrega ou por não localização do destinatário na tentativa de entrega</para>
+    ///     <para>03 - Retorno por Recusa Total na Entrega ou Por Não Localização do Destinatário (Ajuste SINIEF 8/26)</para>
     ///     <para>04 - Redução de valores</para>
-    ///     <para>05 - Transferência de crédito na sucessão;</para>
+    ///     <para>05 - Transferência de crédito na sucessão</para>
+    ///     <para>06 - Retorno por Recusa Parcial na Entrega (Ajuste SINIEF 8/26, vigência 2026-05-04)</para>
     /// </summary>
     public enum TpNotaCredito
     {
         [Description("Multa e juros")]
         [XmlEnum("01")]
         MultaJuros,
-        
+
         [Description("Apropriação de crédito presumido de IBS sobre o saldo devedor na ZFM (art. 450, § 1º, LC 214/25)")]
         [XmlEnum("02")]
         ApropriacaoDeCredito,
-        
-        [Description("Retorno por recusa na entrega ou por não localização do destinatário na tentativa de entrega")]
+
+        /// <summary>
+        ///     03 - Retorno por Recusa Total na Entrega ou Por Não Localização do Destinatário.
+        ///     A partir do Ajuste SINIEF 8/26 (vigência 2026-05-04), este código contempla
+        ///     somente a recusa TOTAL e a não localização do destinatário; a recusa PARCIAL
+        ///     foi separada em <see cref="RetornoPorRecusaParcial"/> (código 06).
+        ///     O nome do membro <c>RetornoPorRecusaOuNaoLocalizacaoDoDestinatario</c> é
+        ///     mantido para preservar compatibilidade binária com consumidores existentes.
+        /// </summary>
+        [Description("Retorno por Recusa Total na Entrega ou Por Não Localização do Destinatário")]
         [XmlEnum("03")]
         RetornoPorRecusaOuNaoLocalizacaoDoDestinatario,
-        
+
         [Description("Redução de valores")]
         [XmlEnum("04")]
         ReducaoDeValores,
-                
-        [Description("Transferência de crédito na sucessão;")]
+
+        [Description("Transferência de crédito na sucessão")]
         [XmlEnum("05")]
-        TfCreditoSucessao
+        TfCreditoSucessao,
+
+        /// <summary>
+        ///     06 - Retorno por Recusa Parcial na Entrega.
+        ///     Introduzido pelo Ajuste SINIEF 8/26 (vigência 2026-05-04), que separa
+        ///     o antigo código 03 (recusa total + parcial + não localização) em:
+        ///     - 03 = Recusa Total ou Não Localização
+        ///     - 06 = Recusa Parcial (este novo valor)
+        ///     Quando utilizado, exige <c>DFeReferenciado</c> por item (referenciamento
+        ///     dos itens recusados na NF-e original).
+        /// </summary>
+        [Description("Retorno por Recusa Parcial na Entrega")]
+        [XmlEnum("06")]
+        RetornoPorRecusaParcial
     }
 
     /// <summary>
