@@ -76,16 +76,6 @@ namespace NFe.Classes.Servicos.Evento
 
         #endregion
 
-        #region Cancelamento Evento (e110001)
-
-        /// <summary>
-        ///     P22 - Informar o número do Protocolo de Autorização do
-        ///     Evento da NF-e a que se refere este cancelamento.
-        /// </summary>
-        public string nProtEvento { get; set; }
-
-        #endregion
-
         #region Carta de Correção
 
         /// <summary>
@@ -320,7 +310,15 @@ namespace NFe.Classes.Servicos.Evento
         ///     P23 - Código do evento autorizado a ser cancelado
         /// </summary>
         public string tpEventoAut {get; set;}
-        
+
+        /// <summary>
+        ///     P22 - Informar o número do Protocolo de Autorização do
+        ///     Evento da NF-e a que se refere este cancelamento.
+        ///     Ordem: deve aparecer DEPOIS de tpEventoAut conforme XSD e110001_v1.00.
+        ///     XmlSerializer respeita ordem de declaracao das properties.
+        /// </summary>
+        public string nProtEvento { get; set; }
+
         #endregion
 
         #region Perecimento, perda, roubo ou furto durante o transporte contratado pelo adquirente
