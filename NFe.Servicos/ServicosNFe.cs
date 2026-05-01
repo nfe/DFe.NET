@@ -262,13 +262,24 @@ namespace NFe.Servicos
                 case ServicoNFe.RecepcaoEventoCartaCorrecao:
                 case ServicoNFe.RecepcaoEventoCancelmento:
                 case ServicoNFe.RecepcaoEventoManifestacaoDestinatario:
-                    if (IsSvanNFe4()) 
+                    if (IsSvanNFe4())
                         return new RecepcaoEvento4SVAN(url, _certificado, _cFgServico.TimeOut);
 
                     if (_cFgServico.VersaoRecepcaoEventoCceCancelamento == VersaoServico.Versao400)
                         return new RecepcaoEvento4(url, _certificado, _cFgServico.TimeOut);
 
                     return new RecepcaoEvento(url, _certificado, _cFgServico.TimeOut);
+
+                // NT 2025.002-RTC — eventos de apuração IBS/CBS (escopo emitente).
+                // SVRS reutiliza o mesmo SOAP RecepcaoEvento4; muda apenas a URL e o payload (XSDs novos).
+                case ServicoNFe.RecepcaoEventoCancelamentoDeEvento:
+                case ServicoNFe.RecepcaoEventoImportacaoEmAlcZfmNaoConvertidaEmIsencao:
+                case ServicoNFe.RecepcaoEventoPerecimentoPerdaRouboOuFurtoDuranteOTransporteContratadoPeloFornecedor:
+                case ServicoNFe.RecepcaoEventoFornecimentoNaoRealizadoComPagamentoAntecipado:
+                case ServicoNFe.RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega:
+                case ServicoNFe.RecepcaoEventoDestinacaoDeItemParaConsumoPessoal:
+                case ServicoNFe.RecepcaoEventoInformacaoDeEfetivoPagamentoIntegralParaLiberarCreditoPresumidoDoAdquirente:
+                    return new RecepcaoEvento4(url, _certificado, _cFgServico.TimeOut);
 
                 case ServicoNFe.NfeConsultaCadastro:
                     return new CadConsultaCadastro4(url, _certificado, _cFgServico.TimeOut, proxyAddress);
@@ -706,6 +717,16 @@ namespace NFe.Servicos
                     break;
                 case ServicoNFe.RecepcaoEventoManifestacaoDestinatario:
                     versaoEvento = _cFgServico.VersaoRecepcaoEventoManifestacaoDestinatario;
+                    break;
+                // NT 2025.002-RTC — eventos de apuração IBS/CBS (escopo emitente)
+                case ServicoNFe.RecepcaoEventoCancelamentoDeEvento:
+                case ServicoNFe.RecepcaoEventoImportacaoEmAlcZfmNaoConvertidaEmIsencao:
+                case ServicoNFe.RecepcaoEventoPerecimentoPerdaRouboOuFurtoDuranteOTransporteContratadoPeloFornecedor:
+                case ServicoNFe.RecepcaoEventoFornecimentoNaoRealizadoComPagamentoAntecipado:
+                case ServicoNFe.RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega:
+                case ServicoNFe.RecepcaoEventoDestinacaoDeItemParaConsumoPessoal:
+                case ServicoNFe.RecepcaoEventoInformacaoDeEfetivoPagamentoIntegralParaLiberarCreditoPresumidoDoAdquirente:
+                    versaoEvento = _cFgServico.VersaoRecepcaoEventosDeApuracaoDoIbsECbs;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("servicoEvento", servicoEvento, null);
