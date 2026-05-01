@@ -1109,6 +1109,10 @@ namespace NFe.Servicos
             var detevento = new detEvento
             {
                 versao = versaoServico,
+                // descEvento explicito — antes era setado por side-effect do setter de
+                // cOrgaoAutor; setter agora e auto-property para nao sobrescrever
+                // descEvento dos eventos NT 2025.002-RTC.
+                descEvento = NFeTipoEvento.TeNfceEpec.Descricao(),
                 cOrgaoAutor = nfe.infNFe.ide.cUF,
                 tpAutor = TipoAutor.taEmpresaEmitente,
                 verAplic = veraplic,
