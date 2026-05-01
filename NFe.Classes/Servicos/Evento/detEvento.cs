@@ -76,6 +76,16 @@ namespace NFe.Classes.Servicos.Evento
 
         #endregion
 
+        #region Cancelamento Evento (e110001)
+
+        /// <summary>
+        ///     P22 - Informar o número do Protocolo de Autorização do
+        ///     Evento da NF-e a que se refere este cancelamento.
+        /// </summary>
+        public string nProtEvento { get; set; }
+
+        #endregion
+
         #region Carta de Correção
 
         /// <summary>
