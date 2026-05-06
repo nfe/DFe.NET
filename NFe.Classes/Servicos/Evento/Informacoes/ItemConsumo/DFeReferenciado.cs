@@ -39,10 +39,10 @@ namespace NFe.Classes.Servicos.Evento.Informacoes.ItemConsumo
         ///     P31 - Informa a chave da nota (NFe ou NFCe) emitida para o fornecimento nos casos em que a legislação obriga a emissão de documento fiscal.
         /// </summary>
         public string chaveAcesso { get; set; }
-        
+
         /// <summary>
-        ///     P32 - Corresponde ao “nItem” do DFeReferenciado
+        ///     P32 - Corresponde ao "nItem" do DFeReferenciado.
         /// </summary>
-        public int nItemDFeRef { get; set; }
+        public int nItem { get; set; }
     }
 }

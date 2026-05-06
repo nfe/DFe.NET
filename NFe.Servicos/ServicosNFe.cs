@@ -262,13 +262,24 @@ namespace NFe.Servicos
                 case ServicoNFe.RecepcaoEventoCartaCorrecao:
                 case ServicoNFe.RecepcaoEventoCancelmento:
                 case ServicoNFe.RecepcaoEventoManifestacaoDestinatario:
-                    if (IsSvanNFe4()) 
+                    if (IsSvanNFe4())
                         return new RecepcaoEvento4SVAN(url, _certificado, _cFgServico.TimeOut);
 
                     if (_cFgServico.VersaoRecepcaoEventoCceCancelamento == VersaoServico.Versao400)
                         return new RecepcaoEvento4(url, _certificado, _cFgServico.TimeOut);
 
                     return new RecepcaoEvento(url, _certificado, _cFgServico.TimeOut);
+
+                // NT 2025.002-RTC — eventos de apuração IBS/CBS (escopo emitente).
+                // SVRS reutiliza o mesmo SOAP RecepcaoEvento4; muda apenas a URL e o payload (XSDs novos).
+                case ServicoNFe.RecepcaoEventoCancelamentoDeEvento:
+                case ServicoNFe.RecepcaoEventoImportacaoEmAlcZfmNaoConvertidaEmIsencao:
+                case ServicoNFe.RecepcaoEventoPerecimentoPerdaRouboOuFurtoDuranteOTransporteContratadoPeloFornecedor:
+                case ServicoNFe.RecepcaoEventoFornecimentoNaoRealizadoComPagamentoAntecipado:
+                case ServicoNFe.RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega:
+                case ServicoNFe.RecepcaoEventoDestinacaoDeItemParaConsumoPessoal:
+                case ServicoNFe.RecepcaoEventoInformacaoDeEfetivoPagamentoIntegralParaLiberarCreditoPresumidoDoAdquirente:
+                    return new RecepcaoEvento4(url, _certificado, _cFgServico.TimeOut);
 
                 case ServicoNFe.NfeConsultaCadastro:
                     return new CadConsultaCadastro4(url, _certificado, _cFgServico.TimeOut, proxyAddress);
@@ -707,6 +718,16 @@ namespace NFe.Servicos
                 case ServicoNFe.RecepcaoEventoManifestacaoDestinatario:
                     versaoEvento = _cFgServico.VersaoRecepcaoEventoManifestacaoDestinatario;
                     break;
+                // NT 2025.002-RTC — eventos de apuração IBS/CBS (escopo emitente)
+                case ServicoNFe.RecepcaoEventoCancelamentoDeEvento:
+                case ServicoNFe.RecepcaoEventoImportacaoEmAlcZfmNaoConvertidaEmIsencao:
+                case ServicoNFe.RecepcaoEventoPerecimentoPerdaRouboOuFurtoDuranteOTransporteContratadoPeloFornecedor:
+                case ServicoNFe.RecepcaoEventoFornecimentoNaoRealizadoComPagamentoAntecipado:
+                case ServicoNFe.RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega:
+                case ServicoNFe.RecepcaoEventoDestinacaoDeItemParaConsumoPessoal:
+                case ServicoNFe.RecepcaoEventoInformacaoDeEfetivoPagamentoIntegralParaLiberarCreditoPresumidoDoAdquirente:
+                    versaoEvento = _cFgServico.VersaoRecepcaoEventosDeApuracaoDoIbsECbs;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException("servicoEvento", servicoEvento, null);
             }
@@ -1088,6 +1109,10 @@ namespace NFe.Servicos
             var detevento = new detEvento
             {
                 versao = versaoServico,
+                // descEvento explicito — antes era setado por side-effect do setter de
+                // cOrgaoAutor; setter agora e auto-property para nao sobrescrever
+                // descEvento dos eventos NT 2025.002-RTC.
+                descEvento = NFeTipoEvento.TeNfceEpec.Descricao(),
                 cOrgaoAutor = nfe.infNFe.ide.cUF,
                 tpAutor = TipoAutor.taEmpresaEmitente,
                 verAplic = veraplic,
@@ -1940,9 +1965,18 @@ namespace NFe.Servicos
             var versaoServicoRecepcao = _cFgServico.VersaoRecepcaoEventosDeApuracaoDoIbsECbs;
             var versaoServicoRecepcaoString = servicoNfe.VersaoServicoParaString(versaoServicoRecepcao);
 
-            var detalheEvento = ObterDetalhesEvento(versaoServicoRecepcaoString, versaoAplicativo, nfeTipoEvento, ufAutor, tipoAutor);
-            detalheEvento.tpEventoAut = tpEventoAut;
-            detalheEvento.nProt = nProtEvento;
+            // XSD e110001_v1.00 declara apenas: descEvento, cOrgaoAutor, verAplic, tpEventoAut, nProtEvento.
+            // ObterDetalhesEvento injeta tpAutor (nao declarado neste XSD) e quebra schema.
+            // Alinhado com upstream ZeusAutomacao/DFe.NET master.
+            var detalheEvento = new detEvento
+            {
+                versao = versaoServicoRecepcaoString,
+                descEvento = nfeTipoEvento.Descricao(),
+                cOrgaoAutor = ufAutor ?? _cFgServico.cUF,
+                verAplic = versaoAplicativo ?? "1.0",
+                tpEventoAut = tpEventoAut,
+                nProtEvento = nProtEvento
+            };
 
             var informacoesEventoEnv = ObterInformacoesEventoEnv(sequenciaEvento, chaveNFe, cpfCnpj, versaoServicoRecepcaoString, cOrgao: Estado.SVRS, dataHoraEvento, nfeTipoEvento, detalheEvento);
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);

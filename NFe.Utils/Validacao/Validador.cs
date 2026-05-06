@@ -129,40 +129,47 @@ namespace NFe.Utils.Validacao
                     return "distDFeInt_v1.01.xsd"; // "distDFeInt_v1.00.xsd";
                 case ServicoNFe.ConsultaGtin:
                     return "consGTIN_v1.00.xsd";
+                // NT 2025.002-RTC — eventos de apuração IBS/CBS. Pattern do upstream
+                // (ZeusAutomacao/DFe.NET master): quando chamado pelo `RecepcaoEventoAsync`
+                // (loteNfe=true, default) valida o envelope genérico envEvento_v1.00.xsd;
+                // quando explicitamente chamado com loteNfe=false, valida o detEvento
+                // interno contra o schema específico de cada tipo. Sem isso a validação
+                // local lança "envEvento element is not declared" porque o schema interno
+                // não define o root.
                 case ServicoNFe.RecepcaoEventoInformacaoDeEfetivoPagamentoIntegralParaLiberarCreditoPresumidoDoAdquirente:
-                    return "e112110_v1.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e112110_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoSolicitacaoDeApropriacaoDeCreditoPresumido:
-                    return "e211110_v1.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e211110_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoDestinacaoDeItemParaConsumoPessoal:
-                    return "e211120_v1.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e211120_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoAceiteDeDebitoNaApuracaoPorEmissaoDeNotaDeCredito:
-                    return "e211128_v1.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e211128_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoImobilizacaoDeItem:
-                    return "e211130_v1.00.xsd ";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e211130_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoSolicitacaoDeApropriacaoDeCreditoDeCombustivel:
-                    return "e211140_v1.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e211140_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoSolicitacaoDeApropriacaoDeCreditoParaBensEServicosQueDependemDeAtividadeDoAdquirente:
-                    return "e211150_v1.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e211150_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoManifestacaoSobrePedidoDeTransferenciaDeCreditoDeIbsEmOperacoesDeSucessao:
-                    return "e212110.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e212110_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoManifestacaoSobrePedidoDeTransferenciaDeCreditoDeCbsEmOperacoesDeSucessao:
-                    return "e212120_v1.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e212120_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoManifestacaoDoFiscoSobrePedidoDeTransferenciaDeCreditoDeIbsEmOperacoesDeSucessao:
-                    return "e412120_v1.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e412120_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoManifestacaoDoFiscoSobrePedidoDeTransferenciaDeCreditoDeCbsEmOperacoesDeSucessao:
-                    return "e412130_v1.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e412130_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoCancelamentoDeEvento:
-                    return "e110001_v1.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e110001_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoImportacaoEmAlcZfmNaoConvertidaEmIsencao:
-                    return "e112120_v1.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e112120_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoPerecimentoPerdaRouboOuFurtoDuranteOTransporteContratadoPeloAdquirente:
-                    return "e211124_v1.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e211124_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoPerecimentoPerdaRouboOuFurtoDuranteOTransporteContratadoPeloFornecedor:
-                    return "e112130_v1.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e112130_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoFornecimentoNaoRealizadoComPagamentoAntecipado:
-                    return "e112140_v1.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e112140_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega:
-                    return "e112150_v1.00.xsd";
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e112150_v1.00.xsd";
             }
             return null;
         }

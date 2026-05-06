@@ -1,4 +1,4 @@
-﻿/********************************************************************************/
+/********************************************************************************/
 /* Projeto: Biblioteca ZeusNFe                                                  */
 /* Biblioteca C# para emissão de Nota Fiscal Eletrônica - NFe e Nota Fiscal de  */
 /* Consumidor Eletrônica - NFC-e (http://www.nfe.fazenda.gov.br)                */
@@ -45,9 +45,24 @@ using NFe.Classes.Servicos.Evento.Informacoes.ItemConsumo;
 using NFe.Classes.Servicos.Evento.Informacoes.ItemNaoFornecido;
 using NFe.Classes.Servicos.Evento.Informacoes.Perecimento;
 
+// =====================================================================================
+// Alinhado com upstream ZeusAutomacao/DFe.NET master.
+// Divergencias intencionais do fork:
+//   1. dest property usa tipo `detEventoDest` (upstream usa `dest`).
+//      Motivo: ServicosNFe.cs:1122 (handlers EPEC) instancia `new detEventoDest`.
+//      Trocar para `dest` quebraria o build sem refactor coordenado.
+//   2. Region "Averbação para Exportação" (itensAverbados) ausente.
+//      Motivo: classe `itensAverbados` nao existe neste fork.
+//   3. Region "Conciliação Financeira" (detPagEvento) ausente.
+//      Motivo: classe `detPagEvento` nao existe neste fork.
+// Demais regions/properties espelham upstream em ordem e shape, garantindo merges
+// futuros mais limpos.
+// =====================================================================================
 
 namespace NFe.Classes.Servicos.Evento
 {
+    [XmlRoot(Namespace = "http://www.portalfiscal.inf.br/nfe")]
+    [XmlType(Namespace = "http://www.portalfiscal.inf.br/nfe")]
     public class detEvento
     {
         /// <summary>
@@ -62,102 +77,13 @@ namespace NFe.Classes.Servicos.Evento
         /// </summary>
         public string descEvento { get; set; }
 
-        #region Cancelamento
-
-        private string _nprot;
-
-        /// <summary>
-        ///     HP20 - Informar o número do Protocolo de Autorização da NF-e a ser Cancelada.
-        /// </summary>
-        public string nProt
-        {
-            get { return _nprot; }
-            set
-            {
-                if (string.IsNullOrEmpty(value)) return;
-                descEvento = "Cancelamento";
-                LimpaDadosCartaCorrecao();
-                LimpaDadosEpec();
-                _nprot = value;
-            }
-        }
-
-        private string _xjust;
-
-        /// <summary>
-        ///     HP21 - Informar a justificativa do cancelamento
-        /// </summary>
-        public string xJust
-        {
-            get { return _xjust; }
-            set
-            {
-                if (string.IsNullOrEmpty(value)) return;
-                descEvento = "Cancelamento";
-                LimpaDadosCartaCorrecao();
-                LimpaDadosEpec();
-                _xjust = value;
-            }
-        }
-
-        #endregion
-
-        #region Carta de Correção
-
-        private string _xcorrecao;
-
-        /// <summary>
-        ///     HP20 - Correção a ser considerada, texto livre. A correção mais recente substitui as anteriores.
-        /// </summary>
-        public string xCorrecao
-        {
-            get { return _xcorrecao; }
-            set
-            {
-                if (string.IsNullOrEmpty(value)) return;
-                LimpaDadosCancelamento();
-                LimpaDadosEpec();
-                _xcorrecao = value;
-            }
-        }
-
-        private string _xconduso;
-
-        /// <summary>
-        ///     HP20a - Condições de uso da Carta de Correção
-        /// </summary>
-        public string xCondUso
-        {
-            get { return _xconduso; }
-            set
-            {
-                if (string.IsNullOrEmpty(value)) return;
-                _xconduso = value;
-            }
-        }
-
-        #endregion
-
         #region EPEC
-
-        private Estado? _cOrgaoAutor;
 
         /// <summary>
         ///     P20 - Código do Órgão do Autor do Evento.
         ///     Nota: Informar o código da UF do Emitente para este evento.
         /// </summary>
-        public Estado? cOrgaoAutor
-        {
-            get { return _cOrgaoAutor; }
-            set
-            {
-                if (value == null) return;
-                descEvento = "EPEC";
-                LimpaDadosCancelamento();
-                LimpaDadosCartaCorrecao();
-                _cOrgaoAutor = value;
-            }
-        }
+        public Estado? cOrgaoAutor { get; set; }
 
         /// <summary>
         ///     P21 - Informar "1=Empresa Emitente" para este evento.
@@ -200,6 +126,8 @@ namespace NFe.Classes.Servicos.Evento
         /// <summary>
         ///     P26
         /// </summary>
+        // Divergencia intencional vs upstream: tipo `detEventoDest` em vez de `dest`.
+        // Ver cabecalho do arquivo.
         public detEventoDest dest { get; set; }
 
         public bool ShouldSerializecOrgaoAutor()
@@ -217,43 +145,238 @@ namespace NFe.Classes.Servicos.Evento
             return tpNF.HasValue;
         }
 
-        private void LimpaDadosCancelamento()
+        #endregion
+
+        #region Cancelamento
+
+        /// <summary>
+        ///     HP20 - Informar o número do Protocolo de Autorização da NF-e a ser Cancelada.
+        /// </summary>
+        public string nProt { get; set; }
+
+        /// <summary>
+        ///     HP21 - Informar a justificativa do cancelamento
+        /// </summary>
+        public string xJust { get; set; }
+
+        #endregion
+
+        #region Cancelamento por substituição
+
+        /// <summary>
+        /// P31 - Chave de acesso da NF-e substituta da NF-e a ser cancelada
+        /// </summary>
+        public string chNFeRef { get; set; }
+
+        #endregion
+
+        // [DIVERGENCIA] Region "Averbação para Exportação" (itensAverbados) omitida
+        // — classe itensAverbados ausente neste fork.
+
+        #region RFC - Cancelamento Evento
+
+        /// <summary>
+        ///     P23 - Código do evento autorizado a ser cancelado
+        /// </summary>
+        public string tpEventoAut {get; set;}
+
+        #endregion
+
+        #region Cancelamento Insucesso/Comprovante de Entrega NFe/ Cancelamento Evento
+
+        /// <summary>
+        ///     P22 - Informar o número do Protocolo de Autorização do
+        ///           Evento da NF-e a que se refere este cancelamento.
+        /// </summary>
+        public string nProtEvento { get; set; }
+
+        #endregion
+
+        #region Insucesso NFe
+        [XmlIgnore]
+        public DateTimeOffset? dhTentativaEntrega { get; set; }
+
+        /// <summary>
+        /// Proxy para dhTentativaEntrega no formato AAAA-MM-DDThh:mm:ssTZD (UTC - Universal Coordinated Time)
+        /// </summary>
+        [XmlElement(ElementName = "dhTentativaEntrega")]
+        public string ProxyDhTentativaEntrega
         {
-            nProt = "";
-            xJust = "";
+            get { return dhTentativaEntrega.ParaDataHoraStringUtc(); }
+            set { dhTentativaEntrega = DateTimeOffset.Parse(value); }
         }
 
-        private void LimpaDadosCartaCorrecao()
+        /// <summary>
+        /// P31 - Número da tentativa de entrega que não teve sucesso
+        /// </summary>
+        public int? nTentativa { get; set; }
+
+        /// <summary>
+        /// P32 - Motivo do insucesso
+        /// </summary>
+        public MotivoInsucesso? tpMotivo { get; set; }
+
+        /// <summary>
+        /// P33 - Justificativa do motivo do insucesso. Informar apenas para tpMotivo = <see cref="MotivoInsucesso.Outros"/>
+        /// </summary>
+        public string xJustMotivo { get; set; }
+
+        /// <summary>
+        /// P33 - Latitude do ponto de entrega
+        /// </summary>
+        public decimal? latGPS { get; set; }
+
+        /// <summary>
+        /// P34 - Longitude do ponto de entrega
+        /// </summary>
+        public decimal? longGPS { get; set; }
+
+        /// <summary>
+        /// P35 - Hash SHA-1, no formato Base64, resultante da concatenação de: Chave de Acesso da NF-e + Base64
+        /// da imagem capturada na tentativa da entrega(ex: imagem capturada da assinatura eletrônica, digital do recebedor, foto, etc).
+        /// </summary>
+        public string hashTentativaEntrega { get; set; }
+
+        /// <summary>
+        /// Data e hora da geração do hash da tentativa de entrega. Formato AAAA-MMDDThh:mm:ssTZD.
+        /// </summary>
+        [XmlIgnore]
+        public DateTimeOffset? dhHashTentativaEntrega { get; set; }
+
+        /// <summary>
+        /// Proxy para dhHashTentativaEntrega no formato AAAA-MM-DDThh:mm:ssTZD (UTC - Universal Coordinated Time)
+        /// </summary>
+        [XmlElement(ElementName = "dhHashTentativaEntrega")]
+        public string ProxyDhHashTentativaEntrega
         {
-            xCorrecao = "";
-            xCondUso = "";
+            get { return dhHashTentativaEntrega.ParaDataHoraStringUtc(); }
+            set { dhHashTentativaEntrega = DateTimeOffset.Parse(value); }
         }
 
-        private void LimpaDadosEpec()
+        public bool ShouldSerializenTentativa()
         {
-            cOrgaoAutor = null;
-            tpAutor = null;
-            verAplic = null;
-            dhEmi = null;
-            tpNF = null;
-            IE = null;
-            dest = null;
-            //vNF = null;
-            //vICMS = null;
-            //vST = null;
+            return nTentativa.HasValue;
+        }
+
+        public bool ShouldSerializetpMotivo()
+        {
+            return tpMotivo.HasValue;
+        }
+
+        public bool ShouldSerializelatGPS()
+        {
+            return latGPS.HasValue;
+        }
+
+        public bool ShouldSerializelongGPS()
+        {
+            return longGPS.HasValue;
         }
 
         #endregion
-        
-                #region Eventos para a apuração do IBS e da CBS
 
-        #region Informação de efetivo pagamento integral para liberar crédito presumido do adquirente 
+        #region Comprovante Entrega NFe
+
+        /// <summary>
+        /// P30 - Data e hora do final da entrega
+        /// </summary>
+        [XmlIgnore]
+        public DateTimeOffset? dhEntrega { get; set; }
+
+        /// <summary>
+        /// Proxy para dhEntrega no formato AAAA-MM-DDThh:mm:ssTZD (UTC - Universal Coordinated Time)
+        /// </summary>
+        [XmlElement(ElementName = "dhEntrega")]
+        public string ProxyDhEntrega
+        {
+            get { return dhEntrega.ParaDataHoraStringUtc(); }
+            set { dhEntrega = DateTimeOffset.Parse(value); }
+        }
+
+        /// <summary>
+        /// P31 - Número do documento de identificação da pessoa que assinou o Comprovante de Entrega da NF-e/>
+        /// </summary>
+        public string nDoc { get; set; }
+
+        /// <summary>
+        /// P32 - Nome da pessoa que assinou o Comprovante de Entrega da NF-e/>
+        /// </summary>
+        public string xNome { get; set; }
+
+        /// <summary>
+        /// P35 - Hash SHA-1, no formato Base64, resultante da concatenação de: Chave de Acesso da NF-e + Base64
+        /// da imagem capturada do Comprovante de Entrega da NFe (ex: imagem capturada da assinatura eletrônica, digital do recebedor, foto, etc).
+        /// </summary>
+        public string hashComprovante { get; set; }
+
+        /// <summary>
+        /// P36 - Data e hora da geração do hash da tentativa de entrega. Formato AAAA-MMDDThh:mm:ssTZD.
+        /// </summary>
+        [XmlIgnore]
+        public DateTimeOffset? dhHashComprovante { get; set; }
+
+        /// <summary>
+        /// Proxy para dhHashComprovante no formato AAAA-MM-DDThh:mm:ssTZD (UTC - Universal Coordinated Time)
+        /// </summary>
+        [XmlElement(ElementName = "dhHashComprovante")]
+        public string ProxyDhHashComprovante
+        {
+            get { return dhHashComprovante.ParaDataHoraStringUtc(); }
+            set { dhHashComprovante = DateTimeOffset.Parse(value); }
+        }
+
+        #endregion
+
+        // [DIVERGENCIA] Region "Conciliação Financeira" (detPag/detPagEvento) omitida
+        // — classe detPagEvento ausente neste fork.
+
+        #region Ator Interessado NFe
+        /// <summary>
+        /// P23 - Pessoas autorizadas a acessar o XML da NF-e
+        /// </summary>
+        [XmlElement("autXML")]
+        public List<autXML> autXML { get; set; }
+
+        /// <summary>
+        /// P26 - 0 = Não permite;
+        /// 1 = Permite o transportador autorizado pelo
+        /// emitente ou destinatário autorizar outros
+        /// transportadores para ter acesso ao download da
+        /// NF-e
+        /// </summary>
+        public TipoAutorizacao? tpAutorizacao { get; set; }
+
+        public bool ShouldSerializetpAutorizacao()
+        {
+            return tpAutorizacao != null;
+        }
+
+        #endregion
+
+        #region Carta de Correção
+
+        /// <summary>
+        /// HP20 - Correção a ser considerada, texto livre. A correção mais recente substitui as anteriores.
+        /// </summary>
+        public string xCorrecao { get; set; }
+
+        /// <summary>
+        /// HP20a - Condições de uso da Carta de Correção.
+        /// P27 - Condição de uso do tipo de autorização para o transportador.
+        /// </summary>
+        public string xCondUso { get; set; }
+
+        #endregion
+
+        #region Eventos para a apuração do IBS e da CBS
+
+        #region Informação de efetivo pagamento integral para liberar crédito presumido do adquirente
 
         /// <summary>
         ///     P23 - Indicador de efetiva quitação do pagamento integral da operação referente a NFe referenciada
         /// </summary>
         public IndicadorDeQuitacaoDoPagamento? indQuitacao { get; set; }
-        
+
         public bool ShouldSerializeindQuitacao()
         {
             return indQuitacao.HasValue;
@@ -268,7 +391,7 @@ namespace NFe.Classes.Servicos.Evento
         /// </summary>
         [XmlElement("gCredPres")]
         public List<gCredPres> gCredPres { get; set; }
-        
+
         public bool ShouldSerializegCredPres()
         {
             return gCredPres != null;
@@ -287,7 +410,7 @@ namespace NFe.Classes.Servicos.Evento
         /// </summary>
         [XmlElement("gConsumo")]
         public List<gConsumo> gConsumo { get; set; }
-        
+
         public bool ShouldSerializegConsumo() => gConsumo != null;
 
         #endregion
@@ -321,7 +444,7 @@ namespace NFe.Classes.Servicos.Evento
         {
             return gImobilizacao != null;
         }
-        
+
         #endregion
 
         #region Solicitação de Apropriação de Crédito de Combustível
@@ -331,7 +454,7 @@ namespace NFe.Classes.Servicos.Evento
         /// </summary>
         [XmlElement("gConsumoComb")]
         public List<gConsumoComb> gConsumoComb { get; set; }
-        
+
         public bool ShouldSerializegConsumoComb()
         {
             return gConsumoComb != null;
@@ -351,7 +474,7 @@ namespace NFe.Classes.Servicos.Evento
         {
             return gCredito != null;
         }
-        
+
         #endregion
 
         #region Manifestação do Fisco sobre Pedido de Transferência de Crédito de IBS em Operações de Sucessão | Manifestação do Fisco sobre Pedido de Transferência de Crédito de CBS em Operações de Sucessão
@@ -367,39 +490,30 @@ namespace NFe.Classes.Servicos.Evento
         {
             return indDeferimento != null;
         }
-        
+
         /// <summary>
         ///     P24 - Motivo deferimento
         /// </summary>
         public MotivoDeferimento? cMotivo { get; set; }
-        
+
         public bool ShouldSerializecMotivo()
         {
             return cMotivo != null;
         }
-        
+
         /// <summary>
         ///     P24 - Descrição deferimento
         /// </summary>
         public string xMotivo { get; set; }
-        
-        #endregion
-        
-        #region Cancelamento Evento
 
-        /// <summary>
-        ///     P23 - Código do evento autorizado a ser cancelado
-        /// </summary>
-        public string tpEventoAut {get; set;}
-        
         #endregion
 
         #region Perecimento, perda, roubo ou furto durante o transporte contratado pelo adquirente
 
         /// <summary>
-        ///     P23 - Informações por item da Nota de Aquisição 
+        ///     P23 - Informações por item da Nota de Aquisição
         ///         <para>(Evento: perecimento, perda, roubo ou furto durante o transporte contratado pelo adquirente).</para>
-        ///     P23 - Informações por item da Nota de Fornecimento 
+        ///     P23 - Informações por item da Nota de Fornecimento
         ///         <para>(Evento: perecimento, perda, roubo ou furto durante o transporte contratado pelo fornecedor).</para>
         /// </summary>
         [XmlElement("gPerecimento")]
