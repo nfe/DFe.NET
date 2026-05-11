@@ -929,10 +929,34 @@ namespace NFe.Servicos
         /// <param name="chaveNFe"></param>
         /// <param name="justificativa"></param>
         /// <param name="cpfcnpj"></param>
-        /// <returns>Retorna um objeto da classe RetornoRecepcaoEvento com o retorno do serviço RecepcaoEvento</returns>
+        /// <returns>Retorna um objeto da classe <see cref="RetornoRecepcaoEvento"/> com o retorno do serviço <see cref="RecepcaoEvento"/></returns>
         public Task<RetornoRecepcaoEvento> RecepcaoEventoCancelamentoAsync(long idlote, int sequenciaEvento,
             string protocoloAutorizacao, string chaveNFe, string justificativa, string cpfcnpj)
         {
+            return RecepcaoEventoCancelamentoAsync(NFeTipoEvento.TeNfeCancelamento, idlote, sequenciaEvento,
+                protocoloAutorizacao, chaveNFe, justificativa, cpfcnpj);
+        }
+
+        /// <summary>
+        ///     Envia um evento do tipo "Cancelamento por substituição"
+        /// </summary>
+        /// <returns>Retorna um objeto da classe <see cref="RetornoRecepcaoEvento"/> com o retorno do serviço <see cref="RecepcaoEvento"/></returns>
+        public Task<RetornoRecepcaoEvento> RecepcaoEventoCancelamentoPorSubstituicaoAsync(long idlote, int sequenciaEvento,
+            string protocoloAutorizacao, string chaveNFe, string justificativa, string cpfcnpj, Estado ufAutor, string versaoAplicativo, string chaveNfeSubstituta)
+        {
+            return RecepcaoEventoCancelamentoAsync(NFeTipoEvento.TeNfeCancelamentoSubstituicao, idlote, sequenciaEvento,
+                protocoloAutorizacao, chaveNFe, justificativa, cpfcnpj, ufAutor, TipoAutor.taEmpresaEmitente, versaoAplicativo, chaveNfeSubstituta);
+        }
+
+        private Task<RetornoRecepcaoEvento> RecepcaoEventoCancelamentoAsync(NFeTipoEvento tipoEventoCancelamento, long idlote,
+            int sequenciaEvento, string protocoloAutorizacao, string chaveNFe, string justificativa, string cpfcnpj,
+            Estado? ufAutor = null, TipoAutor? tipoAutor = null, string versaoAplicativo = null, string chaveNfeSubstituta = null)
+        {
+            if (!NFeTipoEventoUtils.NFeTipoEventoCancelamento.Contains(tipoEventoCancelamento))
+                throw new Exception(string.Format("Informe um dos seguintes tipos de eventos: {0}",
+                    string.Join(", ",
+                        NFeTipoEventoUtils.NFeTipoEventoCancelamento.Select(n => n.Descricao()))));
+
             var versaoServico =
                 ServicoNFe.RecepcaoEventoCancelmento.VersaoServicoParaString(
                     _cFgServico.VersaoRecepcaoEventoCceCancelamento);
@@ -941,36 +965,32 @@ namespace NFe.Servicos
             {
                 nProt = protocoloAutorizacao,
                 versao = versaoServico,
-                xJust = justificativa
+                xJust = justificativa,
+                descEvento = tipoEventoCancelamento.Descricao(),
+                cOrgaoAutor = ufAutor,
+                tpAutor = tipoAutor,
+                verAplic = versaoAplicativo,
+                chNFeRef = chaveNfeSubstituta
             };
-
             var infEvento = new infEventoEnv
             {
                 cOrgao = _cFgServico.cUF,
                 tpAmb = _cFgServico.tpAmb,
                 chNFe = chaveNFe,
                 dhEvento = DateTime.Now,
-                tpEvento = NFeTipoEvento.TeNfeCancelamento,
+                tpEvento = tipoEventoCancelamento,
                 nSeqEvento = sequenciaEvento,
                 verEvento = versaoServico,
                 detEvento = detEvento
             };
-
             if (cpfcnpj.Length == 11)
                 infEvento.CPF = cpfcnpj;
             else
                 infEvento.CNPJ = cpfcnpj;
 
-            var evento = new evento
-            {
-                versao = versaoServico,
-                infEvento = infEvento
-            };
+            var evento = new evento { versao = versaoServico, infEvento = infEvento };
 
-            return RecepcaoEventoEAssinaAsync(idlote, new List<evento>
-            {
-                evento
-            }, ServicoNFe.RecepcaoEventoCancelmento);
+            return RecepcaoEventoEAssinaAsync(idlote, new List<evento> { evento }, ServicoNFe.RecepcaoEventoCancelmento);
         }
 
         /// <summary>
