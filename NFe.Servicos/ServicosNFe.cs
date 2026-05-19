@@ -664,7 +664,7 @@ namespace NFe.Servicos
         ///     RecepcaoEventoCartaCorrecao, RecepcaoEventoEpec e RecepcaoEventoManifestacaoDestinatario
         /// </param>
         /// <returns>Retorna um objeto da classe RetornoRecepcaoEvento com o retorno do serviço RecepcaoEvento</returns>
-        public async Task<RetornoRecepcaoEvento> RecepcaoEventoAsync(long idlote, List<evento> eventos,
+        public async Task<RetornoRecepcaoEvento> RecepcaoEventoAsync(int idlote, List<evento> eventos,
             ServicoNFe servicoEvento, bool assinar = false)
         {
             var listaEventos = new List<ServicoNFe>
@@ -820,7 +820,7 @@ namespace NFe.Servicos
         ///     RecepcaoEventoCartaCorrecao, RecepcaoEventoEpec e RecepcaoEventoManifestacaoDestinatario
         /// </param>
         /// <returns>Retorna um objeto da classe RetornoRecepcaoEvento com o retorno do serviço RecepcaoEvento</returns>
-        private async Task<RetornoRecepcaoEvento> RecepcaoEventoEAssinaAsync(long idlote, List<evento> eventos,
+        private async Task<RetornoRecepcaoEvento> RecepcaoEventoEAssinaAsync(int idlote, List<evento> eventos,
             ServicoNFe servicoEvento)
         {
             var listaEventos = new List<ServicoNFe>
@@ -930,7 +930,7 @@ namespace NFe.Servicos
         /// <param name="justificativa"></param>
         /// <param name="cpfcnpj"></param>
         /// <returns>Retorna um objeto da classe <see cref="RetornoRecepcaoEvento"/> com o retorno do serviço <see cref="RecepcaoEvento"/></returns>
-        public Task<RetornoRecepcaoEvento> RecepcaoEventoCancelamentoAsync(long idlote, int sequenciaEvento,
+        public Task<RetornoRecepcaoEvento> RecepcaoEventoCancelamentoAsync(int idlote, int sequenciaEvento,
             string protocoloAutorizacao, string chaveNFe, string justificativa, string cpfcnpj)
         {
             return RecepcaoEventoCancelamentoAsync(NFeTipoEvento.TeNfeCancelamento, idlote, sequenciaEvento,
@@ -941,14 +941,14 @@ namespace NFe.Servicos
         ///     Envia um evento do tipo "Cancelamento por substituição"
         /// </summary>
         /// <returns>Retorna um objeto da classe <see cref="RetornoRecepcaoEvento"/> com o retorno do serviço <see cref="RecepcaoEvento"/></returns>
-        public Task<RetornoRecepcaoEvento> RecepcaoEventoCancelamentoPorSubstituicaoAsync(long idlote, int sequenciaEvento,
+        public Task<RetornoRecepcaoEvento> RecepcaoEventoCancelamentoPorSubstituicaoAsync(int idlote, int sequenciaEvento,
             string protocoloAutorizacao, string chaveNFe, string justificativa, string cpfcnpj, Estado ufAutor, string versaoAplicativo, string chaveNfeSubstituta)
         {
             return RecepcaoEventoCancelamentoAsync(NFeTipoEvento.TeNfeCancelamentoSubstituicao, idlote, sequenciaEvento,
                 protocoloAutorizacao, chaveNFe, justificativa, cpfcnpj, ufAutor, TipoAutor.taEmpresaEmitente, versaoAplicativo, chaveNfeSubstituta);
         }
 
-        private Task<RetornoRecepcaoEvento> RecepcaoEventoCancelamentoAsync(NFeTipoEvento tipoEventoCancelamento, long idlote,
+        private Task<RetornoRecepcaoEvento> RecepcaoEventoCancelamentoAsync(NFeTipoEvento tipoEventoCancelamento, int idlote,
             int sequenciaEvento, string protocoloAutorizacao, string chaveNFe, string justificativa, string cpfcnpj,
             Estado? ufAutor = null, TipoAutor? tipoAutor = null, string versaoAplicativo = null, string chaveNfeSubstituta = null)
         {
@@ -1002,7 +1002,7 @@ namespace NFe.Servicos
         /// <param name="correcao"></param>
         /// <param name="cpfcnpj"></param>
         /// <returns>Retorna um objeto da classe RetornoRecepcaoEvento com o retorno do serviço RecepcaoEvento</returns>
-        public Task<RetornoRecepcaoEvento> RecepcaoEventoCartaCorrecaoAsync(long idlote, int sequenciaEvento,
+        public Task<RetornoRecepcaoEvento> RecepcaoEventoCartaCorrecaoAsync(int idlote, int sequenciaEvento,
             string chaveNFe, string correcao, string cpfcnpj)
         {
             var versaoServico =
@@ -1118,7 +1118,7 @@ namespace NFe.Servicos
         /// <param name="nfe"></param>
         /// <param name="veraplic"></param>
         /// <returns>Retorna um objeto da classe RetornoRecepcaoEvento com o retorno do serviço RecepcaoEvento</returns>
-        public Task<RetornoRecepcaoEvento> RecepcaoEventoEpecAsync(long idlote, int sequenciaEvento, Classes.NFe nfe,
+        public Task<RetornoRecepcaoEvento> RecepcaoEventoEpecAsync(int idlote, int sequenciaEvento, Classes.NFe nfe,
             string veraplic)
         {
             var versaoServico =
@@ -1139,7 +1139,7 @@ namespace NFe.Servicos
                 dhEmi = nfe.infNFe.ide.dhEmi,
                 tpNF = nfe.infNFe.ide.tpNF,
                 IE = nfe.infNFe.emit.IE,
-                dest = new detEventoDest
+                dest = new dest
                 {
                     UF = nfe.infNFe.dest.enderDest.UF,
                     CNPJ = nfe.infNFe.dest.CNPJ,
@@ -2334,7 +2334,7 @@ namespace NFe.Servicos
         /// <param name="idLote"></param>
         /// <param name="nFes"></param>
         /// <returns>Retorna um objeto da classe RetornoNfeRecepcao com com os dados do resultado da transmissão</returns>
-        public async Task<RetornoNfeRecepcao> NfeRecepcaoAsync(long idLote, List<Classes.NFe> nFes)
+        public async Task<RetornoNfeRecepcao> NfeRecepcaoAsync(int idLote, List<Classes.NFe> nFes)
         {
             var versaoServico = ServicoNFe.NfeRecepcao.VersaoServicoParaString(_cFgServico.VersaoNfeRecepcao);
 
@@ -2471,7 +2471,7 @@ namespace NFe.Servicos
         /// <param name="nFes">Lista de NFes a serem enviadas</param>
         /// <param name="compactarMensagem">Define se a mensagem será enviada para a SEFAZ compactada</param>
         /// <returns>Retorna um objeto da classe RetornoNFeAutorizacao com com os dados do resultado da transmissão</returns>
-        public Task<RetornoNFeAutorizacao> NFeAutorizacaoAsync(long idLote, IndicadorSincronizacao indSinc,
+        public Task<RetornoNFeAutorizacao> NFeAutorizacaoAsync(int idLote, IndicadorSincronizacao indSinc,
             List<Classes.NFe> nFes, bool compactarMensagem = true)
         {
             if (_cFgServico.VersaoNFeAutorizacao != VersaoServico.Versao400)
@@ -2483,7 +2483,7 @@ namespace NFe.Servicos
             throw new InvalidOperationException("Versão inválida");
         }
 
-        private async Task<RetornoNFeAutorizacao> NFeAutorizacao4Async(long idLote, IndicadorSincronizacao indSinc,
+        private async Task<RetornoNFeAutorizacao> NFeAutorizacao4Async(int idLote, IndicadorSincronizacao indSinc,
             List<Classes.NFe> nFes, bool compactarMensagem)
         {
             var versaoServico = ServicoNFe.NFeAutorizacao.VersaoServicoParaString(_cFgServico.VersaoNFeAutorizacao);
@@ -2541,7 +2541,7 @@ namespace NFe.Servicos
                 FuncoesXml.XmlNodeParaClasse<retEnviNFe>(retorno));
         }
 
-        private async Task<RetornoNFeAutorizacao> NFeAutorizacaoVersao310Async(long idLote,
+        private async Task<RetornoNFeAutorizacao> NFeAutorizacaoVersao310Async(int idLote,
             IndicadorSincronizacao indSinc, List<Classes.NFe> nFes, bool compactarMensagem)
         {
             var versaoServico = ServicoNFe.NFeAutorizacao.VersaoServicoParaString(_cFgServico.VersaoNFeAutorizacao);
@@ -2613,7 +2613,7 @@ namespace NFe.Servicos
         /// <param name="nFes">Lista de NFes a serem enviadas</param>
         /// <param name="compactarMensagem">Define se a mensagem será enviada para a SEFAZ compactada</param>
         /// <returns>Retorna um objeto da classe RetornoNFeAutorizacao com com os dados do resultado da transmissão</returns>
-        public async Task<RetornoNFeAutorizacao> NFeAutorizacaoComXmlAsync(long idLote, IndicadorSincronizacao indSinc,
+        public async Task<RetornoNFeAutorizacao> NFeAutorizacaoComXmlAsync(int idLote, IndicadorSincronizacao indSinc,
             string nFes, bool compactarMensagem = false)
         {
             var versaoServico = ServicoNFe.NFeAutorizacao.VersaoServicoParaString(_cFgServico.VersaoNFeAutorizacao);
