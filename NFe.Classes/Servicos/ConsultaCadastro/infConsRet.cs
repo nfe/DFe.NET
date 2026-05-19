@@ -32,14 +32,12 @@
 /********************************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.Xml.Serialization;
 using DFe.Classes.Entidades;
 using DFe.Utils;
 
 namespace NFe.Classes.Servicos.ConsultaCadastro
 {
-
     public class infConsRet
     {
         /// <summary>
@@ -103,7 +101,6 @@ namespace NFe.Classes.Servicos.ConsultaCadastro
         ///     GR07 - Dados da situação cadastral Esta estrutura existe somente para as consultas realizadas com sucesso cStat=111, com possibilidade de múltiplas ocorrências (Ex.: consulta
         ///     por IE de contribuinte com Inscrição Única - retorno de todos os estabelecimentos do contribuinte).
         /// </summary>
-        [XmlElement("infCad")]
-        public List<infCad> infCad { get; set; }
+        public infCad infCad { get; set; }
     }
 }

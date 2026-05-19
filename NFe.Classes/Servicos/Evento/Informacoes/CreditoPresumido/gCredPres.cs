@@ -32,8 +32,6 @@
 /********************************************************************************/
 
 using System.Xml.Serialization;
-using NFe.Classes.Informacoes.Detalhe.Tributacao.Compartilhado.InformacoesIbsCbs.InformacoesCbs;
-using NFe.Classes.Informacoes.Total.IbsCbs.Ibs;
 
 namespace NFe.Classes.Servicos.Evento.Informacoes.CreditoPresumido
 {

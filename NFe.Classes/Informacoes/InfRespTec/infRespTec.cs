@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace NFe.Classes.Informacoes.InfRespTec
+namespace Shared.NFe.Classes.Informacoes.InfRespTec
 {
     public class infRespTec
     {

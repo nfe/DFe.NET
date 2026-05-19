@@ -78,11 +78,6 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
             set { _adRemICMSRet = value.Arredondar(4); }
         }
 
-        public bool ShouldSerializeadRemICMSRet()
-        {
-            return adRemICMSRet.HasValue;
-        }
-
         /// <summary>
         ///     N45 - Valor do ICMS retido anteriormente
         /// </summary>
@@ -93,9 +88,5 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual
             set { _vICMSMonoRet = value.Arredondar(2); }
         }
 
-        public bool ShouldSerializevICMSMonoRet()
-        {
-            return vICMSMonoRet.HasValue;
-        }
     }
 }

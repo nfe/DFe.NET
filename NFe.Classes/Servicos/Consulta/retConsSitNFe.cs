@@ -34,7 +34,6 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using DFe.Classes.Entidades;
 using DFe.Classes.Flags;
-using NFe.Classes.Informacoes.Identificacao.Tipos;
 using NFe.Classes.Protocolo;
 
 namespace NFe.Classes.Servicos.Consulta

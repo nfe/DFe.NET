@@ -46,7 +46,6 @@ namespace NFe.Classes.Servicos.ConsultaCadastro
         /// <summary>
         ///     GR03 - Dados da consulta
         /// </summary>
-        [XmlElement("infCons")]
         public infConsRet infCons { get; set; }
     }
 }

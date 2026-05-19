@@ -30,42 +30,37 @@
 /* http://www.zeusautomacao.com.br/                                             */
 /* Rua Comendador Francisco josé da Cunha, 111 - Itabaiana - SE - 49500-000     */
 /********************************************************************************/
-using System.Reflection;
-using System.Runtime.InteropServices;
 
-// Informações gerais sobre um assembly são controladas através do seguinte 
-// conjunto de atributos. Altere o valor destes atributos para modificar a informação
-// associada a um assembly.
+using NFe.Classes.Informacoes.Detalhe;
 
-[assembly: AssemblyTitle("NFe.Classes")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NFe.Classes")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+namespace NFe.Classes.Servicos.Evento.Informacoes.CreditoPresumido
+{
+    public class gCBS
+    {
+        private decimal _pCredPres;
+        private decimal _vCredPres;
+        
+        /// <summary>
+        ///     P31 - Código de Classificação do Crédito presumido, conforme tabela cCredPres (Anexo IV) 
+        /// </summary>
+        public CCredPres cCredPres { get; set; }
 
-// Definir ComVisible como false torna os tipos neste assembly não visíveis 
-// para componentes COM.  Caso precise acessar um tipo neste assembly a partir de 
-// COM, defina o atributo ComVisible como true nesse tipo.
+        /// <summary>
+        ///     P32 - Percentual do Crédito Presumido
+        /// </summary>
+        public decimal pCredPres
+        {
+            get => _pCredPres.Arredondar(4);
+            set => _pCredPres = value.Arredondar(4);
+        }
 
-[assembly: ComVisible(false)]
-
-// O GUID a seguir é para o ID da typelib se este projeto for exposto para COM
-
-[assembly: Guid("9eb04c4c-00c0-4298-a099-de0cc2cf9815")]
-
-// Informações de Versão para um assembly consistem nos quatro valores a seguir:
-//
-//      Versão Principal
-//      Versão Secundária 
-//      Número da Versão
-//      Revisão
-//
-// É possível especificar todos os valores ou usar o padrão de Números de Compilação e Revisão 
-// utilizando o '*' como mostrado abaixo:
-// [assembly: AssemblyVersion("1.0.*")]
-
-[assembly: AssemblyVersion("1.0.0.675")]
-[assembly: AssemblyFileVersion("1.0.0.675")]
+        /// <summary>
+        ///     P33 - Valor do Crédito Presumido
+        /// </summary>
+        public decimal vCredPres
+        {
+            get => _vCredPres.Arredondar(2);
+            set => _vCredPres = value.Arredondar(2);
+        }
+    }
+}

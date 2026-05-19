@@ -31,6 +31,7 @@
 /* Rua Comendador Francisco josé da Cunha, 111 - Itabaiana - SE - 49500-000     */
 /********************************************************************************/
 using System.ComponentModel;
+using System.Runtime.ConstrainedExecution;
 using System.Xml.Serialization;
 
 namespace NFe.Classes.Servicos.Evento

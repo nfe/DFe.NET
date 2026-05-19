@@ -31,62 +31,36 @@
 /* Rua Comendador Francisco josé da Cunha, 111 - Itabaiana - SE - 49500-000     */
 /********************************************************************************/
 
-using System;
-using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
+using NFe.Classes.Informacoes.Detalhe;
 
-namespace NFe.Classes
+namespace NFe.Classes.Servicos.Evento.Informacoes.CreditoPresumido
 {
-    [Serializable]
-    public class infNFeSupl : IXmlSerializable
+    public class gIBS
     {
+        private decimal _pCredPres;
+        private decimal _vCredPres;
+        
         /// <summary>
-        /// ZX02 - Texto com o QR-Code impresso no DANFE NFC-e
-        /// O atributo qrCode deve ser serializado como CDATA, conforme NT2015.002, V141, regra ZX02-22
+        ///     P27 - Código de Classificação do Crédito presumido, conforme tabela cCredPres (Anexo IV) 
         /// </summary>
-        public string qrCode { get; set; }
+        public CCredPres cCredPres { get; set; }
 
         /// <summary>
-        /// ZX03 - Texto com a URL de consulta por chave de acesso a ser impressa no DANFE NFC-e
-        /// VERSÃO 4.00
+        ///     P28 - Percentual do Crédito Presumido
         /// </summary>
-        public string urlChave { get; set; }
-
-        public XmlSchema GetSchema()
+        public decimal pCredPres
         {
-            return null;
+            get => _pCredPres.Arredondar(4);
+            set => _pCredPres = value.Arredondar(4);
         }
 
-        public void ReadXml(XmlReader reader)
+        /// <summary>
+        ///     P29 - Valor do Crédito Presumido
+        /// </summary>
+        public decimal vCredPres
         {
-            reader.ReadStartElement(typeof(infNFeSupl).Name);
-
-            reader.ReadStartElement("qrCode");
-            qrCode = reader.ReadString();
-            reader.ReadEndElement();
-
-            if (reader.IsStartElement("urlChave"))
-            {
-                reader.ReadStartElement("urlChave");
-                urlChave = reader.ReadString();
-                reader.ReadEndElement();
-            }
-
-            reader.ReadEndElement();
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            writer.WriteStartElement("qrCode");
-            writer.WriteCData(qrCode);
-            writer.WriteEndElement();
-
-            if (urlChave == null) return;
-
-            writer.WriteStartElement("urlChave");
-            writer.WriteString(urlChave);
-            writer.WriteEndElement();
+            get => _vCredPres.Arredondar(2);
+            set => _vCredPres = value.Arredondar(2);
         }
     }
 }

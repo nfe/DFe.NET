@@ -39,13 +39,13 @@ namespace NFe.Classes.Servicos.Evento.Informacoes.ItemConsumo
     {
         private decimal _vIbs;
         private decimal _vCbs;
-
+        
         /// <summary>
-        ///     P24 - Corresponde ao atributo "nItem" do elemento "det" da NF-e de aquisição
+        ///     P24 - Corresponde ao atributo “nItem” do elemento “det” da NF-e de aquisição
         /// </summary>
         [XmlAttribute("nItem")]
         public int nItem { get; set; }
-
+        
         /// <summary>
         ///     P25 - Valor do IBS na nota de aquisição correspondente à quantidade destinada a uso e consumo pessoal
         /// </summary>
@@ -54,7 +54,6 @@ namespace NFe.Classes.Servicos.Evento.Informacoes.ItemConsumo
             get => _vIbs.Arredondar(2);
             set => _vIbs = value.Arredondar(2);
         }
-
         /// <summary>
         ///     P26 - Valor da CBS na nota de aquisição correspondente à quantidade destinada a uso e consumo pessoal
         /// </summary>
@@ -63,17 +62,15 @@ namespace NFe.Classes.Servicos.Evento.Informacoes.ItemConsumo
             get => _vCbs.Arredondar(2);
             set => _vCbs = value.Arredondar(2);
         }
-
+        
         /// <summary>
         ///     P27 - Informações de quantidade de estoque influenciadas pelo evento
         /// </summary>
         [XmlElement(ElementName = "gControleEstoque")]
         public gControleEstoque gControleEstoque { get; set; }
-
+        
         /// <summary>
-        ///     P30 - Informações por item da NF-e de Uso e Consumo Pessoal.
-        ///     Usado apenas pelo evento e211120 (Destinação de item para consumo pessoal).
-        ///     XSD do e112120 (AlcZfm) não declara este elemento — propriedade fica null nesse caso.
+        ///     P30 - Informações por item da NF-e de Uso e Consumo Pessoal
         /// </summary>
         public DFeReferenciado DFeReferenciado { get; set; }
     }

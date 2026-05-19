@@ -1,4 +1,4 @@
-﻿namespace NFe.Classes.Informacoes.Intermediador
+﻿namespace Shared.NFe.Classes.Informacoes.Intermediador
 {
     public class infIntermed
     {
