@@ -1,0 +1,87 @@
+name: Publish NuGet
+
+# Empacota e publica os 6 projetos NFe/DFe netstandard como pacotes NuGet
+# em GitHub Packages (feed da org nfe).
+#
+# Triggers:
+#   - push de tag v*    → release versionada (pega a versão da tag)
+#   - workflow_dispatch → execução manual para testes (versão informada
+#                         como input ou fallback 0.0.0-manual.{run_number})
+#
+# Pré-requisitos no consumidor:
+#   1. nuget.config com source apontando para https://nuget.pkg.github.com/nfe/index.json
+#   2. PAT com escopo read:packages adicionado como secret/login NuGet
+#
+# Pacotes publicados: NFEio.DFe.Classes, NFEio.DFe.Utils, NFEio.NFe.Classes,
+# NFEio.NFe.Servicos, NFEio.NFe.Utils, NFEio.NFe.Wsdl.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Versão a publicar (ex: 1.0.0-rc.1). Vazio = 0.0.0-manual.{run_number}'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  pack-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Resolve version
+        id: version
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            # tag refs/tags/vX.Y.Z → X.Y.Z
+            VERSION="${GITHUB_REF_NAME#v}"
+          elif [[ -n "${{ inputs.version }}" ]]; then
+            VERSION="${{ inputs.version }}"
+          else
+            VERSION="0.0.0-manual.${{ github.run_number }}"
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Resolved version: $VERSION"
+
+      - name: Pack projects
+        run: |
+          for proj in DFe.Classes DFe.Utils NFe.Classes NFe.Servicos NFe.Utils NFe.Wsdl; do
+            echo "::group::Pack $proj"
+            dotnet pack "$proj/$proj.csproj" \
+              --configuration Release \
+              --output ./artifacts \
+              -p:Version=${{ steps.version.outputs.version }}
+            echo "::endgroup::"
+          done
+
+      - name: List artifacts
+        run: ls -la ./artifacts
+
+      - name: Push to GitHub Packages
+        run: |
+          dotnet nuget push './artifacts/*.nupkg' \
+            --source https://nuget.pkg.github.com/nfe/index.json \
+            --api-key ${{ secrets.GITHUB_TOKEN }} \
+            --skip-duplicate
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages-${{ steps.version.outputs.version }}
+          path: ./artifacts/*.*nupkg
+          retention-days: 30

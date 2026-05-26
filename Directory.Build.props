@@ -1,0 +1,41 @@
+<Project>
+
+  <!--
+    Propriedades comuns dos pacotes NuGet publicados pelo fork nfe/DFe.NET.
+
+    Cada projeto packável (DFe.Classes, DFe.Utils, NFe.Classes, NFe.Servicos,
+    NFe.Utils, NFe.Wsdl) sobrescreve <PackageId> e <Description>. Os demais
+    metadados (autoria, licença, URLs, símbolos) vivem aqui para evitar
+    drift entre os 6 csproj.
+
+    Versionamento: <Version> é injetada pela pipeline CI (.github/workflows/
+    nuget-publish.yml) extraindo de tags `v*`. Fallback `1.0.0-local` permite
+    `dotnet pack` rodar localmente para testes sem CI.
+  -->
+  <PropertyGroup>
+    <Version Condition="'$(Version)' == ''">1.0.0-local</Version>
+    <Authors>NFE.io</Authors>
+    <Company>NFE.io</Company>
+    <Copyright>Copyright (c) NFE.io e contribuidores Zeus (Zeusdev Tecnologia LTDA)</Copyright>
+    <PackageLicenseExpression>LGPL-2.1-or-later</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/nfe/DFe.NET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/nfe/DFe.NET</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>nfe;nfce;sefaz;dfe;rtc;reforma-tributaria;nfeio</PackageTags>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <!--
+    README.md da raiz do repo incluído em todos os pacotes (mesma fonte).
+    Necessário porque o NuGet 5.10+ exige PackageReadmeFile referenciando
+    arquivo do próprio diretório do projeto OU explicitamente Pack=true.
+  -->
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" Visible="false" />
+  </ItemGroup>
+
+</Project>

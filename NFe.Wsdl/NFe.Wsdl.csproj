@@ -5,6 +5,8 @@
     <RootNamespace>NFe.Wsdl</RootNamespace>
     <AssemblyName>NFe.Wsdl</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PackageId>NFEio.NFe.Wsdl</PackageId>
+    <Description>Contratos WSDL e clientes SOAP para os webservices da NFe/NFCe — fork NFE.io de Zeus.Net.NFe.NFCe. Cobre NfeAutorizacao4, NfeRetAutorizacao4, NfeStatusServico4, NfeConsultaProtocolo4, NfeConsultaCadastro4, NFeRecepcaoEvento4, NFeInutilizacao4, NFeDistribuicaoDFe e variantes estaduais.</Description>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\DFe.Classes\DFe.Classes.csproj" />

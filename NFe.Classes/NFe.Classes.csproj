@@ -6,6 +6,8 @@
     <RootNamespace>NFe.Classes</RootNamespace>
     <AssemblyName>NFe.Classes</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PackageId>NFEio.NFe.Classes</PackageId>
+    <Description>Classes de domínio para Nota Fiscal Eletrônica (NFe) e Nota Fiscal de Consumidor Eletrônica (NFCe) — fork NFE.io de Zeus.Net.NFe.NFCe. Inclui leiaute completo NFe v4.00, eventos da NT 2025.002-RTC (211110-150, 212110-120, 412120-130, 110001), tipos do IBS/CBS/IS, e classes de DistribuicaoDFe.</Description>
   </PropertyGroup>
   <ItemGroup>
     <None Include="NFe.Classes.licenseheader" />

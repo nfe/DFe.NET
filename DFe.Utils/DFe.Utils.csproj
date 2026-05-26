@@ -6,6 +6,8 @@
     <RootNamespace>DFe.Utils</RootNamespace>
     <AssemblyName>DFe.Utils</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PackageId>NFEio.DFe.Utils</PackageId>
+    <Description>Utilitários compartilhados entre os projetos DFe (NFe, NFCe, CTe, MDFe) do fork NFE.io de Zeus.Net.NFe.NFCe. Inclui assinatura digital, extensões de tipos e helpers de serialização XML.</Description>
   </PropertyGroup>
 
   <ItemGroup>

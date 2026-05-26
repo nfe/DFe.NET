@@ -5,6 +5,8 @@
     <RootNamespace>NFe.Servicos</RootNamespace>
     <AssemblyName>NFe.Servicos</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PackageId>NFEio.NFe.Servicos</PackageId>
+    <Description>Camada de serviços para invocar webservices SEFAZ da NFe/NFCe — fork NFE.io de Zeus.Net.NFe.NFCe. Expõe ServicosNFe com métodos RecepcaoEvento para os 17 eventos da NT 2025.002-RTC (Crédito Presumido, Imobilização, Consumo Pessoal, Manifestações IBS/CBS de Sucessão, etc.), além dos eventos legacy (Manifestação Destinatário 21020X, Carta de Correção, Cancelamento).</Description>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\DFe.Classes\DFe.Classes.csproj" />

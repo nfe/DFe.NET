@@ -6,6 +6,8 @@
     <RootNamespace>NFe.Utils</RootNamespace>
     <AssemblyName>NFe.Utils</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PackageId>NFEio.NFe.Utils</PackageId>
+    <Description>Utilitários para o leiaute da NFe/NFCe — fork NFE.io de Zeus.Net.NFe.NFCe. Inclui Validador (com mappings XSD da NT 2025.002-RTC), Enderecador (URLs SVRS prod/hom), assinatura digital, conversões de tipos e extensões.</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -6,6 +6,8 @@
     <RootNamespace>DFe.Classes</RootNamespace>
     <AssemblyName>DFe.Classes</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PackageId>NFEio.DFe.Classes</PackageId>
+    <Description>Classes compartilhadas entre os projetos DFe (NFe, NFCe, CTe, MDFe) do fork NFE.io de Zeus.Net.NFe.NFCe. Inclui tipos básicos, entidades de domínio e flags.</Description>
   </PropertyGroup>
 
   <ItemGroup>
