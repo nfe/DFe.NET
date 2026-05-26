@@ -72,9 +72,21 @@ jobs:
       - name: List artifacts
         run: ls -la ./artifacts
 
-      - name: Push to GitHub Packages
+      - name: Push packages (.nupkg) to GitHub Packages
         run: |
           dotnet nuget push './artifacts/*.nupkg' \
+            --source https://nuget.pkg.github.com/nfe/index.json \
+            --api-key ${{ secrets.GITHUB_TOKEN }} \
+            --skip-duplicate
+
+      # Symbol packages (.snupkg) precisam de push separado — o glob *.nupkg
+      # acima não os captura, e o Directory.Build.props declara IncludeSymbols
+      # com SymbolPackageFormat=snupkg. Sem este passo os consumidores não
+      # conseguem PDBs nem SourceLink (debugging quebrado). GitHub Packages
+      # suporta .snupkg desde 2020.
+      - name: Push symbol packages (.snupkg) to GitHub Packages
+        run: |
+          dotnet nuget push './artifacts/*.snupkg' \
             --source https://nuget.pkg.github.com/nfe/index.json \
             --api-key ${{ secrets.GITHUB_TOKEN }} \
             --skip-duplicate
