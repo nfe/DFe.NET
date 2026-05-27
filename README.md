@@ -1,3 +1,21 @@
+> ## ⚠️ Status deste fork (nfe/DFe.NET)
+>
+> Este fork existia para complementar o upstream [ZeusAutomacao/DFe.NET](https://github.com/ZeusAutomacao/DFe.NET) enquanto o suporte aos eventos NT 2025.002-RTC e ao targeting netstandard ainda não estava no upstream.
+>
+> **Em 2026-05-26, o `dfetech-distribution-api` migrou para os pacotes oficiais do upstream:**
+> - [`Zeus.Net.NFe.NFCe`](https://www.nuget.org/packages/Zeus.Net.NFe.NFCe/)
+> - [`Zeus.Net.CTe`](https://www.nuget.org/packages/Zeus.Net.CTe/)
+>
+> O upstream já publica `netstandard2.0` + `net6.0` multi-target, cobrindo o caso de uso do consumer interno. Manter este fork + pipeline próprio se tornou desnecessário.
+>
+> **Prefira o upstream para novos consumidores.** Este fork permanece como referência histórica e contém:
+> - Commits do ciclo NT 2025.002-RTC anterior ao merge no upstream (PRs #76–#80)
+> - PR #81 (NuGet pipeline próprio) fechado sem merge — superado pelo pivot
+>
+> Migração documentada em [nfe/dfetech-distribution-api#143](https://github.com/nfe/dfetech-distribution-api/pull/143).
+
+---
+
 [![Build status](https://ci.appveyor.com/api/projects/status/7igb6s48sw2p95o3/branch/master?svg=true)](https://ci.appveyor.com/project/adeniltonbs/zeus-net-nfe-nfce/branch/master) 
 [![Issues](https://img.shields.io/github/issues/ZeusAutomacao/DFe.NET.svg?style=flat-square)](https://github.com/ZeusAutomacao/DFe.NET/issues)
 
