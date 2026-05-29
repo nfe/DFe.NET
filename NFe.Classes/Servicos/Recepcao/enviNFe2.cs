@@ -38,7 +38,7 @@ namespace NFe.Classes.Servicos.Recepcao
     [XmlRoot(ElementName = "enviNFe", Namespace = "http://www.portalfiscal.inf.br/nfe")]
     public class enviNFe2
     {
-        public enviNFe2(string versao, int idLote, List<NFe> nFe)
+        public enviNFe2(string versao, long idLote, List<NFe> nFe)
         {
             this.versao = versao;
             this.idLote = idLote;
