@@ -1,4 +1,4 @@
-﻿/********************************************************************************/
+/********************************************************************************/
 /* Projeto: Biblioteca ZeusNFe                                                  */
 /* Biblioteca C# para emissão de Nota Fiscal Eletrônica - NFe e Nota Fiscal de  */
 /* Consumidor Eletrônica - NFC-e (http://www.nfe.fazenda.gov.br)                */
@@ -31,62 +31,16 @@
 /* Rua Comendador Francisco josé da Cunha, 111 - Itabaiana - SE - 49500-000     */
 /********************************************************************************/
 
-using System;
-using System.Xml;
-using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace NFe.Classes
+namespace NFe.Classes.Servicos.Evento
 {
-    [Serializable]
-    public class infNFeSupl : IXmlSerializable
+    public class enquad
     {
         /// <summary>
-        /// ZX02 - Texto com o QR-Code impresso no DANFE NFC-e
-        /// O atributo qrCode deve ser serializado como CDATA, conforme NT2015.002, V141, regra ZX02-22
+        /// P30 - Código do enquadramento
         /// </summary>
-        public string qrCode { get; set; }
-
-        /// <summary>
-        /// ZX03 - Texto com a URL de consulta por chave de acesso a ser impressa no DANFE NFC-e
-        /// VERSÃO 4.00
-        /// </summary>
-        public string urlChave { get; set; }
-
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        public void ReadXml(XmlReader reader)
-        {
-            reader.ReadStartElement(typeof(infNFeSupl).Name);
-
-            reader.ReadStartElement("qrCode");
-            qrCode = reader.ReadString();
-            reader.ReadEndElement();
-
-            if (reader.IsStartElement("urlChave"))
-            {
-                reader.ReadStartElement("urlChave");
-                urlChave = reader.ReadString();
-                reader.ReadEndElement();
-            }
-
-            reader.ReadEndElement();
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            writer.WriteStartElement("qrCode");
-            writer.WriteCData(qrCode);
-            writer.WriteEndElement();
-
-            if (urlChave == null) return;
-
-            writer.WriteStartElement("urlChave");
-            writer.WriteString(urlChave);
-            writer.WriteEndElement();
-        }
+        [XmlElement(ElementName = "cEnq")]
+        public string cEnq { get; set; }
     }
 }

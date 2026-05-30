@@ -45,20 +45,6 @@ using NFe.Classes.Servicos.Evento.Informacoes.ItemConsumo;
 using NFe.Classes.Servicos.Evento.Informacoes.ItemNaoFornecido;
 using NFe.Classes.Servicos.Evento.Informacoes.Perecimento;
 
-// =====================================================================================
-// Alinhado com upstream ZeusAutomacao/DFe.NET master.
-// Divergencias intencionais do fork:
-//   1. dest property usa tipo `detEventoDest` (upstream usa `dest`).
-//      Motivo: ServicosNFe.cs:1122 (handlers EPEC) instancia `new detEventoDest`.
-//      Trocar para `dest` quebraria o build sem refactor coordenado.
-//   2. Region "Averbação para Exportação" (itensAverbados) ausente.
-//      Motivo: classe `itensAverbados` nao existe neste fork.
-//   3. Region "Conciliação Financeira" (detPagEvento) ausente.
-//      Motivo: classe `detPagEvento` nao existe neste fork.
-// Demais regions/properties espelham upstream em ordem e shape, garantindo merges
-// futuros mais limpos.
-// =====================================================================================
-
 namespace NFe.Classes.Servicos.Evento
 {
     [XmlRoot(Namespace = "http://www.portalfiscal.inf.br/nfe")]
@@ -126,9 +112,7 @@ namespace NFe.Classes.Servicos.Evento
         /// <summary>
         ///     P26
         /// </summary>
-        // Divergencia intencional vs upstream: tipo `detEventoDest` em vez de `dest`.
-        // Ver cabecalho do arquivo.
-        public detEventoDest dest { get; set; }
+        public dest dest { get; set; }
 
         public bool ShouldSerializecOrgaoAutor()
         {
@@ -170,8 +154,15 @@ namespace NFe.Classes.Servicos.Evento
 
         #endregion
 
-        // [DIVERGENCIA] Region "Averbação para Exportação" (itensAverbados) omitida
-        // — classe itensAverbados ausente neste fork.
+        #region Averbação para Exportação
+        [XmlElement("itensAverbados")]
+        public List<itensAverbados> ItensAverbados { get; set; }
+
+        public bool ShouldSerializeItensAverbados()
+        {
+            return ItensAverbados != null;
+        }
+        #endregion
 
         #region RFC - Cancelamento Evento
 
@@ -179,14 +170,14 @@ namespace NFe.Classes.Servicos.Evento
         ///     P23 - Código do evento autorizado a ser cancelado
         /// </summary>
         public string tpEventoAut {get; set;}
-
+        
         #endregion
-
+        
         #region Cancelamento Insucesso/Comprovante de Entrega NFe/ Cancelamento Evento
-
+        
         /// <summary>
-        ///     P22 - Informar o número do Protocolo de Autorização do
-        ///           Evento da NF-e a que se refere este cancelamento.
+        ///     P22 - Informar o número do Protocolo de Autorização do 
+        ///           Evento da NF-e a que se refere este cancelamento. 
         /// </summary>
         public string nProtEvento { get; set; }
 
@@ -207,7 +198,7 @@ namespace NFe.Classes.Servicos.Evento
         }
 
         /// <summary>
-        /// P31 - Número da tentativa de entrega que não teve sucesso
+        /// P31 - Número da tentativa de entrega que não teve sucesso 
         /// </summary>
         public int? nTentativa { get; set; }
 
@@ -222,7 +213,7 @@ namespace NFe.Classes.Servicos.Evento
         public string xJustMotivo { get; set; }
 
         /// <summary>
-        /// P33 - Latitude do ponto de entrega
+        /// P33 - Latitude do ponto de entrega 
         /// </summary>
         public decimal? latGPS { get; set; }
 
@@ -327,8 +318,20 @@ namespace NFe.Classes.Servicos.Evento
 
         #endregion
 
-        // [DIVERGENCIA] Region "Conciliação Financeira" (detPag/detPagEvento) omitida
-        // — classe detPagEvento ausente neste fork.
+        #region Conciliação Financeira
+
+        /// <summary>
+        /// P21 - Grupo de detalhamento do pagamento
+        /// </summary>
+        [XmlElement("detPag")]
+        public List<detPagEvento> detPag { get; set; }
+
+        public bool ShouldSerializedetPag()
+        {
+            return detPag != null;
+        }
+
+        #endregion
 
         #region Ator Interessado NFe
         /// <summary>
@@ -370,13 +373,13 @@ namespace NFe.Classes.Servicos.Evento
 
         #region Eventos para a apuração do IBS e da CBS
 
-        #region Informação de efetivo pagamento integral para liberar crédito presumido do adquirente
+        #region Informação de efetivo pagamento integral para liberar crédito presumido do adquirente 
 
         /// <summary>
         ///     P23 - Indicador de efetiva quitação do pagamento integral da operação referente a NFe referenciada
         /// </summary>
         public IndicadorDeQuitacaoDoPagamento? indQuitacao { get; set; }
-
+        
         public bool ShouldSerializeindQuitacao()
         {
             return indQuitacao.HasValue;
@@ -391,7 +394,7 @@ namespace NFe.Classes.Servicos.Evento
         /// </summary>
         [XmlElement("gCredPres")]
         public List<gCredPres> gCredPres { get; set; }
-
+        
         public bool ShouldSerializegCredPres()
         {
             return gCredPres != null;
@@ -410,7 +413,7 @@ namespace NFe.Classes.Servicos.Evento
         /// </summary>
         [XmlElement("gConsumo")]
         public List<gConsumo> gConsumo { get; set; }
-
+        
         public bool ShouldSerializegConsumo() => gConsumo != null;
 
         #endregion
@@ -444,7 +447,7 @@ namespace NFe.Classes.Servicos.Evento
         {
             return gImobilizacao != null;
         }
-
+        
         #endregion
 
         #region Solicitação de Apropriação de Crédito de Combustível
@@ -454,7 +457,7 @@ namespace NFe.Classes.Servicos.Evento
         /// </summary>
         [XmlElement("gConsumoComb")]
         public List<gConsumoComb> gConsumoComb { get; set; }
-
+        
         public bool ShouldSerializegConsumoComb()
         {
             return gConsumoComb != null;
@@ -474,7 +477,7 @@ namespace NFe.Classes.Servicos.Evento
         {
             return gCredito != null;
         }
-
+        
         #endregion
 
         #region Manifestação do Fisco sobre Pedido de Transferência de Crédito de IBS em Operações de Sucessão | Manifestação do Fisco sobre Pedido de Transferência de Crédito de CBS em Operações de Sucessão
@@ -490,30 +493,30 @@ namespace NFe.Classes.Servicos.Evento
         {
             return indDeferimento != null;
         }
-
+        
         /// <summary>
         ///     P24 - Motivo deferimento
         /// </summary>
         public MotivoDeferimento? cMotivo { get; set; }
-
+        
         public bool ShouldSerializecMotivo()
         {
             return cMotivo != null;
         }
-
+        
         /// <summary>
         ///     P24 - Descrição deferimento
         /// </summary>
         public string xMotivo { get; set; }
-
+        
         #endregion
 
         #region Perecimento, perda, roubo ou furto durante o transporte contratado pelo adquirente
 
         /// <summary>
-        ///     P23 - Informações por item da Nota de Aquisição
+        ///     P23 - Informações por item da Nota de Aquisição 
         ///         <para>(Evento: perecimento, perda, roubo ou furto durante o transporte contratado pelo adquirente).</para>
-        ///     P23 - Informações por item da Nota de Fornecimento
+        ///     P23 - Informações por item da Nota de Fornecimento 
         ///         <para>(Evento: perecimento, perda, roubo ou furto durante o transporte contratado pelo fornecedor).</para>
         /// </summary>
         [XmlElement("gPerecimento")]
@@ -530,7 +533,7 @@ namespace NFe.Classes.Servicos.Evento
         /// </summary>
         [XmlElement("gItemNaoFornecido")]
         public List<gItemNaoFornecido> gItemNaoFornecido { get; set; }
-
+        
         public bool ShouldSerializegItemNaoFornecido() => gItemNaoFornecido != null;
 
         #endregion
@@ -538,11 +541,11 @@ namespace NFe.Classes.Servicos.Evento
         #region Atualização da Data de Previsão de Entrega
 
         /// <summary>
-        ///  P23 - Data da previsão de entrega ou disponibilização do bem. Formato: "AAAA-MM-DD".
+        ///  P23 - Data da previsão de entrega ou disponibilização do bem. Formato: “AAAA-MM-DD”.
         /// </summary>
         [XmlIgnore]
         public DateTime? dPrevEntrega { get; set; }
-
+        
         /// <summary>
         /// Proxy para dPrevEntrega no formato "AAAA-MM-DD" (somente data).
         /// </summary>

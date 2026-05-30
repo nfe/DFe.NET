@@ -39,7 +39,6 @@ using DFe.Utils;
 
 namespace NFe.Classes.Servicos.ConsultaCadastro
 {
-
     public class infConsRet
     {
         /// <summary>

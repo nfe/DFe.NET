@@ -32,61 +32,76 @@
 /********************************************************************************/
 
 using System;
-using System.Xml;
-using System.Xml.Schema;
 using System.Xml.Serialization;
+using DFe.Utils;
 
-namespace NFe.Classes
+namespace NFe.Classes.Servicos.Evento
 {
-    [Serializable]
-    public class infNFeSupl : IXmlSerializable
+    public sealed class itensAverbados
     {
         /// <summary>
-        /// ZX02 - Texto com o QR-Code impresso no DANFE NFC-e
-        /// O atributo qrCode deve ser serializado como CDATA, conforme NT2015.002, V141, regra ZX02-22
+        /// Data do Embarque no formato AAAA-MM-DDThh:mm:ssTZD
         /// </summary>
-        public string qrCode { get; set; }
+        [XmlIgnore]
+        public DateTimeOffset DhEmbarque { get; set; }
+
+        [XmlElement(ElementName = "dhEmbarque")]
+        public string ProxyDhEmbarque
+        {
+            get { return DhEmbarque.ParaDataHoraStringUtc(); }
+            set { DhEmbarque = DateTimeOffset.Parse(value); }
+        }
 
         /// <summary>
-        /// ZX03 - Texto com a URL de consulta por chave de acesso a ser impressa no DANFE NFC-e
-        /// VERSÃO 4.00
+        /// Proxy Data da averbação no formato AAAA-MM-DDThh:mm:ssTZD
         /// </summary>
-        public string urlChave { get; set; }
+        [XmlIgnore]
+        public DateTimeOffset DhAverbacao { get; set; }
 
-        public XmlSchema GetSchema()
+        [XmlElement(ElementName = "dhAverbacao")]
+        public string ProxyDhAverbacao
         {
-            return null;
+            get { return DhAverbacao.ParaDataHoraStringUtc(); }
+            set { DhAverbacao = DateTimeOffset.Parse(value); }
         }
 
-        public void ReadXml(XmlReader reader)
-        {
-            reader.ReadStartElement(typeof(infNFeSupl).Name);
+        /// <summary>
+        /// Número Identificador da Declaração Única do Comércio Exterior associada - [0-9]{2}BR[0-9]{10}
+        /// </summary>
+        [XmlElement(ElementName = "nDue")]
+        public string NDue { get; set; }
 
-            reader.ReadStartElement("qrCode");
-            qrCode = reader.ReadString();
-            reader.ReadEndElement();
+        /// <summary>
+        /// Número do item da NF-e averbada - [0-9]{1,3}
+        /// </summary>
+        [XmlElement(ElementName = "nItem")]
+        public string NItem { get; set; }
 
-            if (reader.IsStartElement("urlChave"))
-            {
-                reader.ReadStartElement("urlChave");
-                urlChave = reader.ReadString();
-                reader.ReadEndElement();
-            }
+        /// <summary>
+        /// Informação do número do item na Declaração de Exportação associada a averbação. - [0-9]{1,4}
+        /// </summary>
+        [XmlElement(ElementName = "nItemDue")]
+        public string NItemDue { get; set; }
 
-            reader.ReadEndElement();
-        }
+        /// <summary>
+        /// Quantidade averbada do item na unidade tributária (campo uTrib) - TDec_1104Neg
+        /// </summary>
+        [XmlElement(ElementName = "qItem")]
+        public decimal QItem { get; set; }
 
-        public void WriteXml(XmlWriter writer)
-        {
-            writer.WriteStartElement("qrCode");
-            writer.WriteCData(qrCode);
-            writer.WriteEndElement();
-
-            if (urlChave == null) return;
-
-            writer.WriteStartElement("urlChave");
-            writer.WriteString(urlChave);
-            writer.WriteEndElement();
-        }
+        /// <summary>
+        ///  Motivo da Alteração
+        ///    1 - Exportação Averbada;
+        ///    2 - Retificação da Quantidade Averbada;
+        ///    3 - Cancelamento da Exportação;
+        /// </summary>
+        [XmlElement(ElementName = "motAlteracao")]
+        public int MotAlteracao { get; set; }
+        
+        /// <summary>
+        /// P29 - Grupo de informações do enquadramento do item 
+        /// </summary>
+        [XmlElement(ElementName = "enquad")]
+        public enquad Enquad { get; set; } 
     }
 }

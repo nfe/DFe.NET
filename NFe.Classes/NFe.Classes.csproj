@@ -1,17 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>NFe.Classes</RootNamespace>
-    <AssemblyName>NFe.Classes</AssemblyName>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+	  
   </PropertyGroup>
+
   <ItemGroup>
-    <None Include="NFe.Classes.licenseheader" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DFe.Classes\DFe.Classes.csproj" />
     <ProjectReference Include="..\DFe.Utils\DFe.Utils.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Servicos\ConsultaGtin\" />
+  </ItemGroup>
+
 </Project>

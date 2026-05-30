@@ -35,7 +35,6 @@ using System;
 using System.Xml.Serialization;
 using DFe.Classes.Entidades;
 using DFe.Classes.Flags;
-using NFe.Classes.Informacoes.Identificacao.Tipos;
 
 namespace NFe.Classes.Servicos.DistribuicaoDFe
 {

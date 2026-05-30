@@ -34,6 +34,7 @@ using System;
 using System.Xml.Serialization;
 using DFe.Classes.Entidades;
 using DFe.Classes.Flags;
+using TipoAmbiente = DFe.Classes.Flags.TipoAmbiente;
 
 namespace NFe.Classes.Servicos.Inutilizacao
 {
@@ -72,7 +73,7 @@ namespace NFe.Classes.Servicos.Inutilizacao
         /// <summary>
         ///     DR09 - Código da UF que atendeu a solicitação
         /// </summary>
-        public Estado cUF { get; set; }
+        public Estado? cUF { get; set; }
 
         /// <summary>
         ///     DR10 - Ano de inutilização da numeração
@@ -115,6 +116,11 @@ namespace NFe.Classes.Servicos.Inutilizacao
         ///     DR17 - Número do Protocolo de Inutilização (vide item 5.6).
         /// </summary>
         public string nProt { get; set; }
+
+        public bool ShouldSerializecUF()
+        {
+            return cUF.HasValue;
+        }
 
         public bool ShouldSerializeano()
         {

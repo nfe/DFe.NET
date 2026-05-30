@@ -32,7 +32,6 @@
 /********************************************************************************/
 using System.Xml.Serialization;
 using DFe.Classes.Flags;
-using NFe.Classes.Informacoes.Identificacao.Tipos;
 
 namespace NFe.Classes.Servicos.Consulta
 {
