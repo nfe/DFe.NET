@@ -244,6 +244,14 @@ namespace NFe.Classes.Informacoes.Identificacao
         }
 
         /// <summary>
+        ///     B25d - Código indicador do local da operação de fornecimento (modelo 55;
+        ///     vedado NFC-e). NT 2025.002-RTC.
+        /// </summary>
+        public string cIndOp { get; set; }
+
+        public bool ShouldSerializecIndOp() => !string.IsNullOrEmpty(cIndOp);
+
+        /// <summary>
         ///     B26 - Processo de emissão utilizado com a seguinte codificação:
         /// </summary>
         public ProcessoEmissao procEmi { get; set; }

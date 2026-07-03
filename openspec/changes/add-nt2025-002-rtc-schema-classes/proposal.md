@@ -15,9 +15,10 @@ e o **`ISUFemit`** — serão tratados quando o pacote v1.50 oficial estiver dis
 Adicionar ao Zeus as classes/campos abaixo, mapeando 1:1 o XSD do PL_010e_v1.01, com os
 atributos de serialização XML no padrão da lib:
 
-### 1. Grupo Imposto Seletivo — `IS` (tipo `TIS`)
-Novo grupo, irmão de `IBSCBS` dentro de `imposto` (det/imposto): `CSTIS` (TCST),
-`cClassTribIS` (opcional), `vBCIS`, `pIS`, `adRemIS` (opcional), `uTrib` (opcional), `qTrib`, `vIS`.
+### 1. Grupo Imposto Seletivo — `IS` (tipo `TIS`) — ⚠️ JÁ EXISTE no Zeus
+Após inspeção, o grupo `IS` **já está implementado** (`Federal/IS.cs`, com `CSTIS`,
+`cClassTribIS`, `vBCIS`, `pIS`, `pISEspec`≈adRemIS, `uTrib`, `qTrib`, `vIS`) e **já encaixado** em
+`imposto.cs`. **Removido do escopo** desta change — nada a fazer.
 
 ### 2. `cIndOp` — código indicador do local da operação de fornecimento
 Campo opcional no produto/item (`prod`), modelo 55 (vedado NFC-e).
@@ -26,7 +27,8 @@ Campo opcional no produto/item (`prod`), modelo 55 (vedado NFC-e).
 Campo (`TChDFeRTC`) no grupo de Compras Governamentais.
 
 ### 4. `gALCZFMCBS` — ALC/ZFM alíquota zero CBS (UB66a)
-Grupo sob IBS/CBS: `tpALCZFMCBS`, `nProcSUFRAMA`, `pAliqEfetRegCBS`, `vTribRegCBS`.
+Grupo sob `gCBS`: `pAliqEfetRegCBS` + `vTribRegCBS` (o `TALCZFMCBS` do PL_010e tem **só esses 2
+campos**; não há `tpALCZFMCBS`/`nProcSUFRAMA` neste XSD).
 
 Cada item inclui: classe(s) de domínio, propriedades com `[XmlElement]`/`ShouldSerialize*` no
 padrão Zeus, e o encaixe no agregado pai (imposto/prod/IBSCBS/CompraGov). Sem quebrar a
