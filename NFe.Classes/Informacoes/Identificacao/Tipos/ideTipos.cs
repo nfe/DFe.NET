@@ -148,7 +148,7 @@ namespace NFe.Classes.Informacoes.Identificacao.Tipos
     ///     <para>3 - DANFe Simplificado;</para>
     ///     <para>4 - DANFe NFC-e;</para>
     ///     <para>5 - DANFe NFC-e em mensagem eletrônica;</para>
-    ///     <para>6 - DANFe Simplificado Tipo 2</para>
+    ///     <para>6 - DANFe Simplificado Tipo 2;</para>
     /// </summary>
     public enum TipoImpressao
     {
