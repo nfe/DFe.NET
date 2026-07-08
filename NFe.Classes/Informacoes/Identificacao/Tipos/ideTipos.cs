@@ -195,7 +195,7 @@ namespace NFe.Classes.Informacoes.Identificacao.Tipos
         tiMsgEletronica = 5,
 
         /// <summary>
-        /// 6 - DANFe Simplificado Tipo 2 (NF-e modelo 55 em layout de cupom — Ajuste SINIEF 13/26, NT 2026.002)
+        /// 6 - DANFe Simplificado Tipo 2 (NF-e modelo 55 em layout de cupom — Ajuste SINIEF 13/26, NT 2026.002/2026.003)
         /// </summary>
         [Description("DANFe Simplificado Tipo 2")]
         [XmlEnum("6")]
