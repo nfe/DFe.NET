@@ -147,7 +147,8 @@ namespace NFe.Classes.Informacoes.Identificacao.Tipos
     ///     <para>2 - DANFe Paisagem;</para>
     ///     <para>3 - DANFe Simplificado;</para>
     ///     <para>4 - DANFe NFC-e;</para>
-    ///     <para>5 - DANFe NFC-e em mensagem eletrônica</para>
+    ///     <para>5 - DANFe NFC-e em mensagem eletrônica;</para>
+    ///     <para>6 - DANFe Simplificado Tipo 2;</para>
     /// </summary>
     public enum TipoImpressao
     {
@@ -191,7 +192,14 @@ namespace NFe.Classes.Informacoes.Identificacao.Tipos
         /// </summary>
         [Description("DANFe NFC-e em mensagem eletrônica")]
         [XmlEnum("5")]
-        tiMsgEletronica = 5
+        tiMsgEletronica = 5,
+
+        /// <summary>
+        /// 6 - DANFe Simplificado Tipo 2 (NF-e modelo 55 em layout de cupom — Ajuste SINIEF 13/26, NT 2026.002/2026.003)
+        /// </summary>
+        [Description("DANFe Simplificado Tipo 2")]
+        [XmlEnum("6")]
+        tiSimplificadoTipo2 = 6
     }
 
     /// <summary>
