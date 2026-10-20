@@ -59,6 +59,8 @@ namespace NFe.Classes.Informacoes.Detalhe
         private string _cEan;
         private string _cEanTrib;
         private decimal _vUnCom;
+        private decimal? _vUnComLiq;
+        private decimal? _vProdLiq;
 
         /// <summary>
         ///     I02 - Código do produto ou serviço
@@ -180,6 +182,25 @@ namespace NFe.Classes.Informacoes.Detalhe
         {
             get { return _vprod; }
             set { _vprod = value.Arredondar(2); }
+        }
+
+        /// <summary>
+        ///     I11b - Valor Líquido Unitário do Produto ou Serviço, sem tributos (NT 2026.008).
+        ///     <para>Sequência I11a, opcional: sai junto com <see cref="vProdLiq" />.</para>
+        /// </summary>
+        public decimal? vUnComLiq
+        {
+            get { return _vUnComLiq; }
+            set { _vUnComLiq = value.Arredondar(10); }
+        }
+
+        /// <summary>
+        ///     I11c - Valor Líquido do Produto ou Serviço, sem tributos (NT 2026.008)
+        /// </summary>
+        public decimal? vProdLiq
+        {
+            get { return _vProdLiq; }
+            set { _vProdLiq = value.Arredondar(2); }
         }
 
         /// <summary>
@@ -336,6 +357,17 @@ namespace NFe.Classes.Informacoes.Detalhe
         public bool ShouldSerializenItemPed()
         {
             return nItemPed.HasValue;
+        }
+
+        // I11a é uma sequência (vUnComLiq + vProdLiq): os dois saem juntos ou nenhum.
+        public bool ShouldSerializevUnComLiq()
+        {
+            return vUnComLiq.HasValue && vProdLiq.HasValue;
+        }
+
+        public bool ShouldSerializevProdLiq()
+        {
+            return vUnComLiq.HasValue && vProdLiq.HasValue;
         }
 
         public bool ShouldSerializevFrete()
