@@ -33,42 +33,50 @@
 
 namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Compartilhado.InformacoesIbsCbs
 {
+    /// <summary>
+    ///     UB84 - Grupo de Informações do IBS e CBS em operações com imposto monofásico (CST 620).
+    ///     <para>
+    ///     Leiaute do PL_010f (TMonofasia): um grupo por tributo e por modalidade. Cada par é uma
+    ///     xs:choice opcional, então no máximo um de gIBSMonoAdRem/gIBSMonoAdValorem e um de
+    ///     gCBSMonoAdRem/gCBSMonoAdValorem. A ordem das propriedades é a ordem do schema.
+    ///     </para>
+    /// </summary>
     public class gIBSCBSMono
     {
         private decimal _vTotIbsMonoItem;
         private decimal _vTotCbsMonoItem;
-        
+
         /// <summary>
-        ///     UB84a - Grupo de informações da Tributação Monofásica Padrão
+        ///     UB85a - Grupo de informações da Tributação Monofásica Ad Rem do IBS
         /// </summary>
-        public gMonoPadrao gMonoPadrao { get; set; }
-        
+        public gIBSMonoAdRem gIBSMonoAdRem { get; set; }
+
         /// <summary>
-        ///     UB90 - Grupo de informações da Tributação Monofásica Sujeita à Retenção
+        ///     UB90 - Grupo de informações da Tributação Monofásica Ad Valorem do IBS
         /// </summary>
-        public gMonoReten gMonoReten { get; set; }
-        
+        public gIBSMonoAdValorem gIBSMonoAdValorem { get; set; }
+
         /// <summary>
-        ///     UB94 - Grupo de informações da Tributação Monofásica Retida Anteriormente
+        ///     UB95a - Grupo de informações da Tributação Monofásica Ad Rem da CBS
         /// </summary>
-        public gMonoRet gMonoRet { get; set; }
-        
+        public gCBSMonoAdRem gCBSMonoAdRem { get; set; }
+
         /// <summary>
-        ///     UB99 - Grupo de informações do Diferimento da Tributação Monofásica
+        ///     UB100 - Grupo de informações da Tributação Monofásica Ad Valorem da CBS
         /// </summary>
-        public gMonoDif gMonoDif { get; set; }
-        
+        public gCBSMonoAdValorem gCBSMonoAdValorem { get; set; }
+
         /// <summary>
-        ///     UB104 - Total de IBS Monofásico
+        ///     UB105a - Total de IBS Monofásico
         /// </summary>
         public decimal vTotIBSMonoItem
         {
             get => _vTotIbsMonoItem.Arredondar(2);
             set => _vTotIbsMonoItem = value.Arredondar(2);
         }
-        
+
         /// <summary>
-        ///     UB105 - Total da CBS Monofásica
+        ///     UB105b - Total da CBS Monofásica
         /// </summary>
         public decimal vTotCBSMonoItem
         {

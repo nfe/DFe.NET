@@ -33,57 +33,40 @@
 
 namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Compartilhado.InformacoesIbsCbs
 {
-    public class gMonoReten
+    /// <summary>
+    ///     UB87 - Tributação Monofásica Sujeita à Retenção do IBS Ad Rem (tag gMonoReten) - PL_010f (TMonofasia)
+    /// </summary>
+    public class gIBSMonoAdRemReten
     {
-        private decimal _qBcMonoReten;
-        private decimal _adRemIbsReten;
-        private decimal _vIbsMonoReten;
-        private decimal _adRemCbsReten;
-        private decimal _vCbsMonoReten;
-        
+        private decimal _qBCMonoReten;
+        private decimal _adRemIBSReten;
+        private decimal _vIBSMonoReten;
+
         /// <summary>
-        ///     UB91 - Quantidade tributada sujeita à retenção na monofasia
+        ///     UB87a - Quantidade tributada sujeita à retenção na monofasia
         /// </summary>
         public decimal qBCMonoReten
         {
-            get => _qBcMonoReten.Arredondar(4);
-            set => _qBcMonoReten = value.Arredondar(4);
+            get => _qBCMonoReten.Arredondar(4);
+            set => _qBCMonoReten = value.Arredondar(4);
         }
-        
+
         /// <summary>
-        ///     UB92 - Alíquota ad rem do IBS sujeito a retenção
+        ///     UB87b - Alíquota ad rem do IBS sujeito à retenção
         /// </summary>
         public decimal adRemIBSReten
         {
-            get => _adRemIbsReten.Arredondar(4);
-            set => _adRemIbsReten = value.Arredondar(4);
+            get => _adRemIBSReten.Arredondar(4);
+            set => _adRemIBSReten = value.Arredondar(4);
         }
-        
+
         /// <summary>
-        ///     UB93 - Valor do IBS monofásico sujeito a retenção
+        ///     UB87c - Valor do IBS monofásico sujeito à retenção
         /// </summary>
         public decimal vIBSMonoReten
         {
-            get => _vIbsMonoReten.Arredondar(2);
-            set => _vIbsMonoReten = value.Arredondar(2);
-        }
-        
-        /// <summary>
-        ///     UB93a - Alíquota ad rem da CBS sujeito a retenção
-        /// </summary>
-        public decimal adRemCBSReten
-        {
-            get => _adRemCbsReten.Arredondar(4);
-            set => _adRemCbsReten = value.Arredondar(4);
-        }
-        
-        /// <summary>
-        ///     UB93b - Valor da CBS monofásica sujeita a retenção
-        /// </summary>
-        public decimal vCBSMonoReten
-        {
-            get => _vCbsMonoReten.Arredondar(2);
-            set => _vCbsMonoReten = value.Arredondar(2);
+            get => _vIBSMonoReten.Arredondar(2);
+            set => _vIBSMonoReten = value.Arredondar(2);
         }
     }
 }
