@@ -33,57 +33,70 @@
 
 namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Compartilhado.InformacoesIbsCbs
 {
-    public class gMonoRet
+    /// <summary>
+    ///     UB91 - Tributação Monofásica Padrão do IBS Ad Valorem (tag gMonoPadrao) - PL_010f (TMonofasia)
+    /// </summary>
+    public class gIBSMonoAdValoremPadrao
     {
-        private decimal _qBcMonoRet;
-        private decimal _adRemIbsRet;
-        private decimal _vIbsMonoRet;
-        private decimal _adRemCbsRet;
-        private decimal _vCbsMonoRet;
-        
+        private decimal _vBCMono;
+        private decimal _pAliqMonoUF;
+        private decimal _vIBSMonoUF;
+        private decimal _pAliqMonoMun;
+        private decimal _vIBSMonoMun;
+        private decimal _vIBSMono;
+
         /// <summary>
-        ///     UB95 - Quantidade tributada retida anteriormente
+        ///     UB91a - Valor tributado na monofasia
         /// </summary>
-        public decimal qBCMonoRet
+        public decimal vBCMono
         {
-            get => _qBcMonoRet.Arredondar(4);
-            set => _qBcMonoRet = value.Arredondar(4);
+            get => _vBCMono.Arredondar(2);
+            set => _vBCMono = value.Arredondar(2);
         }
-        
+
         /// <summary>
-        ///     UB96 - Alíquota ad rem do IBS retido anteriormente
+        ///     UB91b - Alíquota ad valorem do IBS Estadual
         /// </summary>
-        public decimal adRemIBSRet
+        public decimal pAliqMonoUF
         {
-            get => _adRemIbsRet.Arredondar(4);
-            set => _adRemIbsRet = value.Arredondar(4);
+            get => _pAliqMonoUF.Arredondar(4);
+            set => _pAliqMonoUF = value.Arredondar(4);
         }
-        
+
         /// <summary>
-        ///     UB97 - Valor do IBS retido anteriormente
+        ///     UB91c - Valor do IBS monofásico Estadual
         /// </summary>
-        public decimal vIBSMonoRet
+        public decimal vIBSMonoUF
         {
-            get => _vIbsMonoRet.Arredondar(2);
-            set => _vIbsMonoRet = value.Arredondar(2);
+            get => _vIBSMonoUF.Arredondar(2);
+            set => _vIBSMonoUF = value.Arredondar(2);
         }
-        
+
         /// <summary>
-        ///     UB98 - Alíquota ad rem da CBS retida anteriormente
+        ///     UB91d - Alíquota ad valorem do IBS Municipal
         /// </summary>
-        public decimal adRemCBSRet
+        public decimal pAliqMonoMun
         {
-            get => _adRemCbsRet.Arredondar(4);
-            set => _adRemCbsRet = value.Arredondar(4);
+            get => _pAliqMonoMun.Arredondar(4);
+            set => _pAliqMonoMun = value.Arredondar(4);
         }
-        
+
         /// <summary>
-        ///     UB98a - Valor da CBS retida anteriormente
+        ///     UB91e - Valor do IBS monofásico Municipal
         /// </summary>
-        public decimal vCBSMonoRet
+        public decimal vIBSMonoMun
         {
-            get => _vCbsMonoRet.Arredondar(2);
-            set => _vCbsMonoRet = value.Arredondar(2);
+            get => _vIBSMonoMun.Arredondar(2);
+            set => _vIBSMonoMun = value.Arredondar(2);
+        }
+
+        /// <summary>
+        ///     UB91f - Valor do IBS monofásico
+        /// </summary>
+        public decimal vIBSMono
+        {
+            get => _vIBSMono.Arredondar(2);
+            set => _vIBSMono = value.Arredondar(2);
         }
     }
 }
