@@ -389,6 +389,47 @@ namespace NFe.Classes.Informacoes.Detalhe
     }
 
     /// <summary>
+    ///     I17d - Código de atividade do Simples Nacional para cálculo do IBS/CBS (NT 2026.005 v1.00)
+    /// </summary>
+    public enum CodigoAtividadeSimplesNacional
+    {
+        /// <summary>
+        ///     01 - Revenda de mercadorias, venda de mercadorias industrializadas pelo contribuinte - Anexo I
+        /// </summary>
+        [Description("Revenda ou venda de mercadorias industrializadas pelo contribuinte - Anexo I")]
+        [XmlEnum("01")]
+        RevendaOuIndustrializacaoAnexoI = 1,
+
+        /// <summary>
+        ///     02 - Operações com os demais bens materiais, sem incidência de ICMS - Anexo I
+        /// </summary>
+        [Description("Demais bens materiais, sem incidência de ICMS - Anexo I")]
+        [XmlEnum("02")]
+        DemaisBensSemIcmsAnexoI = 2,
+
+        /// <summary>
+        ///     03 - Venda de mercadorias industrializadas pelo contribuinte, com industrialização incentivada na ZFM - Anexo II
+        /// </summary>
+        [Description("Industrialização incentivada na Zona Franca de Manaus - Anexo II")]
+        [XmlEnum("03")]
+        IndustrializacaoIncentivadaZfmAnexoII = 3,
+
+        /// <summary>
+        ///     04 - Demais bens materiais, com industrialização incentivada na ZFM, sem incidência de ICMS - Anexo II
+        /// </summary>
+        [Description("Demais bens materiais com industrialização incentivada na ZFM, sem ICMS - Anexo II")]
+        [XmlEnum("04")]
+        DemaisBensIncentivadosZfmSemIcmsAnexoII = 4,
+
+        /// <summary>
+        ///     90 - Operações não tributáveis
+        /// </summary>
+        [Description("Operações não tributáveis")]
+        [XmlEnum("90")]
+        NaoTributavel = 90
+    }
+
+    /// <summary>
     ///     Classificação para subapuração do IBS na ZFM. Classificação conforme percentuais definidos no art. 450, § 1º, da LC 214/25 para o cálculo do crédito presumido
     ///     <para>0 - Sem Crédito Presumido</para>>
     ///     <para>1 - Bens de consumo final (55%)</para>>
