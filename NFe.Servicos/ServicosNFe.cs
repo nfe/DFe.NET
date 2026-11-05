@@ -61,6 +61,7 @@ using NFe.Classes.Servicos.Evento.Informacoes.Imobilizacao;
 using NFe.Classes.Servicos.Evento.Informacoes.ItemConsumo;
 using NFe.Classes.Servicos.Evento.Informacoes.ItemNaoFornecido;
 using NFe.Classes.Servicos.Evento.Informacoes.Perecimento;
+using NFe.Classes.Servicos.Evento.Informacoes.VinculacaoPagamento;
 using NFe.Classes.Servicos.Inutilizacao;
 using NFe.Classes.Servicos.Recepcao;
 using NFe.Classes.Servicos.Recepcao.Retorno;
@@ -277,6 +278,7 @@ namespace NFe.Servicos
                 case ServicoNFe.RecepcaoEventoPerecimentoPerdaRouboOuFurtoDuranteOTransporteContratadoPeloFornecedor:
                 case ServicoNFe.RecepcaoEventoFornecimentoNaoRealizadoComPagamentoAntecipado:
                 case ServicoNFe.RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega:
+                case ServicoNFe.RecepcaoEventoVinculacaoPagamento:
                 case ServicoNFe.RecepcaoEventoDestinacaoDeItemParaConsumoPessoal:
                 case ServicoNFe.RecepcaoEventoInformacaoDeEfetivoPagamentoIntegralParaLiberarCreditoPresumidoDoAdquirente:
                     return new RecepcaoEvento4(url, _certificado, _cFgServico.TimeOut);
@@ -690,7 +692,8 @@ namespace NFe.Servicos
                 ServicoNFe.RecepcaoEventoPerecimentoPerdaRouboOuFurtoDuranteOTransporteContratadoPeloAdquirente,
                 ServicoNFe.RecepcaoEventoPerecimentoPerdaRouboOuFurtoDuranteOTransporteContratadoPeloFornecedor,
                 ServicoNFe.RecepcaoEventoFornecimentoNaoRealizadoComPagamentoAntecipado,
-                ServicoNFe.RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega
+                ServicoNFe.RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega,
+                ServicoNFe.RecepcaoEventoVinculacaoPagamento
             };
 
             if (!listaEventos.Contains(servicoEvento))
@@ -724,6 +727,7 @@ namespace NFe.Servicos
                 case ServicoNFe.RecepcaoEventoPerecimentoPerdaRouboOuFurtoDuranteOTransporteContratadoPeloFornecedor:
                 case ServicoNFe.RecepcaoEventoFornecimentoNaoRealizadoComPagamentoAntecipado:
                 case ServicoNFe.RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega:
+                case ServicoNFe.RecepcaoEventoVinculacaoPagamento:
                 case ServicoNFe.RecepcaoEventoDestinacaoDeItemParaConsumoPessoal:
                 case ServicoNFe.RecepcaoEventoInformacaoDeEfetivoPagamentoIntegralParaLiberarCreditoPresumidoDoAdquirente:
                     versaoEvento = _cFgServico.VersaoRecepcaoEventosDeApuracaoDoIbsECbs;
@@ -2001,7 +2005,55 @@ namespace NFe.Servicos
             var informacoesEventoEnv = ObterInformacoesEventoEnv(sequenciaEvento, chaveNFe, cpfCnpj, versaoServicoRecepcaoString, cOrgao: Estado.SVRS, dataHoraEvento, nfeTipoEvento, detalheEvento);
             var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
 
-            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote, 
+            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote,
+                                                                          servicoNfe,
+                                                                          deveAssinar: true,
+                                                                          evento);
+
+            return retornoRecepcaoEvento;
+        }
+
+        /// <summary>
+        ///     Serviço para o emitente vincular à NF-e/NFC-e autorizada a transação de pagamento
+        ///     (evento 110300 - Vinculação Pagamento, NT 2026.006 - split payment)
+        /// </summary>
+        /// <param name="idLote">Nº do lote</param>
+        /// <param name="sequenciaEvento">sequencia do evento</param>
+        /// <param name="cpfCnpj">CPF/CNPJ do emitente (autor do evento)</param>
+        /// <param name="chaveNFe">Chave de acesso da NF-e/NFC-e</param>
+        /// <param name="nProt">Número do protocolo de autorização da NF-e/NFC-e</param>
+        /// <param name="pagamento">Dados do pagamento (gPgto do e110300)</param>
+        /// <param name="dataHoraEvento"></param>
+        /// <param name="ufAutor">UF do autor (cOrgaoAutor); padrão = cUF da configuração</param>
+        /// <param name="versaoAplicativo"></param>
+        /// <returns></returns>
+        public async Task<RetornoRecepcaoEvento> RecepcaoEventoVinculacaoPagamento(int idLote,
+                                                                        int sequenciaEvento,
+                                                                        string cpfCnpj,
+                                                                        string chaveNFe,
+                                                                        string nProt,
+                                                                        gPgtoEvento pagamento,
+                                                                        DateTimeOffset? dataHoraEvento = null,
+                                                                        Estado? ufAutor = null,
+                                                                        string versaoAplicativo = null)
+        {
+            if (pagamento == null)
+                throw new ArgumentNullException(nameof(pagamento));
+
+            const ServicoNFe servicoNfe = ServicoNFe.RecepcaoEventoVinculacaoPagamento;
+            const NFeTipoEvento nfeTipoEvento = NFeTipoEvento.TeNfeVinculacaoPagamento;
+            var versaoServicoRecepcao = _cFgServico.VersaoRecepcaoEventosDeApuracaoDoIbsECbs;
+            var versaoServicoRecepcaoString = servicoNfe.VersaoServicoParaString(versaoServicoRecepcao);
+
+            // XSD e110300_v1.00: descEvento, cOrgaoAutor, tpAutor (só 1), verAplic, nProt, gPgto.
+            var detalheEvento = ObterDetalhesEvento(versaoServicoRecepcaoString, versaoAplicativo, nfeTipoEvento, ufAutor, TipoAutor.taEmpresaEmitente);
+            detalheEvento.nProt = nProt;
+            detalheEvento.gPgto = pagamento;
+
+            var informacoesEventoEnv = ObterInformacoesEventoEnv(sequenciaEvento, chaveNFe, cpfCnpj, versaoServicoRecepcaoString, cOrgao: Estado.SVRS, dataHoraEvento, nfeTipoEvento, detalheEvento);
+            var evento = ObterEvento(versaoServicoRecepcaoString, informacoesEventoEnv);
+
+            var retornoRecepcaoEvento = await EnviarEObterRetornoRecepcaoEvento(idLote,
                                                                           servicoNfe,
                                                                           deveAssinar: true,
                                                                           evento);

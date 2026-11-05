@@ -44,6 +44,7 @@ using NFe.Classes.Servicos.Evento.Informacoes.Imobilizacao;
 using NFe.Classes.Servicos.Evento.Informacoes.ItemConsumo;
 using NFe.Classes.Servicos.Evento.Informacoes.ItemNaoFornecido;
 using NFe.Classes.Servicos.Evento.Informacoes.Perecimento;
+using NFe.Classes.Servicos.Evento.Informacoes.VinculacaoPagamento;
 
 namespace NFe.Classes.Servicos.Evento
 {
@@ -557,6 +558,19 @@ namespace NFe.Classes.Servicos.Evento
         }
 
         #endregion
+
+        #endregion
+
+        #region Vinculação Pagamento (110300 - NT 2026.006)
+
+        /// <summary>
+        ///     P23 - Dados do pagamento vinculado à NF-e/NFC-e (e110300_v1.00.xsd).
+        ///     Fica depois de nProt na sequência do XSD; nulo não é serializado.
+        /// </summary>
+        [XmlElement("gPgto")]
+        public gPgtoEvento gPgto { get; set; }
+
+        public bool ShouldSerializegPgto() => gPgto != null;
 
         #endregion
     }

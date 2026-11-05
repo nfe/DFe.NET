@@ -170,6 +170,8 @@ namespace NFe.Utils.Validacao
                     return loteNfe ? "envEvento_v1.00.xsd" : "e112140_v1.00.xsd";
                 case ServicoNFe.RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega:
                     return loteNfe ? "envEvento_v1.00.xsd" : "e112150_v1.00.xsd";
+                case ServicoNFe.RecepcaoEventoVinculacaoPagamento:
+                    return loteNfe ? "envEvento_v1.00.xsd" : "e110300_v1.00.xsd";
             }
             return null;
         }
