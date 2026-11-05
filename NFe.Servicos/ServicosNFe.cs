@@ -799,7 +799,7 @@ namespace NFe.Servicos
 
             var listprocEventoNFe = (from eve in eventos
                 let retEvento =
-                    (from retevento in retEnvEvento.retEvento
+                    (from retevento in retEnvEvento.retEvento ?? Enumerable.Empty<NFe.Classes.Servicos.Evento.retEvento>()
                         where retevento.infEvento.chNFe == eve.infEvento.chNFe &&
                               retevento.infEvento.tpEvento == eve.infEvento.tpEvento
                         select retevento).SingleOrDefault()
@@ -810,7 +810,7 @@ namespace NFe.Servicos
                     retEvento = retEvento
                 }).ToList();
 
-            return new RetornoRecepcaoEvento(pedEvento.ObterXmlString(), retEnvEvento.ObterXmlString(),
+            return new RetornoRecepcaoEvento(pedEvento.ObterXmlString(), retEnvEvento.ObterXmlStringOuRecebido(retornoXmlString),
                 retornoXmlString, retEnvEvento, listprocEventoNFe);
         }
 
@@ -909,7 +909,7 @@ namespace NFe.Servicos
 
             var listprocEventoNFe = (from eve in eventos
                 let retEvento =
-                    (from retevento in retEnvEvento.retEvento
+                    (from retevento in retEnvEvento.retEvento ?? Enumerable.Empty<NFe.Classes.Servicos.Evento.retEvento>()
                         where retevento.infEvento.chNFe == eve.infEvento.chNFe &&
                               retevento.infEvento.tpEvento == eve.infEvento.tpEvento
                         select retevento).SingleOrDefault()
@@ -920,7 +920,7 @@ namespace NFe.Servicos
                     retEvento = retEvento
                 }).ToList();
 
-            return new RetornoRecepcaoEvento(pedEvento.ObterXmlString(), retEnvEvento.ObterXmlString(),
+            return new RetornoRecepcaoEvento(pedEvento.ObterXmlString(), retEnvEvento.ObterXmlStringOuRecebido(retornoXmlString),
                 retornoXmlString, retEnvEvento, listprocEventoNFe);
         }
 
