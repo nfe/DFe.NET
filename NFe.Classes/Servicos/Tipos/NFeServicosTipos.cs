@@ -250,7 +250,12 @@ namespace NFe.Classes.Servicos.Tipos
         /// <summary>
         ///     Serviço para permitir ao fornecedor atualizar a data da previsão de entrega ou disponibilização do bem ao adquirente, de forma a remover o débito do mês em que foi previsto inicialmente. 
         /// </summary>
-        RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega
+        RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega,
+
+        /// <summary>
+        ///     Serviço para permitir ao emitente vincular à NF-e/NFC-e a transação de pagamento (NT 2026.006 - split payment), evento 110300.
+        /// </summary>
+        RecepcaoEventoVinculacaoPagamento
     }
 
     /// <summary>
@@ -278,6 +283,7 @@ namespace NFe.Classes.Servicos.Tipos
     /// <summary>
     ///     Código do Tipo do Evento.
     ///     110001 -  Cancelamento de Evento
+    ///     110300 - Vinculação Pagamento
     ///     110110 - Carta de Correção
     ///     110140 - EPEC
     ///     110111 - Cancelamento
@@ -318,7 +324,14 @@ namespace NFe.Classes.Servicos.Tipos
         [Description("Cancelamento de Evento")]
         [XmlEnum("110001")]
         TeNfeCancelamentoDeEvento = 110001,
-        
+
+        /// <summary>
+        /// 110300 - Vinculação Pagamento (NT 2026.006 - split payment)
+        /// </summary>
+        [Description("Vinculação Pagamento")]
+        [XmlEnum("110300")]
+        TeNfeVinculacaoPagamento = 110300,
+
         /// <summary>
         /// 110110 - Carta de Correção
         /// </summary>

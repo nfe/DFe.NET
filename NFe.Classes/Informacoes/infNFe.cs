@@ -140,6 +140,12 @@ namespace NFe.Classes.Informacoes
         public infIntermed infIntermed { get; set; }
 
         /// <summary>
+        ///     YC01 - Grupo de Informações da Vinculação com a Transação de Pagamento (NT 2026.006 - split payment)
+        ///     <para>Ocorrência: 0-1. Nulo não é serializado.</para>
+        /// </summary>
+        public gPgtoVinc gPgtoVinc { get; set; }
+
+        /// <summary>
         ///     Z01 - Grupo de Informações Adicionais
         /// </summary>
         public infAdic infAdic { get; set; }
