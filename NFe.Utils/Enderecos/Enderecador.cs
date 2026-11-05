@@ -1652,6 +1652,10 @@ namespace NFe.Utils.Enderecos
                         addServico(new[] { ServicoNFe.RecepcaoEventoInsucessoEntregaNFe, ServicoNFe.RecepcaoEventoCancInsucessoEntregaNFe }, versao1, TipoAmbiente.Producao, emissao, estado, modelo, "https://nfe.svrs.rs.gov.br/ws/recepcaoevento/recepcaoevento4.asmx");
                         addServico(new[] { ServicoNFe.RecepcaoEventoInsucessoEntregaNFe, ServicoNFe.RecepcaoEventoCancInsucessoEntregaNFe }, versao1, TipoAmbiente.Homologacao, emissao, estado, modelo, "https://nfe-homologacao.svrs.rs.gov.br/ws/recepcaoevento/recepcaoevento4.asmx");
 
+                        //Vinculação Pagamento (110300, NT 2026.006 - split payment): NF-e e NFC-e, mesmo web service SVRS dos eventos RTC
+                        addServico(new[] { ServicoNFe.RecepcaoEventoVinculacaoPagamento }, versao1, TipoAmbiente.Producao, emissao, estado, modelo, "https://nfe.svrs.rs.gov.br/ws/recepcaoevento/recepcaoevento4.asmx");
+                        addServico(new[] { ServicoNFe.RecepcaoEventoVinculacaoPagamento }, versao1, TipoAmbiente.Homologacao, emissao, estado, modelo, "https://nfe-homologacao.svrs.rs.gov.br/ws/recepcaoevento/recepcaoevento4.asmx");
+
                         if (modelo == ModeloDocumento.NFe)
                         {
                             //Conciliação Financeira NFe
@@ -1791,6 +1795,7 @@ namespace NFe.Utils.Enderecos
                 case ServicoNFe.RecepcaoEventoPerecimentoPerdaRouboOuFurtoDuranteOTransporteContratadoPeloFornecedor:
                 case ServicoNFe.RecepcaoEventoFornecimentoNaoRealizadoComPagamentoAntecipado:
                 case ServicoNFe.RecepcaoEventoAtualizacaoDataPrevisaoDeEntrega:
+                case ServicoNFe.RecepcaoEventoVinculacaoPagamento:
                     return cfgServico.VersaoRecepcaoEventosDeApuracaoDoIbsECbs;
             }
             return null;
