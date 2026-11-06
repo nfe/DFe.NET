@@ -71,4 +71,38 @@ namespace NFe.Classes.Informacoes.Emitente
         [XmlEnum("4")]
         SimplesNacionalMei = 4
     }
+
+    /// <summary>
+    ///     C21a - Tipo de Regime de Apuração do IBS e da CBS (NT 2026.005 v1.00)
+    /// </summary>
+    public enum TipoRegimeIbsCbs
+    {
+        /// <summary>
+        ///     1 - Simples Nacional (CRT 1 ou 2) com opção pelo regime regular do IBS e da CBS
+        /// </summary>
+        [Description("Simples Nacional com regime regular do IBS e da CBS")]
+        [XmlEnum("1")]
+        SimplesNacionalRegimeRegular = 1,
+
+        /// <summary>
+        ///     2 - Regime Normal (CRT 3) com opção pendente pelo CRT 1, sem regime regular do IBS e da CBS
+        /// </summary>
+        [Description("Opção pendente pelo Simples Nacional, sem regime regular do IBS e da CBS")]
+        [XmlEnum("2")]
+        OpcaoPendenteSimplesNacional = 2,
+
+        /// <summary>
+        ///     3 - Regime Normal (CRT 3) com opção pendente pelo CRT 2 (excesso de sublimite), sem regime regular
+        /// </summary>
+        [Description("Opção pendente pelo Simples Nacional excesso de sublimite, sem regime regular do IBS e da CBS")]
+        [XmlEnum("3")]
+        OpcaoPendenteSimplesNacionalExcessoSublimite = 3,
+
+        /// <summary>
+        ///     4 - Regime Normal (CRT 3) com opção pendente pelo Simples Nacional (CRT 1 ou 2), com regime regular
+        /// </summary>
+        [Description("Opção pendente pelo Simples Nacional, com regime regular do IBS e da CBS")]
+        [XmlEnum("4")]
+        OpcaoPendenteSimplesNacionalRegimeRegular = 4
+    }
 }

@@ -134,5 +134,13 @@ namespace NFe.Classes.Informacoes.Emitente
         /// </summary>
         public CRT CRT { get; set; }
 
+        /// <summary>
+        ///     C21a - Tipo de Regime de Apuração do IBS e da CBS (NT 2026.005)
+        ///     <para>Opcional (0-1): só para o Simples Nacional com regime regular do IBS/CBS (CRT 1 ou 2) e para o
+        ///     Regime Normal com opção pendente pelo Simples Nacional (CRT 3). Fora desses casos não é informado.</para>
+        /// </summary>
+        public TipoRegimeIbsCbs? tpRegimeIBSCBS { get; set; }
+
+        public bool ShouldSerializetpRegimeIBSCBS() => tpRegimeIBSCBS.HasValue;
     }
 }

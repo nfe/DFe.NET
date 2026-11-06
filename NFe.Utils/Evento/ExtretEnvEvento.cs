@@ -58,5 +58,25 @@ namespace NFe.Utils.Evento
         {
             return FuncoesXml.ClasseParaXmlString(retEnvEvento);
         }
+
+        /// <summary>
+        ///     Converte o retEnvEvento para XML; se a resposta da SEFAZ trouxer um valor que o enum não conhece
+        ///     (ex.: cOrgao ausente vira 0 na desserialização e o XmlSerializer recusa na volta), devolve o XML
+        ///     recebido em vez de lançar. Sem isso a resposta real se perdia e o chamador via só a exceção.
+        /// </summary>
+        /// <param name="retEnvEvento">Objeto desserializado da resposta</param>
+        /// <param name="xmlRecebido">XML recebido da SEFAZ</param>
+        /// <returns>O XML do objeto ou, se ele não puder ser serializado, o XML recebido</returns>
+        public static string ObterXmlStringOuRecebido(this retEnvEvento retEnvEvento, string xmlRecebido)
+        {
+            try
+            {
+                return retEnvEvento.ObterXmlString();
+            }
+            catch (System.InvalidOperationException)
+            {
+                return xmlRecebido;
+            }
+        }
     }
 }
