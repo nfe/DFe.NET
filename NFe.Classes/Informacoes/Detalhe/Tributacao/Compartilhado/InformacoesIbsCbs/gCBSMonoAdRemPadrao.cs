@@ -33,47 +33,40 @@
 
 namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Compartilhado.InformacoesIbsCbs
 {
-    public class gMonoDif
+    /// <summary>
+    ///     UB96 - Tributação Monofásica Padrão da CBS Ad Rem (tag gMonoPadrao) - PL_010f (TMonofasia)
+    /// </summary>
+    public class gCBSMonoAdRemPadrao
     {
-        private decimal _pDifIbs;
-        private decimal _vIbsMonoDif;
-        private decimal _pDifCbs;
-        private decimal _vCbsMonoDif;
-        
+        private decimal _qBCMono;
+        private decimal _adRemCBS;
+        private decimal _vCBSMono;
+
         /// <summary>
-        ///     UB100 - Percentual do diferimento do imposto monofásico
+        ///     UB96a - Quantidade tributada na monofasia
         /// </summary>
-        public decimal pDifIBS
+        public decimal qBCMono
         {
-            get => _pDifIbs.Arredondar(4);
-            set => _pDifIbs = value.Arredondar(4);
+            get => _qBCMono.Arredondar(4);
+            set => _qBCMono = value.Arredondar(4);
         }
-        
+
         /// <summary>
-        ///     UB101 - Valor do IBS monofásico diferido
+        ///     UB96b - Alíquota ad rem da CBS
         /// </summary>
-        public decimal vIBSMonoDif
+        public decimal adRemCBS
         {
-            get => _vIbsMonoDif.Arredondar(2);
-            set => _vIbsMonoDif = value.Arredondar(2);
+            get => _adRemCBS.Arredondar(4);
+            set => _adRemCBS = value.Arredondar(4);
         }
-        
+
         /// <summary>
-        ///     UB102 - Percentual do diferimento do imposto monofásico
+        ///     UB96c - Valor da CBS monofásica
         /// </summary>
-        public decimal pDifCBS
+        public decimal vCBSMono
         {
-            get => _pDifCbs.Arredondar(4);
-            set => _pDifCbs = value.Arredondar(4);
-        }
-        
-        /// <summary>
-        ///     UB103 - Valor da CBS Monofásica diferida
-        /// </summary>
-        public decimal vCBSMonoDif
-        {
-            get => _vCbsMonoDif.Arredondar(2);
-            set => _vCbsMonoDif = value.Arredondar(2);
+            get => _vCBSMono.Arredondar(2);
+            set => _vCBSMono = value.Arredondar(2);
         }
     }
 }

@@ -33,57 +33,30 @@
 
 namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Compartilhado.InformacoesIbsCbs
 {
-    public class gMonoPadrao
+    /// <summary>
+    ///     UB89/UB94 - Mistura de EAC com gasolina A fora do percentual obrigatório, IBS Ad Rem ou Ad Valorem (tag gpBioDiferenca) - PL_010f (TMonofasia)
+    /// </summary>
+    public class gIBSMonoBioDiferenca
     {
-        private decimal _qBcMono;
-        private decimal _adRemIbs;
-        private decimal _adRemCbs;
-        private decimal _vIbsMono;
-        private decimal _vCbsMono;
-        
+        private decimal _qBCBioComb;
+        private decimal _vIBSDiferenca;
+
         /// <summary>
-        ///     UB85 - Quantidade tributada na monofasia
+        ///     UB89a/UB94a - Quantidade de Biocombustível (EAC) a recolher ou a ressarcir
         /// </summary>
-        public decimal qBCMono
+        public decimal qBCBioComb
         {
-            get => _qBcMono.Arredondar(4);
-            set => _qBcMono = value.Arredondar(4);
-        }
-        
-        /// <summary>
-        ///     UB86 - Alíquota ad rem do IBS
-        /// </summary>
-        public decimal adRemIBS
-        {
-            get => _adRemIbs.Arredondar(4);
-            set => _adRemIbs = value.Arredondar(4);
-        }
-        
-        /// <summary>
-        ///     UB87 - Alíquota ad rem da CBS
-        /// </summary>
-        public decimal adRemCBS
-        {
-            get => _adRemCbs.Arredondar(4);
-            set => _adRemCbs = value.Arredondar(4);
+            get => _qBCBioComb.Arredondar(4);
+            set => _qBCBioComb = value.Arredondar(4);
         }
 
         /// <summary>
-        ///     UB88 - Valor do IBS monofásico
+        ///     UB89b/UB94b - Valor do IBS correspondente a diferença em relação ao pBioObrigatorio
         /// </summary>
-        public decimal vIBSMono
+        public decimal vIBSDiferenca
         {
-            get => _vIbsMono.Arredondar(2);
-            set => _vIbsMono = value.Arredondar(2);
-        }
-        
-        /// <summary>
-        ///     UB89 - Valor da CBS monofásica
-        /// </summary>
-        public decimal vCBSMono
-        {
-            get => _vCbsMono.Arredondar(2);
-            set => _vCbsMono = value.Arredondar(2);
+            get => _vIBSDiferenca.Arredondar(2);
+            set => _vIBSDiferenca = value.Arredondar(2);
         }
     }
 }
