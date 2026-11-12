@@ -66,11 +66,17 @@ namespace NFe.Classes.Informacoes.Detalhe.Tributacao.Compartilhado.InformacoesIb
         /// </summary>
         [XmlElement(Order = 4)]
         public gRed gRed { get; set; }
-        
+
+        /// <summary>
+        ///     UB66a - Grupo de operações em áreas incentivadas (ALC/ZFM) - CBS alíquota zero
+        /// </summary>
+        [XmlElement(Order = 5)]
+        public gALCZFMCBS gALCZFMCBS { get; set; }
+
         /// <summary>
         ///     UB67 - Valor da CBS
         /// </summary>
-        [XmlElement(Order = 5)]
+        [XmlElement(Order = 6)]
         public decimal vCBS
         {
             get => _vCbs.Arredondar(2);

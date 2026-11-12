@@ -31,6 +31,7 @@
 /* Rua Comendador Francisco josé da Cunha, 111 - Itabaiana - SE - 49500-000     */
 /********************************************************************************/
 
+using System.Collections.Generic;
 using NFe.Classes.Informacoes.Identificacao.Tipos;
 
 namespace NFe.Classes.Informacoes.Identificacao
@@ -57,5 +58,13 @@ namespace NFe.Classes.Informacoes.Identificacao
         ///     B34 - Tipo de operação com o ente governamental
         /// </summary>
         public TpOperGov tpOperGov { get; set; }
+
+        /// <summary>
+        ///     BB05 - Chave(s) de acesso do(s) DF-e referenciado(s) anterior(es) em compra
+        ///     governamental (até 99). NT 2025.002-RTC.
+        /// </summary>
+        public List<string> refDFeAnt { get; set; }
+
+        public bool ShouldSerializerefDFeAnt() => refDFeAnt != null && refDFeAnt.Count > 0;
     }
 }

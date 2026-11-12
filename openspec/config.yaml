@@ -1,0 +1,6 @@
+schema: spec-driven
+
+context: |
+  Language: Portuguese (pt-BR)
+  Biblioteca .NET (Zeus / DFe.NET) de classes e serialização XML da NF-e.
+  Classes de domínio mapeiam 1:1 o schema XSD oficial (PL/NT da SEFAZ).
